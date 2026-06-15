@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Skandan Enterprise — June 2026</title>
+<title>Skandan Enterprise — Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -11,44 +11,68 @@
   --bg:#1a1612;--surface:#242019;--card:#2d2820;--border:#3d3528;
   --gold:#c9a84c;--gold-soft:#e8c97a;--amber:#d4884a;
   --cream:#f0e6d0;--muted:#8a7d6a;--green:#6baa6b;--red:#c96b5a;--blue:#5a8fc9;
+  --radius:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min-height:100vh;}
 
+/* ── HEADER ── */
 .hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .hdr-left h1{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--gold);}
 .hdr-left p{font-size:.68rem;color:var(--muted);margin-top:3px;letter-spacing:.07em;text-transform:uppercase;}
 .badge{background:rgba(107,170,107,.15);border:1px solid var(--green);color:var(--green);font-size:.65rem;padding:4px 10px;border-radius:20px;letter-spacing:.05em;}
 
-.main{padding:22px 28px;}
+/* ── LOADER PANEL ── */
+.loader-panel{padding:28px;max-width:780px;margin:0 auto;}
+.loader-panel h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);margin-bottom:6px;}
+.loader-panel p{font-size:.8rem;color:var(--muted);margin-bottom:18px;line-height:1.6;}
+.input-row{display:flex;gap:10px;flex-wrap:wrap;}
+.input-row input{flex:1;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;transition:border .2s;}
+.input-row input:focus{border-color:var(--gold);}
+.input-row input::placeholder{color:var(--muted);}
+.btn{background:var(--gold);color:#1a1612;border:none;border-radius:8px;padding:10px 22px;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.btn:hover{opacity:.85;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.hint{font-size:.72rem;color:var(--muted);margin-top:10px;line-height:1.55;}
+.hint a{color:var(--gold-soft);text-decoration:none;}
+.hint a:hover{text-decoration:underline;}
+.err-msg{margin-top:12px;padding:10px 14px;background:rgba(201,107,90,.15);border:1px solid var(--red);border-radius:8px;font-size:.8rem;color:var(--red);display:none;}
+
+/* ── COLUMN MAP ── */
+.col-map{margin-top:22px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:none;}
+.col-map h3{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
+.map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.map-row{display:flex;flex-direction:column;gap:5px;}
+.map-row label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.map-row select{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:.78rem;outline:none;}
+.map-row select:focus{border-color:var(--gold);}
+.col-map .btn{margin-top:16px;}
+
+/* ── MAIN DASHBOARD ── */
+.main{padding:22px 28px;display:none;}
 
 /* KPIs */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px;margin-bottom:24px;}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
 .kpi.cr::before{background:var(--green);}
 .kpi.db::before{background:var(--red);}
 .kpi.bal::before{background:var(--gold);}
-.kpi.ob::before{background:var(--blue);}
 .kpi.ws::before{background:var(--amber);}
 .kpi.net::before{background:var(--green);}
+.kpi.avg::before{background:var(--blue);}
 .kpi-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:8px;}
 .kpi-val{font-family:'Playfair Display',serif;font-size:1.38rem;line-height:1;}
 .kpi-sub{font-size:.64rem;color:var(--muted);margin-top:6px;}
 
-/* Info strip */
-.info-strip{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;}
-.info-pill{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 14px;font-size:.74rem;}
-.info-pill span{color:var(--muted);margin-right:6px;}
-
 /* Charts */
 .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:24px;}
-.cc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
 .cc.wide{grid-column:1/-1;}
 .cc-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
 
 /* Table */
-.tc{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;}
 .th{padding:13px 18px;border-bottom:1px solid var(--border);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:flex;justify-content:space-between;align-items:center;}
 .tw{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:.79rem;}
@@ -60,271 +84,465 @@ tbody td{padding:8px 13px;white-space:nowrap;}
 .tr{text-align:right;font-variant-numeric:tabular-nums;}
 .pos{color:var(--green)!important;}
 .neg{color:var(--red)!important;}
-.muted{color:var(--muted);}
-.remark{max-width:260px;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-size:.72rem;}
+.remark-td{max-width:220px;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-size:.72rem;}
 tfoot td{padding:9px 13px;font-weight:600;color:var(--gold);background:var(--surface);font-size:.77rem;text-align:right;white-space:nowrap;border-top:1px solid var(--border);}
 tfoot td:first-child{text-align:left;}
 
-/* Salary box */
-.salary-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:24px;}
-.salary-box h3{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
-.sal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;}
-.sal-item{background:var(--surface);border-radius:7px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;}
-.sal-name{font-size:.8rem;}
-.sal-amt{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);}
+/* Summary strip */
+.summary-strip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:18px;}
+.sum-item{display:flex;flex-direction:column;gap:3px;}
+.sum-item .s-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;}
+.sum-item .s-val{font-family:'Playfair Display',serif;font-size:1.05rem;}
 
-@media(max-width:600px){.main{padding:14px;}.hdr{padding:14px;}}
+/* Pie wrapper */
+.pie-wrap{display:flex;align-items:center;justify-content:center;height:240px;}
+
+@media(max-width:600px){.main,.loader-panel{padding:14px;}.hdr{padding:14px;}}
 </style>
 </head>
 <body>
 
 <div class="hdr">
   <div class="hdr-left">
-    <h1>Skandan Enterprise</h1>
-    <p>CKs Bakery · Sales &amp; Cash Ledger — June 2026</p>
+    <h1 id="bizName">Skandan Enterprise</h1>
+    <p id="bizSub">Sales &amp; Cash Ledger Dashboard</p>
   </div>
-  <span class="badge">● Live Data</span>
+  <span class="badge" id="badge">● Awaiting Data</span>
 </div>
 
-<div class="main">
+<!-- LOADER -->
+<div class="loader-panel" id="loaderPanel">
+  <h2>Load Your Sheet Data</h2>
+  <p>Paste your Google Sheets "Publish to web" CSV link below, then click <strong>Load Data</strong>.<br>
+  The sheet must have a header row. You'll map the columns yourself — no hardcoded assumptions.</p>
+  <div class="input-row">
+    <input id="sheetUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv"/>
+    <button class="btn" id="loadBtn" onclick="loadSheet()">Load Data</button>
+  </div>
+  <div class="hint">
+    To get the CSV URL: <strong>File → Share → Publish to web → CSV → Publish</strong>, then copy the link.<br>
+    Your data never leaves your browser — it's fetched directly from Google.
+  </div>
+  <div class="err-msg" id="errMsg"></div>
 
-  <!-- TODAY'S REPORT (Jun 14) -->
-  <div style="background:var(--surface);border:1px solid var(--gold);border-radius:10px;padding:16px 20px;margin-bottom:20px;">
-    <div style="font-size:.63rem;text-transform:uppercase;letter-spacing:.09em;color:var(--gold);margin-bottom:14px;">📋 Today's Report — 14 Jun 2026</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Opening Balance</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--blue)">₹7,207</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Sale Today</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--green)">₹9,984</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Closing Balance</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold)">₹16,543</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Expense</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--red)">₹648</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Wastage</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--amber)">₹369</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;grid-column:span 2;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Remark</div>
-        <div style="font-size:.8rem;color:var(--cream)">2 Photo sheet print, butterfly cake essential</div>
-      </div>
+  <!-- Column mapping (shown after headers are detected) -->
+  <div class="col-map" id="colMap">
+    <h3>Map Your Columns</h3>
+    <div class="map-grid" id="mapGrid"></div>
+    <button class="btn" onclick="renderDashboard()">Build Dashboard →</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="main" id="mainPanel">
+
+  <div class="summary-strip" id="summaryStrip"></div>
+
+  <div class="kpi-grid" id="kpiGrid"></div>
+
+  <div class="charts" id="chartsArea">
+    <div class="cc wide">
+      <div class="cc-lbl">Daily Credit vs Debit (₹)</div>
+      <div style="position:relative;height:240px"><canvas id="cBar"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-lbl">Cumulative Balance Trend</div>
+      <div style="position:relative;height:220px"><canvas id="cLine"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-lbl">Daily Net Flow (Profit / Loss)</div>
+      <div style="position:relative;height:220px"><canvas id="cDaily"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-lbl">Credit vs Debit Split (Pie)</div>
+      <div class="pie-wrap"><canvas id="cPie" style="max-height:220px;max-width:220px"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-lbl">Online vs Cash Receipts (Pie)</div>
+      <div class="pie-wrap"><canvas id="cPie2" style="max-height:220px;max-width:220px"></canvas></div>
     </div>
   </div>
 
-  <!-- MONTH SUMMARY -->
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:20px;">
-    <div style="font-size:.63rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:14px;">📊 Month Summary — Jun 2026 (1–14)</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">In Account (Online)</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--blue)">₹9,814</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">In Hand (Cash)</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--green)">₹6,729</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Total Sale</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold)">₹1,20,983</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Daily Average</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--cream)">₹9,306</div>
-      </div>
-      <div style="background:var(--card);border-radius:8px;padding:12px 14px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Wastage %</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--amber)">5.85%</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- KPIs -->
-  <div class="kpi-grid">
-    <div class="kpi ob"><div class="kpi-lbl">Opening Balance</div><div class="kpi-val">₹22,639</div><div class="kpi-sub">Carried forward</div></div>
-    <div class="kpi cr"><div class="kpi-lbl">Total Credit</div><div class="kpi-val" id="kTotalCredit">—</div><div class="kpi-sub" id="kCreditSub">—</div></div>
-    <div class="kpi db"><div class="kpi-lbl">Total Debit</div><div class="kpi-val" id="kTotalDebit">—</div><div class="kpi-sub" id="kDebitSub">—</div></div>
-    <div class="kpi ws"><div class="kpi-lbl">Total Wastage</div><div class="kpi-val" id="kWastage">—</div><div class="kpi-sub">Across 14 days</div></div>
-    <div class="kpi bal"><div class="kpi-lbl">Closing Balance</div><div class="kpi-val" id="kBalance">—</div><div class="kpi-sub">As of Jun 14</div></div>
-    <div class="kpi net"><div class="kpi-lbl">Net Flow</div><div class="kpi-val" id="kNet">—</div><div class="kpi-sub">Credit − Debit</div></div>
-  </div>
-
-  <!-- Info strip -->
-  <div class="info-strip">
-    <div class="info-pill"><span>Salary — Arokiya</span>₹23,600</div>
-    <div class="info-pill"><span>Salary — Neelavathi</span>₹7,800</div>
-    <div class="info-pill"><span>Salary — Praveen</span>₹6,000</div>
-    <div class="info-pill"><span>Rent</span>₹26,000</div>
-    <div class="info-pill"><span>Total Fixed Costs</span>₹63,400</div>
-  </div>
-
-  <!-- Charts -->
-  <div class="charts">
-    <div class="cc wide"><div class="cc-lbl">Daily Credit vs Debit (₹)</div><div style="position:relative;height:240px"><canvas id="cBar"></canvas></div></div>
-    <div class="cc"><div class="cc-lbl">Cumulative Balance Trend</div><div style="position:relative;height:220px"><canvas id="cLine"></canvas></div></div>
-    <div class="cc"><div class="cc-lbl">Daily Balance (Profit/Loss per day)</div><div style="position:relative;height:220px"><canvas id="cDaily"></canvas></div></div>
-  </div>
-
-  <!-- Salary breakdown -->
-  <div class="salary-box">
-    <h3>Fixed Expenses Breakdown</h3>
-    <div class="sal-grid">
-      <div class="sal-item"><span class="sal-name">Arokiya (Salary)</span><span class="sal-amt">₹23,600</span></div>
-      <div class="sal-item"><span class="sal-name">Neelavathi (Salary)</span><span class="sal-amt">₹7,800</span></div>
-      <div class="sal-item"><span class="sal-name">Praveen (Salary)</span><span class="sal-amt">₹6,000</span></div>
-      <div class="sal-item"><span class="sal-name">Shop Rent</span><span class="sal-amt">₹26,000</span></div>
-    </div>
-  </div>
-
-  <!-- Table -->
   <div class="tc">
-    <div class="th"><span>Daily Ledger — June 2026</span><span style="color:var(--muted);font-size:.7rem">14 active days shown</span></div>
+    <div class="th"><span id="tableTitle">Daily Ledger</span><span id="tableCount" style="color:var(--muted);font-size:.7rem"></span></div>
     <div class="tw">
       <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Remark</th>
-            <th style="text-align:right">Credit Online</th>
-            <th style="text-align:right">Credit Cash</th>
-            <th style="text-align:right">Total Credit</th>
-            <th style="text-align:right">Debit Online</th>
-            <th style="text-align:right">Debit Cash</th>
-            <th style="text-align:right">Total Debit</th>
-            <th style="text-align:right">Daily Balance</th>
-            <th style="text-align:right">Cumulative</th>
-            <th style="text-align:right">Wastage</th>
-          </tr>
-        </thead>
+        <thead id="thead"></thead>
         <tbody id="tbody"></tbody>
         <tfoot id="tfoot"></tfoot>
       </table>
     </div>
   </div>
 
+  <div style="text-align:center;margin-top:8px;">
+    <button class="btn" onclick="resetDashboard()" style="background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:.75rem;padding:7px 16px;">← Load Different Sheet</button>
+  </div>
 </div>
 
 <script>
-const DATA = [
-  {date:'01-Jun',remark:'Stock topup 15k, 10k to raj kumar anna, photoprint, special cake essentials',crOnline:10674,crCash:950,totCr:11624,dbOnline:25600,dbCash:0,totDb:25600,daily:8663,cumul:8663,waste:535},
-  {date:'02-Jun',remark:'Two photoprint, chocolate for cake, topper',crOnline:8054,crCash:120,totCr:8174,dbOnline:810,dbCash:0,totDb:810,daily:7364,cumul:16027,waste:380},
-  {date:'03-Jun',remark:'Photoprint, salary for arokiya, 2k to raj kumar anna, received 10k',crOnline:13149,crCash:890,totCr:14039,dbOnline:26400,dbCash:0,totDb:26400,daily:-12361,cumul:3666,waste:438},
-  {date:'04-Jun',remark:'—',crOnline:1835,crCash:500,totCr:2335,dbOnline:480,dbCash:0,totDb:480,daily:1855,cumul:5521,waste:1322},
-  {date:'05-Jun',remark:'—',crOnline:5289,crCash:3060,totCr:8349,dbOnline:671,dbCash:120,totDb:791,daily:7558,cumul:13079,waste:242},
-  {date:'06-Jun',remark:'Salary to neelavathi 7800, cake topper, porter',crOnline:7982,crCash:110,totCr:8092,dbOnline:5925,dbCash:2160,totDb:8085,daily:7,cumul:13086,waste:890},
-  {date:'07-Jun',remark:'Vegetable',crOnline:11884,crCash:0,totCr:11884,dbOnline:6,dbCash:70,totDb:76,daily:11808,cumul:24894,waste:510},
-  {date:'08-Jun',remark:'Porter, customer refund for half kg, rental amount paid 26k',crOnline:7361,crCash:440,totCr:7801,dbOnline:27166,dbCash:0,totDb:27166,daily:-19365,cumul:5529,waste:260},
-  {date:'09-Jun',remark:'Stock purchase, EDC machine rent, Banner print',crOnline:10783,crCash:0,totCr:10783,dbOnline:15847,dbCash:0,totDb:15847,daily:-5064,cumul:465,waste:1100},
-  {date:'10-Jun',remark:'Zepto, vegetable, petrol, porter, topper, shop water tank cleaning 660',crOnline:5124,crCash:100,totCr:5224,dbOnline:1790,dbCash:0,totDb:1790,daily:3434,cumul:3899,waste:160},
-  {date:'11-Jun',remark:'Customer return, special cake equipments, porter, Karthick sir order 701 pending',crOnline:5540,crCash:4465,totCr:10005,dbOnline:992,dbCash:0,totDb:992,daily:9013,cumul:12912,waste:415},
-  {date:'12-Jun',remark:'Received 12k from maikandan sir, 2 cake photoprint, offer board, stock topup, water, tape',crOnline:24355,crCash:470,totCr:24825,dbOnline:21937,dbCash:0,totDb:21937,daily:2888,cumul:15800,waste:465},
-  {date:'13-Jun',remark:'6k transferred, special cake essentials, two photosheet print, PO unlock 11k',crOnline:8294,crCash:1570,totCr:9864,dbOnline:18457,dbCash:0,totDb:18457,daily:-8593,cumul:7207,waste:0},
-  {date:'14-Jun',remark:'2 photo sheet print, butterfly cake essential',crOnline:7284,crCash:2700,totCr:9984,dbOnline:648,dbCash:0,totDb:648,daily:9336,cumul:16543,waste:369},
+// ── FIELD DEFINITIONS ──────────────────────────────────────────────
+const FIELDS = [
+  {key:'date',      label:'Date / Period',         required:true,  type:'label'},
+  {key:'remark',    label:'Remark / Note',          required:false, type:'label'},
+  {key:'crOnline',  label:'Credit — Online',        required:false, type:'num'},
+  {key:'crCash',    label:'Credit — Cash',          required:false, type:'num'},
+  {key:'totCr',     label:'Total Credit',           required:true,  type:'num'},
+  {key:'dbOnline',  label:'Debit — Online',         required:false, type:'num'},
+  {key:'dbCash',    label:'Debit — Cash',           required:false, type:'num'},
+  {key:'totDb',     label:'Total Debit',            required:true,  type:'num'},
+  {key:'daily',     label:'Daily Balance / Net',    required:false, type:'num'},
+  {key:'cumul',     label:'Cumulative Balance',     required:false, type:'num'},
+  {key:'waste',     label:'Wastage',                required:false, type:'num'},
 ];
 
-function F(n){return Math.round(n||0).toLocaleString('en-IN');}
+let rawHeaders = [];
+let rawRows    = [];
+let mapping    = {};   // {fieldKey: colIndex}
+let chartInstances = [];
 
-// Compute totals
-const tCr   = DATA.reduce((a,r)=>a+r.totCr,0);
-const tDb   = DATA.reduce((a,r)=>a+r.totDb,0);
-const tWs   = DATA.reduce((a,r)=>a+r.waste,0);
-const net   = tCr - tDb;
-const lastB = DATA[DATA.length-1].cumul;
-const crOnlineT = DATA.reduce((a,r)=>a+r.crOnline,0);
-const crCashT   = DATA.reduce((a,r)=>a+r.crCash,0);
+// ── CSV PARSER ─────────────────────────────────────────────────────
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const parse = line => {
+    const cols=[]; let cur='', inQ=false;
+    for(let i=0;i<line.length;i++){
+      const c=line[i];
+      if(c==='"'){inQ=!inQ;}
+      else if(c===','&&!inQ){cols.push(cur.trim());cur='';}
+      else{cur+=c;}
+    }
+    cols.push(cur.trim());
+    return cols;
+  };
+  const headers = parse(lines[0]);
+  const rows = lines.slice(1).filter(l=>l.trim()).map(l=>parse(l));
+  return {headers,rows};
+}
 
-// Fill KPIs
-document.getElementById('kTotalCredit').textContent = '₹'+F(tCr);
-document.getElementById('kCreditSub').textContent   = `Online ₹${F(crOnlineT)} · Cash ₹${F(crCashT)}`;
-document.getElementById('kTotalDebit').textContent  = '₹'+F(tDb);
-document.getElementById('kDebitSub').textContent    = `Net flow: ₹${F(net)}`;
-document.getElementById('kWastage').textContent     = '₹'+F(tWs);
-document.getElementById('kBalance').textContent     = '₹'+F(lastB);
-const netEl = document.getElementById('kNet');
-netEl.textContent = (net>=0?'+':'')+'₹'+F(net);
-netEl.style.color = net>=0?'var(--green)':'var(--red)';
+// ── LOAD SHEET ─────────────────────────────────────────────────────
+async function loadSheet(){
+  const url = document.getElementById('sheetUrl').value.trim();
+  const err  = document.getElementById('errMsg');
+  const btn  = document.getElementById('loadBtn');
+  err.style.display='none';
+  if(!url){showErr('Please paste a Google Sheets CSV link.');return;}
 
-// Table
-const tb = document.getElementById('tbody');
-DATA.forEach(r=>{
-  const tr = document.createElement('tr');
-  tr.innerHTML=`
-    <td style="color:var(--gold-soft);font-weight:500">${r.date}</td>
-    <td class="remark" title="${r.remark}">${r.remark}</td>
-    <td class="tr">${F(r.crOnline)}</td>
-    <td class="tr">${r.crCash?F(r.crCash):'—'}</td>
-    <td class="tr" style="font-weight:600">${F(r.totCr)}</td>
-    <td class="tr">${F(r.dbOnline)}</td>
-    <td class="tr">${r.dbCash?F(r.dbCash):'—'}</td>
-    <td class="tr" style="color:var(--red)">${F(r.totDb)}</td>
-    <td class="tr ${r.daily>=0?'pos':'neg'}" style="font-weight:600">${r.daily>=0?'+':''}${F(r.daily)}</td>
-    <td class="tr" style="color:var(--blue)">${F(r.cumul)}</td>
-    <td class="tr" style="color:var(--amber)">${r.waste?F(r.waste):'—'}</td>`;
-  tb.appendChild(tr);
-});
+  // Convert /edit or /pub without ?output=csv
+  let fetchUrl = url;
+  if(fetchUrl.includes('/edit')||fetchUrl.includes('/pub?')){
+    fetchUrl = fetchUrl.replace('/edit','').replace(/\/pub(\?.+)?$/,'/pub');
+    if(!fetchUrl.includes('output=csv')) fetchUrl+='?output=csv';
+  }
 
-const tf = document.getElementById('tfoot');
-tf.innerHTML=`<tr>
-  <td colspan="2">TOTAL (Jun 1–14)</td>
-  <td>${F(crOnlineT)}</td>
-  <td>${F(crCashT)}</td>
-  <td>${F(tCr)}</td>
-  <td>${F(DATA.reduce((a,r)=>a+r.dbOnline,0))}</td>
-  <td>${F(DATA.reduce((a,r)=>a+r.dbCash,0))}</td>
-  <td>${F(tDb)}</td>
-  <td style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}${F(net)}</td>
-  <td>${F(lastB)}</td>
-  <td style="color:var(--amber)">${F(tWs)}</td>
-</tr>`;
+  btn.disabled=true; btn.textContent='Loading…';
+  try{
+    const res = await fetch(fetchUrl);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    if(!text||!text.includes(',')) throw new Error('Response doesn\'t look like CSV. Make sure the sheet is published as CSV.');
+    const {headers,rows} = parseCSV(text);
+    rawHeaders = headers;
+    rawRows    = rows;
+    buildColumnMapper();
+    btn.disabled=false; btn.textContent='Load Data';
+  }catch(e){
+    showErr('Could not load sheet: '+e.message+'. Make sure "Publish to web → CSV" is enabled and the URL is correct.');
+    btn.disabled=false; btn.textContent='Load Data';
+  }
+}
 
-// Charts
-const labels = DATA.map(r=>r.date);
-const tk={color:'#8a7d6a',font:{family:'Outfit',size:10}};
-const gr={color:'rgba(61,53,40,.7)'};
+function showErr(msg){
+  const el=document.getElementById('errMsg');
+  el.textContent=msg; el.style.display='block';
+}
 
-new Chart(document.getElementById('cBar'),{
-  type:'bar',
-  data:{labels,datasets:[
-    {label:'Total Credit',data:DATA.map(r=>r.totCr),backgroundColor:'rgba(107,170,107,.8)',borderRadius:4},
-    {label:'Total Debit', data:DATA.map(r=>r.totDb),backgroundColor:'rgba(201,107,90,.75)',borderRadius:4},
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-    scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}
-});
+// ── COLUMN MAPPER ──────────────────────────────────────────────────
+function buildColumnMapper(){
+  const grid = document.getElementById('mapGrid');
+  grid.innerHTML='';
+  const opts = ['-- skip --', ...rawHeaders.map((h,i)=>`[${i}] ${h}`)];
 
-new Chart(document.getElementById('cLine'),{
-  type:'line',
-  data:{labels,datasets:[{
-    label:'Cumulative Balance',
-    data:DATA.map(r=>r.cumul),
-    borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.1)',
-    borderWidth:2.5,pointRadius:4,fill:true,tension:.35
-  }]},
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-    scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}
-});
+  FIELDS.forEach(f=>{
+    const div=document.createElement('div');
+    div.className='map-row';
+    // Auto-guess: pick column whose header contains a keyword
+    const guess = autoGuess(f.key, rawHeaders);
+    const sel = `<select id="map_${f.key}">
+      ${opts.map((o,i)=>`<option value="${i===0?'':i-1}" ${(guess!==-1&&(i-1===guess))?'selected':''>${o}</option>`).join('')}
+    </select>`;
+    div.innerHTML=`<label>${f.label}${f.required?' *':''}</label>${sel}`;
+    grid.appendChild(div);
+  });
 
-new Chart(document.getElementById('cDaily'),{
-  type:'bar',
-  data:{labels,datasets:[{
-    label:'Daily Balance',
-    data:DATA.map(r=>r.daily),
-    backgroundColor:DATA.map(r=>r.daily>=0?'rgba(107,170,107,.8)':'rgba(201,107,90,.8)'),
-    borderRadius:4
-  }]},
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-    scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}
-});
+  document.getElementById('colMap').style.display='block';
+}
+
+function autoGuess(key, headers){
+  const kw = {
+    date:['date','day','period','sl','no','#'],
+    remark:['remark','note','desc','narration','particulars'],
+    crOnline:['online cr','cr online','credit online','online credit','upi','card','neft'],
+    crCash:['cash cr','cr cash','credit cash','cash credit'],
+    totCr:['total cr','total credit','credit total','tot cr','income','receipt'],
+    dbOnline:['online db','db online','debit online','online debit'],
+    dbCash:['cash db','db cash','debit cash','cash debit'],
+    totDb:['total db','total debit','debit total','tot db','expense','payment'],
+    daily:['daily','net','profit','loss','p&l','balance'],
+    cumul:['cumul','running','closing','clos'],
+    waste:['waste','wastage','loss qty'],
+  };
+  const words = (kw[key]||[key]);
+  return headers.findIndex(h=>{
+    const hl=h.toLowerCase();
+    return words.some(w=>hl.includes(w));
+  });
+}
+
+// ── BUILD DASHBOARD ────────────────────────────────────────────────
+function renderDashboard(){
+  // Read mapping
+  mapping={};
+  FIELDS.forEach(f=>{
+    const v=document.getElementById('map_'+f.key)?.value;
+    if(v!==''&&v!==undefined) mapping[f.key]=parseInt(v);
+  });
+
+  // Validate required
+  const missing=FIELDS.filter(f=>f.required&&!(f.key in mapping));
+  if(missing.length){
+    alert('Please map required fields: '+missing.map(f=>f.label).join(', '));
+    return;
+  }
+
+  // Parse DATA
+  const N=(str)=>{
+    if(str===undefined||str===null||str==='') return 0;
+    return parseFloat(String(str).replace(/[^0-9.\-]/g,''))||0;
+  };
+  const DATA = rawRows.map(r=>({
+    date:    mapping.date!==undefined   ? r[mapping.date]    : '',
+    remark:  mapping.remark!==undefined ? r[mapping.remark]  : '',
+    crOnline:mapping.crOnline!==undefined ? N(r[mapping.crOnline]) : null,
+    crCash:  mapping.crCash!==undefined  ? N(r[mapping.crCash])   : null,
+    totCr:   N(r[mapping.totCr]),
+    dbOnline:mapping.dbOnline!==undefined ? N(r[mapping.dbOnline]) : null,
+    dbCash:  mapping.dbCash!==undefined  ? N(r[mapping.dbCash])   : null,
+    totDb:   N(r[mapping.totDb]),
+    daily:   mapping.daily!==undefined   ? N(r[mapping.daily])    : null,
+    cumul:   mapping.cumul!==undefined   ? N(r[mapping.cumul])    : null,
+    waste:   mapping.waste!==undefined   ? N(r[mapping.waste])    : 0,
+  })).filter(r=>r.totCr||r.totDb||r.date);
+
+  if(!DATA.length){alert('No data rows found. Check your column mapping.');return;}
+
+  // Compute daily/cumul if not mapped
+  let running=0;
+  DATA.forEach(r=>{
+    if(r.daily===null) r.daily = r.totCr - r.totDb;
+    if(r.cumul===null){running+=r.daily; r.cumul=running;}
+  });
+
+  const tCr      = DATA.reduce((a,r)=>a+r.totCr,0);
+  const tDb      = DATA.reduce((a,r)=>a+r.totDb,0);
+  const tWs      = DATA.reduce((a,r)=>a+(r.waste||0),0);
+  const net      = tCr-tDb;
+  const lastCumul= DATA[DATA.length-1].cumul;
+  const crOnlineT= DATA.reduce((a,r)=>a+(r.crOnline||0),0);
+  const crCashT  = DATA.reduce((a,r)=>a+(r.crCash||0),0);
+  const avg      = DATA.length ? tCr/DATA.length : 0;
+
+  const labels = DATA.map(r=>r.date);
+  const F = n=>Math.round(n||0).toLocaleString('en-IN');
+
+  // Summary strip
+  const strip = document.getElementById('summaryStrip');
+  strip.innerHTML=`
+    <div class="sum-item"><div class="s-lbl">Period</div><div class="s-val" style="color:var(--gold-soft)">${DATA[0].date} – ${DATA[DATA.length-1].date}</div></div>
+    <div class="sum-item"><div class="s-lbl">Days</div><div class="s-val">${DATA.length}</div></div>
+    <div class="sum-item"><div class="s-lbl">Total Credit</div><div class="s-val" style="color:var(--green)">₹${F(tCr)}</div></div>
+    <div class="sum-item"><div class="s-lbl">Total Debit</div><div class="s-val" style="color:var(--red)">₹${F(tDb)}</div></div>
+    <div class="sum-item"><div class="s-lbl">Net Flow</div><div class="s-val" style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}₹${F(net)}</div></div>
+    <div class="sum-item"><div class="s-lbl">Closing Balance</div><div class="s-val" style="color:var(--gold)">₹${F(lastCumul)}</div></div>
+  `;
+
+  // KPIs
+  const kpiGrid = document.getElementById('kpiGrid');
+  kpiGrid.innerHTML=`
+    <div class="kpi cr"><div class="kpi-lbl">Total Credit</div><div class="kpi-val">₹${F(tCr)}</div>
+      <div class="kpi-sub">${crOnlineT?'Online ₹'+F(crOnlineT):''} ${crCashT?' · Cash ₹'+F(crCashT):''}</div></div>
+    <div class="kpi db"><div class="kpi-lbl">Total Debit</div><div class="kpi-val">₹${F(tDb)}</div>
+      <div class="kpi-sub">Net: ₹${F(net)}</div></div>
+    <div class="kpi ws"><div class="kpi-lbl">Total Wastage</div><div class="kpi-val">₹${F(tWs)}</div>
+      <div class="kpi-sub">${tCr?((tWs/tCr)*100).toFixed(2)+'% of credit':''}</div></div>
+    <div class="kpi bal"><div class="kpi-lbl">Closing Balance</div><div class="kpi-val">₹${F(lastCumul)}</div>
+      <div class="kpi-sub">As of ${DATA[DATA.length-1].date}</div></div>
+    <div class="kpi net"><div class="kpi-lbl">Net Flow</div>
+      <div class="kpi-val" style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}₹${F(net)}</div>
+      <div class="kpi-sub">Credit − Debit</div></div>
+    <div class="kpi avg"><div class="kpi-lbl">Daily Avg Sale</div><div class="kpi-val">₹${F(avg)}</div>
+      <div class="kpi-sub">Over ${DATA.length} days</div></div>
+  `;
+
+  // ── TABLE ──────────────────────────────────────────────────────
+  // Determine which optional columns to show
+  const showCrOnline = DATA.some(r=>r.crOnline!==null&&r.crOnline!==0);
+  const showCrCash   = DATA.some(r=>r.crCash!==null&&r.crCash!==0);
+  const showDbOnline = DATA.some(r=>r.dbOnline!==null&&r.dbOnline!==0);
+  const showDbCash   = DATA.some(r=>r.dbCash!==null&&r.dbCash!==0);
+  const showWaste    = DATA.some(r=>r.waste);
+  const showRemark   = DATA.some(r=>r.remark&&r.remark.trim());
+
+  let hdrCols=`<th>Date</th>`;
+  if(showRemark) hdrCols+=`<th>Remark</th>`;
+  if(showCrOnline) hdrCols+=`<th style="text-align:right">Cr Online</th>`;
+  if(showCrCash)   hdrCols+=`<th style="text-align:right">Cr Cash</th>`;
+  hdrCols+=`<th style="text-align:right">Total Credit</th>`;
+  if(showDbOnline) hdrCols+=`<th style="text-align:right">Db Online</th>`;
+  if(showDbCash)   hdrCols+=`<th style="text-align:right">Db Cash</th>`;
+  hdrCols+=`<th style="text-align:right">Total Debit</th>`;
+  hdrCols+=`<th style="text-align:right">Daily Net</th>`;
+  hdrCols+=`<th style="text-align:right">Cumulative</th>`;
+  if(showWaste) hdrCols+=`<th style="text-align:right">Wastage</th>`;
+
+  document.getElementById('thead').innerHTML=`<tr>${hdrCols}</tr>`;
+
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';
+  DATA.forEach(r=>{
+    let cells=`<td style="color:var(--gold-soft);font-weight:500">${r.date}</td>`;
+    if(showRemark) cells+=`<td class="remark-td" title="${r.remark||''}">${r.remark||'—'}</td>`;
+    if(showCrOnline) cells+=`<td class="tr">${r.crOnline?F(r.crOnline):'—'}</td>`;
+    if(showCrCash)   cells+=`<td class="tr">${r.crCash?F(r.crCash):'—'}</td>`;
+    cells+=`<td class="tr" style="font-weight:600">${F(r.totCr)}</td>`;
+    if(showDbOnline) cells+=`<td class="tr">${r.dbOnline?F(r.dbOnline):'—'}</td>`;
+    if(showDbCash)   cells+=`<td class="tr">${r.dbCash?F(r.dbCash):'—'}</td>`;
+    cells+=`<td class="tr" style="color:var(--red)">${F(r.totDb)}</td>`;
+    cells+=`<td class="tr ${r.daily>=0?'pos':'neg'}" style="font-weight:600">${r.daily>=0?'+':''}${F(r.daily)}</td>`;
+    cells+=`<td class="tr" style="color:var(--blue)">${F(r.cumul)}</td>`;
+    if(showWaste) cells+=`<td class="tr" style="color:var(--amber)">${r.waste?F(r.waste):'—'}</td>`;
+    const tr=document.createElement('tr');
+    tr.innerHTML=cells;
+    tbody.appendChild(tr);
+  });
+
+  // Footer totals
+  let ftCols=`<td>TOTAL</td>`;
+  if(showRemark) ftCols+=`<td></td>`;
+  if(showCrOnline) ftCols+=`<td>${F(crOnlineT)}</td>`;
+  if(showCrCash)   ftCols+=`<td>${F(crCashT)}</td>`;
+  ftCols+=`<td>${F(tCr)}</td>`;
+  if(showDbOnline) ftCols+=`<td>${F(DATA.reduce((a,r)=>a+(r.dbOnline||0),0))}</td>`;
+  if(showDbCash)   ftCols+=`<td>${F(DATA.reduce((a,r)=>a+(r.dbCash||0),0))}</td>`;
+  ftCols+=`<td>${F(tDb)}</td>`;
+  ftCols+=`<td style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}${F(net)}</td>`;
+  ftCols+=`<td>${F(lastCumul)}</td>`;
+  if(showWaste) ftCols+=`<td style="color:var(--amber)">${F(tWs)}</td>`;
+  document.getElementById('tfoot').innerHTML=`<tr>${ftCols}</tr>`;
+
+  document.getElementById('tableTitle').textContent='Daily Ledger';
+  document.getElementById('tableCount').textContent=DATA.length+' rows';
+
+  // ── CHARTS ────────────────────────────────────────────────────
+  chartInstances.forEach(c=>c.destroy());
+  chartInstances=[];
+
+  const tk={color:'#8a7d6a',font:{family:'Outfit',size:10}};
+  const gr={color:'rgba(61,53,40,.7)'};
+  const fmtY = v=>'₹'+F(v);
+
+  // Bar: Credit vs Debit
+  chartInstances.push(new Chart(document.getElementById('cBar'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'Total Credit',data:DATA.map(r=>r.totCr),backgroundColor:'rgba(107,170,107,.8)',borderRadius:4},
+      {label:'Total Debit', data:DATA.map(r=>r.totDb),backgroundColor:'rgba(201,107,90,.75)',borderRadius:4},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
+      scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:fmtY},grid:gr}}}
+  }));
+
+  // Line: Cumulative
+  chartInstances.push(new Chart(document.getElementById('cLine'),{
+    type:'line',
+    data:{labels,datasets:[{
+      label:'Cumulative Balance',
+      data:DATA.map(r=>r.cumul),
+      borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.1)',
+      borderWidth:2.5,pointRadius:4,fill:true,tension:.35
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
+      scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:fmtY},grid:gr}}}
+  }));
+
+  // Bar: Daily Net
+  chartInstances.push(new Chart(document.getElementById('cDaily'),{
+    type:'bar',
+    data:{labels,datasets:[{
+      label:'Daily Net',
+      data:DATA.map(r=>r.daily),
+      backgroundColor:DATA.map(r=>r.daily>=0?'rgba(107,170,107,.8)':'rgba(201,107,90,.8)'),
+      borderRadius:4
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
+      scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:fmtY},grid:gr}}}
+  }));
+
+  // Pie 1: Credit vs Debit
+  chartInstances.push(new Chart(document.getElementById('cPie'),{
+    type:'doughnut',
+    data:{
+      labels:['Total Credit','Total Debit'],
+      datasets:[{data:[tCr,tDb],backgroundColor:['rgba(107,170,107,.85)','rgba(201,107,90,.85)'],borderWidth:0}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
+      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}},
+               tooltip:{callbacks:{label:ctx=>' ₹'+F(ctx.parsed)}}}}
+  }));
+
+  // Pie 2: Online vs Cash receipts (only if data exists)
+  const hasSplit = crOnlineT||crCashT;
+  const pie2Labels = ['Online','Cash'];
+  const pie2Data   = [crOnlineT||0, crCashT||0];
+  // If no split data, fall back to wastage vs net
+  chartInstances.push(new Chart(document.getElementById('cPie2'),{
+    type:'doughnut',
+    data:{
+      labels: hasSplit ? pie2Labels : ['Net Profit','Wastage'],
+      datasets:[{
+        data: hasSplit ? pie2Data : [Math.max(0,net), tWs],
+        backgroundColor:['rgba(90,143,201,.85)','rgba(212,136,74,.85)'],
+        borderWidth:0
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
+      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}},
+               tooltip:{callbacks:{label:ctx=>' ₹'+F(ctx.parsed)}}}}
+  }));
+
+  // Update header badge
+  document.getElementById('badge').textContent='● Live Data';
+  document.getElementById('badge').style.cssText='background:rgba(107,170,107,.15);border:1px solid var(--green);color:var(--green);font-size:.65rem;padding:4px 10px;border-radius:20px;';
+
+  // Show dashboard, hide loader
+  document.getElementById('loaderPanel').style.display='none';
+  document.getElementById('mainPanel').style.display='block';
+}
+
+function resetDashboard(){
+  chartInstances.forEach(c=>c.destroy());
+  chartInstances=[];
+  rawHeaders=[];rawRows=[];mapping={};
+  document.getElementById('loaderPanel').style.display='block';
+  document.getElementById('mainPanel').style.display='none';
+  document.getElementById('colMap').style.display='none';
+  document.getElementById('sheetUrl').value='';
+  document.getElementById('badge').textContent='● Awaiting Data';
+  document.getElementById('badge').style.cssText='';
+  document.getElementById('errMsg').style.display='none';
+}
 </script>
 </body>
 </html>
