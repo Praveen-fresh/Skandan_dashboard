@@ -117,7 +117,7 @@ tfoot td:first-child{text-align:left;}
   The sheet must have a header row. You'll map the columns yourself — no hardcoded assumptions.</p>
   <div class="input-row">
     <input id="sheetUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv"/>
-    <button class="btn" id="loadBtn" onclick="loadSheet()">Load Data</button>
+    <button class="btn" id="loadBtn">Load Data</button>
   </div>
   <div class="hint">
     To get the CSV URL: <strong>File → Share → Publish to web → CSV → Publish</strong>, then copy the link.<br>
@@ -129,7 +129,7 @@ tfoot td:first-child{text-align:left;}
   <div class="col-map" id="colMap">
     <h3>Map Your Columns</h3>
     <div class="map-grid" id="mapGrid"></div>
-    <button class="btn" onclick="renderDashboard()">Build Dashboard →</button>
+    <button class="btn" id="buildBtn">Build Dashboard →</button>
   </div>
 </div>
 
@@ -175,7 +175,7 @@ tfoot td:first-child{text-align:left;}
   </div>
 
   <div style="text-align:center;margin-top:8px;">
-    <button class="btn" onclick="resetDashboard()" style="background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:.75rem;padding:7px 16px;">← Load Different Sheet</button>
+    <button class="btn" id="resetBtn" style="background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:.75rem;padding:7px 16px;">← Load Different Sheet</button>
   </div>
 </div>
 
@@ -267,9 +267,13 @@ function buildColumnMapper(){
     div.className='map-row';
     // Auto-guess: pick column whose header contains a keyword
     const guess = autoGuess(f.key, rawHeaders);
-    const sel = `<select id="map_${f.key}">
-      ${opts.map((o,i)=>`<option value="${i===0?'':i-1}" ${(guess!==-1&&(i-1===guess))?'selected':''>${o}</option>`).join('')}
-    </select>`;
+    const sel = '<select id="map_'+f.key+'">'
+      + opts.map((o,i)=>{
+          const val = i===0 ? '' : (i-1);
+          const picked = (guess!==-1 && (i-1===guess)) ? ' selected' : '';
+          return '<option value="'+val+'"'+picked+'>'+o+'</option>';
+        }).join('')
+      + '</select>';
     div.innerHTML=`<label>${f.label}${f.required?' *':''}</label>${sel}`;
     grid.appendChild(div);
   });
@@ -543,6 +547,19 @@ function resetDashboard(){
   document.getElementById('badge').style.cssText='';
   document.getElementById('errMsg').style.display='none';
 }
+
+// Wire up buttons after DOM is ready
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('loadBtn').addEventListener('click', loadSheet);
+  document.getElementById('sheetUrl').addEventListener('keydown', function(e){
+    if(e.key==='Enter') loadSheet();
+  });
+  // buildBtn and resetBtn are dynamic — delegated below
+  document.body.addEventListener('click', function(e){
+    if(e.target.id==='buildBtn') renderDashboard();
+    if(e.target.id==='resetBtn') resetDashboard();
+  });
+});
 </script>
 </body>
 </html>
