@@ -14,8 +14,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min-height:100vh;}
-
-/* Header */
 .hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .hdr h1{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);}
 .hdr p{font-size:.7rem;color:var(--muted);margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
@@ -32,20 +30,17 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min
 .url-input{flex:1;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:.8rem;outline:none;transition:border .2s;}
 .url-input:focus{border-color:var(--gold);}
 .url-input::placeholder{color:var(--muted);}
-.load-btn{background:var(--gold);color:#1a1612;border:none;border-radius:6px;padding:7px 18px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.load-btn{background:var(--gold);color:#1a1612;border:none;border-radius:6px;padding:7px 18px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;}
 .load-btn:hover{background:var(--gold-soft);}
 .url-hint{font-size:.67rem;color:var(--muted);width:100%;}
 
 /* Tabs */
 .tabs{padding:12px 28px 0;display:none;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
-.tab{padding:7px 16px;border-radius:6px 6px 0 0;border:1px solid transparent;border-bottom:none;font-size:.78rem;font-weight:500;cursor:pointer;color:var(--muted);background:transparent;font-family:'Outfit',sans-serif;transition:all .2s;}
+.tab{padding:7px 16px;border-radius:6px 6px 0 0;border:1px solid transparent;border-bottom:none;font-size:.78rem;font-weight:500;cursor:pointer;color:var(--muted);background:transparent;font-family:'Outfit',sans-serif;}
 .tab:hover{color:var(--gold-soft);}
 .tab.active{background:var(--surface);border-color:var(--border);color:var(--gold);border-bottom:1px solid var(--surface);margin-bottom:-1px;}
 
-/* Main */
 .main{padding:22px 28px;}
-
-/* KPIs */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:13px;margin-bottom:22px;}
 .kpi{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:15px 17px;position:relative;overflow:hidden;}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
@@ -57,14 +52,10 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min
 .kpi-lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px;}
 .kpi-val{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1;}
 .kpi-sub{font-size:.66rem;color:var(--muted);margin-top:5px;}
-
-/* Charts */
 .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-bottom:22px;}
 .cc{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:17px;}
 .cc.wide{grid-column:1/-1;}
 .cc-lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:13px;}
-
-/* Table */
 .tc{background:var(--card);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:20px;}
 .th{padding:13px 17px;border-bottom:1px solid var(--border);font-size:.67rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
 .tw{overflow-x:auto;}
@@ -79,21 +70,15 @@ tbody td:first-child{color:var(--muted);font-size:.73rem;}
 .neg{color:var(--red)!important;}
 tfoot td{padding:8px 13px;font-weight:600;color:var(--gold);background:var(--surface);font-size:.77rem;text-align:right;white-space:nowrap;}
 tfoot td:first-child{text-align:left;}
-
-/* State */
 .state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;gap:12px;color:var(--muted);}
 .state .ico{font-size:2.2rem;}
-.state p{font-size:.84rem;text-align:center;max-width:440px;line-height:1.6;}
+.state p{font-size:.84rem;text-align:center;max-width:480px;line-height:1.6;}
 .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* Error banner */
 .err-bar{background:rgba(201,107,90,.1);border:1px solid var(--red);border-radius:7px;padding:10px 17px;color:var(--red);font-size:.8rem;margin:14px 28px;display:none;}
-
-@media(max-width:600px){
-  .hdr,.main,.tabs,.url-bar{padding-left:14px;padding-right:14px;}
-  .kpi-val{font-size:1.15rem;}
-}
+.info-bar{background:rgba(201,168,76,.07);border:1px solid var(--gold);border-radius:7px;padding:10px 17px;color:var(--gold-soft);font-size:.8rem;margin:14px 28px;display:none;line-height:1.6;}
+code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:.85em;}
+@media(max-width:600px){.hdr,.main,.tabs,.url-bar{padding-left:14px;padding-right:14px;}.kpi-val{font-size:1.15rem;}}
 </style>
 </head>
 <body>
@@ -109,285 +94,309 @@ tfoot td:first-child{text-align:left;}
   </div>
 </div>
 
-<!-- URL INPUT BAR -->
 <div class="url-bar">
   <label>Sheet URL</label>
   <input class="url-input" id="sheetUrl" type="text"
-    placeholder="Paste Google Sheets published URL here…"
+    placeholder="Paste Google Sheets published URL or edit URL…"
     value="https://docs.google.com/spreadsheets/d/e/2PACX-1vR8nsoX4Rl3L986s5kDlEerc1ckJHoZHAvQqUjwsy4sYKjZ_4m0almoPbJY3Eh3reHOxwXVU3t-IfBZ/pubhtml"/>
   <button class="load-btn" onclick="loadFromInput()">Load Data</button>
-  <span class="url-hint">Paste the "Publish to web" link from File → Share → Publish to web → Web page</span>
+  <span class="url-hint">Paste the "Publish to web" URL (File → Share → Publish to web → Web page) — or your normal sheet edit URL</span>
 </div>
 
 <div id="err-bar" class="err-bar"></div>
+<div id="info-bar" class="info-bar"></div>
 <div class="tabs" id="tabs"></div>
 <div class="main" id="main">
-  <div class="state">
-    <div class="ico">📊</div>
-    <p>Paste your Google Sheet published URL above and click <strong style="color:var(--gold)">Load Data</strong>.</p>
-  </div>
+  <div class="state"><div class="ico">📊</div><p>Paste your Google Sheet URL above and click <strong style="color:var(--gold)">Load Data</strong>.</p></div>
 </div>
 
 <script>
-// ─── Extract sheet ID from any Google Sheets published URL ───
-function extractSheetId(url) {
-  url = url.trim();
-  // Match /e/XXXX/ pattern (published URL)
-  const pub = url.match(/\/e\/([a-zA-Z0-9_-]+)/);
-  if (pub) return pub[1];
-  // Match /d/XXXX/ pattern (normal edit URL)
-  const doc = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  if (doc) return doc[1];
-  // If they pasted just the ID
-  if (/^[a-zA-Z0-9_-]{30,}$/.test(url)) return url;
+// ── Determine the best API strategy from any Google Sheets URL ──
+function parseSheetUrl(raw) {
+  raw = raw.trim();
+  // Published /e/ format  → use pubhtml iframe parse + CSV
+  const pubMatch = raw.match(/spreadsheets\/d\/e\/([^\/]+)/);
+  if (pubMatch) return { type:'pub', id: pubMatch[1] };
+  // Normal /d/ edit URL → use gviz directly
+  const editMatch = raw.match(/spreadsheets\/d\/([^\/]+)/);
+  if (editMatch) return { type:'edit', id: editMatch[1] };
   return null;
 }
 
-// ─── Extract GIDs from published HTML page ───
-async function fetchSheetGids(sheetId) {
-  // Try fetching the pubhtml page to extract sheet gids from the nav links
-  return new Promise((resolve) => {
-    // We use a JSONP trick: fetch gviz with sheet=0 to get the sheet list
-    // Actually: parse the pubhtml to find gid values
-    // Simplest: just try gids 0–20 via gviz
-    resolve(null);
-  });
-}
-
 let DB = {}, activeMonth = '', charts = {};
-let CURRENT_SHEET_ID = '';
 
 function loadFromInput() {
-  const url = document.getElementById('sheetUrl').value;
-  const id = extractSheetId(url);
-  if (!id) {
-    showErr('Could not read a Sheet ID from that URL. Make sure you paste the full published link.');
-    return;
+  const raw = document.getElementById('sheetUrl').value;
+  const parsed = parseSheetUrl(raw);
+  if (!parsed) { showErr('Could not read a Sheet ID from that URL.'); return; }
+  hideErr(); hideInfo();
+  if (parsed.type === 'pub') {
+    loadViaCsv(parsed.id);
+  } else {
+    loadViaGviz(parsed.id);
   }
-  CURRENT_SHEET_ID = id;
-  hideErr();
-  init();
 }
 
-// ─── LOAD ───
-async function init() {
+// ════════════════════════════════════════════
+// STRATEGY A: Published /e/ URL → fetch CSV per gid
+// ════════════════════════════════════════════
+async function loadViaCsv(pubId) {
   setDot('load','Loading…');
   DB = {};
+  setMain('<div class="state"><div class="spin"></div><p>Fetching sheet data via CSV…</p></div>');
   document.getElementById('tabs').style.display = 'none';
-  document.getElementById('main').innerHTML = '<div class="state"><div class="spin"></div><p>Fetching sheet data…</p></div>';
 
-  // Try gids 0–19 plus some common named-sheet gids
-  const gidsToTry = [];
-  for (let i = 0; i < 20; i++) gidsToTry.push(i);
+  // Try gid 0 to 15
+  const gids = Array.from({length:16},(_,i)=>i);
+  const results = await Promise.allSettled(gids.map(g => fetchCsv(pubId, g)));
 
-  const results = await Promise.allSettled(gidsToTry.map(g => fetchGviz(CURRENT_SHEET_ID, g)));
-
-  results.forEach(r => {
-    if (r.status === 'fulfilled' && r.value) {
-      const { label, rows } = r.value;
+  results.forEach((r,i) => {
+    if (r.status==='fulfilled' && r.value) {
+      const {label, rows} = r.value;
       if (rows.length > 0) DB[label] = rows;
     }
   });
 
-  if (Object.keys(DB).length === 0) {
-    setDot('err','Failed');
-    showErr('No data found. Make sure: (1) The sheet is published via File → Share → Publish to web → Entire Document → Web page. (2) The sheet has columns like Date, Sales, Expenses, Salary, Purchase Order.');
-    document.getElementById('main').innerHTML = '<div class="state"><div class="ico">📭</div><p>No data loaded. Check the error above.</p></div>';
-    return;
-  }
-
-  // Sort months chronologically
-  const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const sorted = Object.keys(DB).sort((a,b)=>{
-    const [ma,ya]=a.split(' '),[mb,yb]=b.split(' ');
-    if (!ya || !yb) return 0;
-    return ya!==yb?+ya-+yb:MO.indexOf(ma)-MO.indexOf(mb);
-  });
-  const ordered={};
-  sorted.forEach(k=>ordered[k]=DB[k]);
-  DB=ordered;
-  activeMonth=sorted[sorted.length-1];
-
-  setDot('live','Live · '+new Date().toLocaleTimeString());
-  buildTabs();
-  renderMonth(activeMonth);
+  finalize('csv', pubId);
 }
 
-// ─── JSONP fetch via Google Visualization API ───
-function fetchGviz(sheetId, gid) {
-  return new Promise((resolve) => {
-    const cbName = '__gviz_' + gid + '_' + Date.now();
-    const url = `https://docs.google.com/spreadsheets/d/e/${sheetId}/gviz/tq?tqx=out:json&tq=select+*&gid=${gid}&cb=${cbName}`;
-
-    const timer = setTimeout(() => { cleanup(); resolve(null); }, 12000);
-
-    window[cbName] = function(data) {
-      cleanup();
-      try { resolve(parseGviz(data, gid)); }
-      catch(e) { resolve(null); }
-    };
-
-    function cleanup() {
-      clearTimeout(timer);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
-
-    const script = document.createElement('script');
-    script.onerror = () => { cleanup(); resolve(null); };
-    script.src = url;
-    document.head.appendChild(script);
+function fetchCsv(pubId, gid) {
+  return new Promise(async (resolve) => {
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/e/${pubId}/pub?output=csv&gid=${gid}`;
+      const resp = await fetch(url, {signal: AbortSignal.timeout(8000)});
+      if (!resp.ok) { resolve(null); return; }
+      const text = await resp.text();
+      if (!text || text.trim().length < 5) { resolve(null); return; }
+      resolve(parseCsv(text, gid));
+    } catch(e) { resolve(null); }
   });
 }
 
-// ─── Parse Google Visualization DataTable ───
-function parseGviz(data, gid) {
-  if (!data || !data.table) return null;
-  const { cols, rows } = data.table;
-  if (!cols || !rows || rows.length === 0) return null;
+function parseCsv(text, gid) {
+  // Simple CSV parser
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length < 2) return null;
 
-  const headers = cols.map(c => (c.label || c.id || '').toLowerCase().trim());
-  let col = { date:-1, sales:-1, expense:-1, salary:-1, po:-1 };
-
-  headers.forEach((h, i) => {
-    if (col.date < 0 && (h.includes('date') || h === 'day' || h.includes('sl') || h === 'no' || h === 's.no' || h === 'sl.no' || h === 'sl no')) col.date = i;
-    if (col.sales < 0 && (h.includes('sale') || h.includes('revenue') || h.includes('income') || h.includes('cash') || h === 'total')) col.sales = i;
-    if (col.expense < 0 && (h.includes('expense') || h.includes('exp')) && !h.includes('salar')) col.expense = i;
-    if (col.salary < 0 && (h.includes('salar') || h.includes('staff') || h.includes('wage'))) col.salary = i;
-    if (col.po < 0 && (h.includes('purchase') || h === 'po' || h.includes('p.o') || h.includes('material') || h.includes('stock') || h.includes('order'))) col.po = i;
+  // Parse rows
+  const allRows = lines.map(line => {
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    cols.push(cur.trim());
+    return cols;
   });
 
-  // Fallback: scan first few rows for header row
-  if (col.date < 0) {
-    for (let ri = 0; ri < Math.min(rows.length, 8); ri++) {
-      const cells = (rows[ri].c || []).map(c => c ? String(c.v || c.f || '').toLowerCase() : '');
-      const di = cells.findIndex(c => c.includes('date') || c === 'day' || c.startsWith('sl'));
-      if (di >= 0) {
-        col.date = di;
-        cells.forEach((c, i) => {
-          if (i === di) return;
-          if (col.sales < 0 && (c.includes('sale') || c.includes('revenue') || c.includes('total'))) col.sales = i;
-          if (col.expense < 0 && c.includes('expense') && !c.includes('sal')) col.expense = i;
-          if (col.salary < 0 && (c.includes('salar') || c.includes('staff'))) col.salary = i;
-          if (col.po < 0 && (c.includes('purchase') || c === 'po' || c.includes('material') || c.includes('order'))) col.po = i;
-        });
-        rows.splice(ri, 1);
-        break;
-      }
-    }
+  if (allRows.length === 0) return null;
+
+  // Find header row (first row with text content)
+  let headerIdx = 0;
+  let headerRow = allRows[0].map(h => h.toLowerCase().replace(/['"]/g,'').trim());
+
+  // If first row looks like a title (single non-empty cell), skip it
+  const nonEmpty = allRows[0].filter(c => c.trim() !== '');
+  if (nonEmpty.length === 1 && allRows.length > 1) {
+    headerIdx = 1;
+    headerRow = allRows[1].map(h => h.toLowerCase().replace(/['"]/g,'').trim());
   }
+
+  // Detect columns
+  let col = {date:-1, sales:-1, expense:-1, salary:-1, po:-1};
+  headerRow.forEach((h,i) => {
+    if (col.date<0 && (h.includes('date')||h==='day'||h.startsWith('sl')||h==='no'||h.includes('s.no'))) col.date=i;
+    if (col.sales<0 && (h.includes('sale')||h.includes('revenue')||h.includes('income')||h==='total'||h.includes('cash'))) col.sales=i;
+    if (col.expense<0 && (h.includes('expense')||h.includes('exp')) && !h.includes('salar')) col.expense=i;
+    if (col.salary<0 && (h.includes('salar')||h.includes('staff')||h.includes('wage'))) col.salary=i;
+    if (col.po<0 && (h.includes('purchase')||h==='po'||h.includes('p.o')||h.includes('order')||h.includes('material')||h.includes('stock'))) col.po=i;
+  });
 
   // Positional fallback
-  if (col.date < 0 && cols.length >= 2) {
-    col = { date:0, sales:1, expense: cols.length>2?2:-1, salary: cols.length>3?3:-1, po: cols.length>4?4:-1 };
+  if (col.date<0 && headerRow.length>=2) {
+    col = {date:0, sales:1, expense:headerRow.length>2?2:-1, salary:headerRow.length>3?3:-1, po:headerRow.length>4?4:-1};
   }
+  if (col.date<0) return null;
 
-  const label = detectLabel(rows, cols, gid);
+  // Detect label from title row or header
+  const label = detectLabelFromRows(allRows, headerIdx, gid);
 
+  // Parse data rows
+  const dataRows = allRows.slice(headerIdx + 1);
   const parsed = [];
-  for (const row of rows) {
-    const c = row.c || [];
-    const getV = (idx) => {
-      if (idx < 0 || idx >= c.length || !c[idx]) return null;
-      return c[idx].v != null ? c[idx].v : (c[idx].f || null);
-    };
-
-    const dv = getV(col.date);
-    if (dv == null) continue;
-    const ds = String(dv).trim();
-    if (!ds || /total|sum|grand|avg|average/i.test(ds)) continue;
-
-    const sales    = pn(getV(col.sales));
-    const expenses = pn(getV(col.expense));
-    const salary   = pn(getV(col.salary));
-    const po       = pn(getV(col.po));
-
-    if (sales === 0 && expenses === 0 && salary === 0 && po === 0 && !isDateLike(ds)) continue;
-
-    parsed.push({ date: fmtDate(ds), sales, expenses, salary, po });
+  for (const row of dataRows) {
+    if (row.length === 0) continue;
+    const getC = (i) => i>=0 && i<row.length ? row[i].replace(/['"]/g,'').trim() : '';
+    const dv = getC(col.date);
+    if (!dv || /total|sum|grand|avg/i.test(dv)) continue;
+    const sales    = pn(getC(col.sales));
+    const expenses = pn(getC(col.expense));
+    const salary   = pn(getC(col.salary));
+    const po       = pn(getC(col.po));
+    if (!dv && sales===0 && expenses===0 && salary===0 && po===0) continue;
+    parsed.push({date: fmtDate(dv), sales, expenses, salary, po});
   }
 
   if (parsed.length === 0) return null;
-  return { label, rows: parsed };
+  return {label, rows: parsed};
 }
 
-function detectLabel(rows, cols, gid) {
-  const months = ['january','february','march','april','may','june','july','august','september','october','november','december'];
-  for (const col of cols) {
-    const t = (col.label || '').toLowerCase();
-    const m = months.find(x => t.includes(x));
-    if (m) {
-      const yr = (col.label.match(/\d{4}/) || [new Date().getFullYear()])[0];
-      return cap(m) + ' ' + yr;
-    }
-  }
-  for (let ri = 0; ri < Math.min(rows.length, 5); ri++) {
-    for (const cell of (rows[ri].c || [])) {
-      const v = cell ? String(cell.v || cell.f || '') : '';
-      const lo = v.toLowerCase();
-      const m = months.find(x => lo.includes(x));
+function detectLabelFromRows(allRows, headerIdx, gid) {
+  const months=['january','february','march','april','may','june','july','august','september','october','november','december'];
+  // Check title row (row before header)
+  if (headerIdx > 0) {
+    for (const cell of allRows[0]) {
+      const lo = cell.toLowerCase();
+      const m = months.find(x=>lo.includes(x));
       if (m) {
-        const yr = (v.match(/\d{4}/) || [new Date().getFullYear()])[0];
-        return cap(m) + ' ' + yr;
+        const yr=(cell.match(/\d{4}/)||[new Date().getFullYear()])[0];
+        return cap(m)+' '+yr;
       }
     }
   }
-  // Fallback: try to use the sheet name from the gviz response
-  // Use gid offset from current date
+  // Check header row
+  for (const cell of (allRows[headerIdx]||[])) {
+    const lo = cell.toLowerCase();
+    const m = months.find(x=>lo.includes(x));
+    if (m) {
+      const yr=(cell.match(/\d{4}/)||[new Date().getFullYear()])[0];
+      return cap(m)+' '+yr;
+    }
+  }
+  // Fallback
   const d = new Date();
   d.setMonth(d.getMonth() - gid);
   return d.toLocaleString('default',{month:'long',year:'numeric'});
 }
 
-function cap(s){ return s[0].toUpperCase()+s.slice(1); }
+// ════════════════════════════════════════════
+// STRATEGY B: Normal /d/ URL → gviz JSONP
+// ════════════════════════════════════════════
+async function loadViaGviz(docId) {
+  setDot('load','Loading…');
+  DB = {};
+  setMain('<div class="state"><div class="spin"></div><p>Fetching sheet data…</p></div>');
+  document.getElementById('tabs').style.display = 'none';
 
-function pn(v) {
-  if (v == null) return 0;
-  const n = parseFloat(String(v).replace(/[₹,\s]/g,''));
-  return isNaN(n) ? 0 : n;
+  const gids = Array.from({length:16},(_,i)=>i);
+  const results = await Promise.allSettled(gids.map(g => fetchGviz(docId, g)));
+  results.forEach(r => {
+    if (r.status==='fulfilled' && r.value) {
+      const {label,rows}=r.value;
+      if (rows.length>0) DB[label]=rows;
+    }
+  });
+
+  finalize('gviz', docId);
 }
 
-function isDateLike(s) {
-  return /\d{1,2}[-\/]\d{1,2}/.test(s) || /^\d{1,2}$/.test(s.trim());
+function fetchGviz(docId, gid) {
+  return new Promise((resolve) => {
+    const cb = '__gviz_'+gid+'_'+Date.now();
+    const url = `https://docs.google.com/spreadsheets/d/${docId}/gviz/tq?tqx=out:json&tq=select+*&gid=${gid}&cb=${cb}`;
+    const timer = setTimeout(()=>{cleanup();resolve(null);},10000);
+    window[cb] = (data)=>{cleanup();try{resolve(parseGviz(data,gid));}catch(e){resolve(null);}};
+    function cleanup(){clearTimeout(timer);delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);}
+    const s=document.createElement('script');
+    s.onerror=()=>{cleanup();resolve(null);};
+    s.src=url; document.head.appendChild(s);
+  });
 }
 
-function fmtDate(s) {
-  s = String(s).trim();
-  const gd = s.match(/^Date\((\d+),(\d+),(\d+)\)$/);
-  if (gd) return `${String(+gd[3]).padStart(2,'0')}/${String(+gd[2]+1).padStart(2,'0')}/${gd[1]}`;
-  const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
-  const dmy = s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{2,4})$/);
-  if (dmy) return `${dmy[1].padStart(2,'0')}/${dmy[2].padStart(2,'0')}/${dmy[3].length===2?'20'+dmy[3]:dmy[3]}`;
-  return s;
+function parseGviz(data,gid){
+  if(!data||!data.table)return null;
+  const{cols,rows}=data.table;
+  if(!cols||!rows||rows.length===0)return null;
+  const headers=cols.map(c=>(c.label||c.id||'').toLowerCase().trim());
+  let col={date:-1,sales:-1,expense:-1,salary:-1,po:-1};
+  headers.forEach((h,i)=>{
+    if(col.date<0&&(h.includes('date')||h==='day'||h.startsWith('sl')||h==='no'))col.date=i;
+    if(col.sales<0&&(h.includes('sale')||h.includes('revenue')||h.includes('total')))col.sales=i;
+    if(col.expense<0&&h.includes('expense')&&!h.includes('sal'))col.expense=i;
+    if(col.salary<0&&(h.includes('salar')||h.includes('staff')))col.salary=i;
+    if(col.po<0&&(h.includes('purchase')||h==='po'||h.includes('order')))col.po=i;
+  });
+  if(col.date<0&&cols.length>=2)col={date:0,sales:1,expense:2,salary:3,po:4};
+  const label=detectLabelGviz(rows,cols,gid);
+  const parsed=[];
+  for(const row of rows){
+    const c=row.c||[];
+    const gv=(i)=>{if(i<0||i>=c.length||!c[i])return null;return c[i].v!=null?c[i].v:(c[i].f||null);};
+    const dv=gv(col.date);if(dv==null)continue;
+    const ds=String(dv).trim();
+    if(!ds||/total|sum|grand/i.test(ds))continue;
+    parsed.push({date:fmtDate(ds),sales:pn(gv(col.sales)),expenses:pn(gv(col.expense)),salary:pn(gv(col.salary)),po:pn(gv(col.po))});
+  }
+  if(parsed.length===0)return null;
+  return{label,rows:parsed};
 }
 
-// ─── UI ───
-function buildTabs() {
-  const el = document.getElementById('tabs');
-  el.innerHTML=''; el.style.display='flex';
-  Object.keys(DB).forEach(m => {
-    const b = document.createElement('button');
-    b.className = 'tab'+(m===activeMonth?' active':'');
-    b.textContent = m;
-    b.onclick = () => { activeMonth=m; buildTabs(); renderMonth(m); };
+function detectLabelGviz(rows,cols,gid){
+  const months=['january','february','march','april','may','june','july','august','september','october','november','december'];
+  for(const col of cols){const t=(col.label||'').toLowerCase();const m=months.find(x=>t.includes(x));if(m){const yr=(col.label.match(/\d{4}/)||[new Date().getFullYear()])[0];return cap(m)+' '+yr;}}
+  for(let ri=0;ri<Math.min(rows.length,5);ri++){for(const cell of(rows[ri].c||[])){const v=cell?String(cell.v||cell.f||''):'';const lo=v.toLowerCase();const m=months.find(x=>lo.includes(x));if(m){const yr=(v.match(/\d{4}/)||[new Date().getFullYear()])[0];return cap(m)+' '+yr;}}}
+  const d=new Date();d.setMonth(d.getMonth()-gid);return d.toLocaleString('default',{month:'long',year:'numeric'});
+}
+
+// ════════════════════════════════════════════
+// FINALIZE — after data loaded
+// ════════════════════════════════════════════
+function finalize(method, id) {
+  if(Object.keys(DB).length===0){
+    setDot('err','Failed');
+    if(method==='csv'){
+      showInfo(`<strong>Could not load data via CSV.</strong><br>
+      Please also try pasting your <strong>normal sheet edit URL</strong> (the URL you see when you open the sheet in Google Sheets — looks like <code>https://docs.google.com/spreadsheets/d/XXXXXXXX/edit</code>) into the URL field and click Load Data again.<br><br>
+      Also confirm: <strong>File → Share → Publish to web → Entire Document → Web page → Publish</strong> is done.`);
+    } else {
+      showErr('No data found. Make sure the sheet is published (File → Share → Publish to web).');
+    }
+    setMain('<div class="state"><div class="ico">📭</div><p>No data loaded. See instructions above.</p></div>');
+    return;
+  }
+
+  const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const sorted=Object.keys(DB).sort((a,b)=>{
+    const[ma,ya]=a.split(' '),[mb,yb]=b.split(' ');
+    if(!ya||!yb)return 0;
+    return ya!==yb?+ya-+yb:MO.indexOf(ma)-MO.indexOf(mb);
+  });
+  const ordered={};sorted.forEach(k=>ordered[k]=DB[k]);DB=ordered;
+  activeMonth=sorted[sorted.length-1];
+  setDot('live','Live · '+new Date().toLocaleTimeString());
+  buildTabs();renderMonth(activeMonth);
+}
+
+// ════════════════════════════════════════════
+// UI
+// ════════════════════════════════════════════
+function buildTabs(){
+  const el=document.getElementById('tabs');
+  el.innerHTML='';el.style.display='flex';
+  Object.keys(DB).forEach(m=>{
+    const b=document.createElement('button');
+    b.className='tab'+(m===activeMonth?' active':'');
+    b.textContent=m;
+    b.onclick=()=>{activeMonth=m;buildTabs();renderMonth(m);};
     el.appendChild(b);
   });
 }
 
-function renderMonth(month) {
-  const rows = DB[month];
-  Object.values(charts).forEach(c=>c.destroy()); charts={};
+function renderMonth(month){
+  const rows=DB[month];
+  Object.values(charts).forEach(c=>c.destroy());charts={};
+  const tS=rows.reduce((a,r)=>a+r.sales,0);
+  const tE=rows.reduce((a,r)=>a+r.expenses,0);
+  const tSal=rows.reduce((a,r)=>a+r.salary,0);
+  const tPO=rows.reduce((a,r)=>a+r.po,0);
+  const profit=tS-tE-tSal-tPO;
+  const margin=tS>0?((profit/tS)*100).toFixed(1):0;
+  const activeDays=rows.filter(r=>r.sales>0).length;
 
-  const tS   = rows.reduce((a,r)=>a+r.sales,0);
-  const tE   = rows.reduce((a,r)=>a+r.expenses,0);
-  const tSal = rows.reduce((a,r)=>a+r.salary,0);
-  const tPO  = rows.reduce((a,r)=>a+r.po,0);
-  const profit = tS-tE-tSal-tPO;
-  const margin = tS>0?((profit/tS)*100).toFixed(1):0;
-  const activeDays = rows.filter(r=>r.sales>0).length;
-
-  document.getElementById('main').innerHTML = `
+  setMain(`
   <div class="kpi-grid">
     <div class="kpi s"><div class="kpi-lbl">Total Sales</div><div class="kpi-val">₹${F(tS)}</div><div class="kpi-sub">${activeDays} active days</div></div>
     <div class="kpi e"><div class="kpi-lbl">Expenses</div><div class="kpi-val">₹${F(tE)}</div><div class="kpi-sub">${tS?pc(tE,tS):0}% of sales</div></div>
@@ -398,41 +407,33 @@ function renderMonth(month) {
       <div class="kpi-sub" style="color:${profit>=0?'var(--green)':'var(--red)'};font-weight:600">${margin}% margin</div>
     </div>
   </div>
-
   <div class="charts">
     <div class="cc wide"><div class="cc-lbl">Daily Sales vs Costs</div><div style="position:relative;height:250px"><canvas id="cBar"></canvas></div></div>
     <div class="cc"><div class="cc-lbl">Sales Trend</div><div style="position:relative;height:210px"><canvas id="cLine"></canvas></div></div>
     <div class="cc"><div class="cc-lbl">Cost Breakdown</div><div style="position:relative;height:210px"><canvas id="cPie"></canvas></div></div>
   </div>
-
   <div class="tc">
     <div class="th">Daily Entries — ${month}</div>
     <div class="tw">
       <table>
         <thead><tr>
-          <th>Date</th>
-          <th style="text-align:right">Sales ₹</th>
-          <th style="text-align:right">Expenses ₹</th>
-          <th style="text-align:right">Salary ₹</th>
-          <th style="text-align:right">PO ₹</th>
-          <th style="text-align:right">Net ₹</th>
+          <th>Date</th><th style="text-align:right">Sales ₹</th><th style="text-align:right">Expenses ₹</th>
+          <th style="text-align:right">Salary ₹</th><th style="text-align:right">PO ₹</th><th style="text-align:right">Net ₹</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
         <tfoot><tr>
-          <td>TOTAL</td>
-          <td>₹${F(tS)}</td><td>₹${F(tE)}</td><td>₹${F(tSal)}</td><td>₹${F(tPO)}</td>
+          <td>TOTAL</td><td>₹${F(tS)}</td><td>₹${F(tE)}</td><td>₹${F(tSal)}</td><td>₹${F(tPO)}</td>
           <td style="color:${profit>=0?'var(--green)':'var(--red)'}">₹${F(profit)}</td>
         </tr></tfoot>
       </table>
     </div>
-  </div>`;
+  </div>`);
 
-  const tb = document.getElementById('tbody');
-  rows.forEach(r => {
-    const net = r.sales-r.expenses-r.salary-r.po;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${r.date}</td>
+  const tb=document.getElementById('tbody');
+  rows.forEach(r=>{
+    const net=r.sales-r.expenses-r.salary-r.po;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.date}</td>
       <td class="tr">${r.sales?F(r.sales):'—'}</td>
       <td class="tr">${r.expenses?F(r.expenses):'—'}</td>
       <td class="tr">${r.salary?F(r.salary):'—'}</td>
@@ -440,85 +441,52 @@ function renderMonth(month) {
       <td class="tr ${r.sales?(net>=0?'pos':'neg'):''}">${r.sales?F(net):'—'}</td>`;
     tb.appendChild(tr);
   });
-
   requestAnimationFrame(()=>drawCharts(rows,tS,tE,tSal,tPO,profit));
 }
 
-function drawCharts(rows,tS,tE,tSal,tPO,profit) {
-  const labels = rows.map(r=>r.date.split('/')[0]);
+function drawCharts(rows,tS,tE,tSal,tPO,profit){
+  const labels=rows.map(r=>r.date.split('/')[0]);
   const tk={color:'#8a7d6a',font:{family:'Outfit',size:10}};
   const gr={color:'rgba(61,53,40,.7)'};
   const lg={labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}};
-
-  charts.bar=new Chart(document.getElementById('cBar'),{
-    type:'bar',
-    data:{labels,datasets:[
-      {label:'Sales',    data:rows.map(r=>r.sales),    backgroundColor:'rgba(201,168,76,.8)',borderRadius:3},
-      {label:'Expenses', data:rows.map(r=>r.expenses), backgroundColor:'rgba(201,107,90,.7)',borderRadius:3},
-      {label:'Salary',   data:rows.map(r=>r.salary),   backgroundColor:'rgba(90,143,201,.6)',borderRadius:3},
-      {label:'PO',       data:rows.map(r=>r.po),       backgroundColor:'rgba(212,136,74,.6)',borderRadius:3},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{...lg,position:'top'}},
-      scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}
-  });
-
+  charts.bar=new Chart(document.getElementById('cBar'),{type:'bar',data:{labels,datasets:[
+    {label:'Sales',data:rows.map(r=>r.sales),backgroundColor:'rgba(201,168,76,.8)',borderRadius:3},
+    {label:'Expenses',data:rows.map(r=>r.expenses),backgroundColor:'rgba(201,107,90,.7)',borderRadius:3},
+    {label:'Salary',data:rows.map(r=>r.salary),backgroundColor:'rgba(90,143,201,.6)',borderRadius:3},
+    {label:'PO',data:rows.map(r=>r.po),backgroundColor:'rgba(212,136,74,.6)',borderRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{...lg,position:'top'}},scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}});
   let cum=0,cumD=rows.map(r=>{cum+=r.sales;return cum;});
-  charts.line=new Chart(document.getElementById('cLine'),{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'Daily Sales',data:rows.map(r=>r.sales),
-        borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.1)',
-        borderWidth:2,pointRadius:3,fill:true,tension:.35},
-      {label:'Cumulative',data:cumD,
-        borderColor:'#6baa6b',backgroundColor:'transparent',
-        borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:.35,yAxisID:'y2'},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:lg},
-      scales:{
-        x:{ticks:tk,grid:gr},
-        y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr},
-        y2:{position:'right',ticks:{...tk,color:'#6baa6b',callback:v=>'₹'+F(v)},grid:{drawOnChartArea:false}}
-      }}
-  });
-
-  charts.pie=new Chart(document.getElementById('cPie'),{
-    type:'doughnut',
-    data:{
-      labels:['Expenses','Salary','Purchase Orders','Net Profit'],
-      datasets:[{
-        data:[tE,tSal,tPO,Math.max(0,profit)],
-        backgroundColor:['rgba(201,107,90,.8)','rgba(90,143,201,.8)','rgba(212,136,74,.8)','rgba(107,170,107,.8)'],
-        borderColor:'#2d2820',borderWidth:2
-      }]
-    },
-    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
-      plugins:{
-        legend:{position:'bottom',labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10,padding:10}},
-        tooltip:{callbacks:{label:ctx=>{
-          const pct=tS>0?((ctx.parsed/tS)*100).toFixed(1):0;
-          return ` ₹${F(ctx.parsed)} (${pct}%)`;
-        }}}
-      }}
-  });
+  charts.line=new Chart(document.getElementById('cLine'),{type:'line',data:{labels,datasets:[
+    {label:'Daily Sales',data:rows.map(r=>r.sales),borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.1)',borderWidth:2,pointRadius:3,fill:true,tension:.35},
+    {label:'Cumulative',data:cumD,borderColor:'#6baa6b',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:.35,yAxisID:'y2'},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:lg},scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr},y2:{position:'right',ticks:{...tk,color:'#6baa6b',callback:v=>'₹'+F(v)},grid:{drawOnChartArea:false}}}}});
+  charts.pie=new Chart(document.getElementById('cPie'),{type:'doughnut',data:{labels:['Expenses','Salary','PO','Net Profit'],datasets:[{data:[tE,tSal,tPO,Math.max(0,profit)],backgroundColor:['rgba(201,107,90,.8)','rgba(90,143,201,.8)','rgba(212,136,74,.8)','rgba(107,170,107,.8)'],borderColor:'#2d2820',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10,padding:10}},tooltip:{callbacks:{label:ctx=>{const pct=tS>0?((ctx.parsed/tS)*100).toFixed(1):0;return ` ₹${F(ctx.parsed)} (${pct}%)`;}}}}}});
 }
 
-// Helpers
+// ─── Helpers ───
 function F(n){return Math.round(n||0).toLocaleString('en-IN');}
 function pc(a,b){return b>0?((a/b)*100).toFixed(1):0;}
-function setDot(cls,txt){
-  document.getElementById('dot').className='dot '+cls;
-  document.getElementById('stxt').textContent=txt;
+function cap(s){return s[0].toUpperCase()+s.slice(1);}
+function pn(v){if(v==null||v==='')return 0;const n=parseFloat(String(v).replace(/[₹,\s]/g,''));return isNaN(n)?0:n;}
+function fmtDate(s){
+  s=String(s).trim();
+  const gd=s.match(/^Date\((\d+),(\d+),(\d+)\)$/);
+  if(gd)return`${String(+gd[3]).padStart(2,'0')}/${String(+gd[2]+1).padStart(2,'0')}/${gd[1]}`;
+  const iso=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(iso)return`${iso[3]}/${iso[2]}/${iso[1]}`;
+  const dmy=s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{2,4})$/);
+  if(dmy)return`${dmy[1].padStart(2,'0')}/${dmy[2].padStart(2,'0')}/${dmy[3].length===2?'20'+dmy[3]:dmy[3]}`;
+  return s;
 }
-function showErr(msg){const e=document.getElementById('err-bar');e.textContent='⚠ '+msg;e.style.display='block';}
-function hideErr(){const e=document.getElementById('err-bar');e.style.display='none';}
+function setDot(cls,txt){document.getElementById('dot').className='dot '+cls;document.getElementById('stxt').textContent=txt;}
+function setMain(html){document.getElementById('main').innerHTML=html;}
+function showErr(msg){const e=document.getElementById('err-bar');e.innerHTML='⚠ '+msg;e.style.display='block';}
+function hideErr(){document.getElementById('err-bar').style.display='none';}
+function showInfo(msg){const e=document.getElementById('info-bar');e.innerHTML=msg;e.style.display='block';}
+function hideInfo(){document.getElementById('info-bar').style.display='none';}
 
-// Auto-load on page open if URL field has value
-window.onload = () => {
-  const url = document.getElementById('sheetUrl').value.trim();
-  if (url) loadFromInput();
-};
+// Auto-load
+window.onload=()=>{const u=document.getElementById('sheetUrl').value.trim();if(u)loadFromInput();};
 </script>
 </body>
 </html>
