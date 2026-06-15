@@ -7,314 +7,297 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root {
-  --bg:#1a1612; --surface:#242019; --card:#2d2820; --border:#3d3528;
-  --gold:#c9a84c; --gold-soft:#e8c97a; --amber:#d4884a;
-  --cream:#f0e6d0; --muted:#8a7d6a; --green:#6baa6b; --red:#c96b5a; --blue:#5a8fc9;
+:root{
+  --bg:#1a1612;--surface:#242019;--card:#2d2820;--border:#3d3528;
+  --gold:#c9a84c;--gold-soft:#e8c97a;--amber:#d4884a;
+  --cream:#f0e6d0;--muted:#8a7d6a;--green:#6baa6b;--red:#c96b5a;--blue:#5a8fc9;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min-height:100vh;}
 
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:18px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-.header h1{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--gold);}
-.header p{font-size:0.72rem;color:var(--muted);margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
-.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;display:inline-block;margin-right:6px;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-.status-txt{font-size:.72rem;color:var(--muted);}
-
-/* Config */
-.config{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.config label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;}
-.config input{flex:1;min-width:260px;background:var(--card);border:1px solid var(--border);color:var(--cream);padding:8px 12px;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.78rem;}
-.config input:focus{outline:none;border-color:var(--gold);}
-.btn{background:var(--gold);color:var(--bg);border:none;padding:8px 18px;border-radius:6px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:background .2s;}
-.btn:hover{background:var(--gold-soft);}
-.btn-sec{background:transparent;color:var(--muted);border:1px solid var(--border);padding:8px 14px;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.78rem;cursor:pointer;}
-.btn-sec:hover{border-color:var(--gold);color:var(--gold);}
-
-/* Error / Info */
-.msg{padding:10px 20px;border-radius:7px;font-size:.82rem;margin:16px 28px;display:none;}
-.msg.err{background:rgba(201,107,90,.12);border:1px solid var(--red);color:var(--red);}
-.msg.info{background:rgba(201,168,76,.08);border:1px solid var(--gold);color:var(--gold-soft);}
+/* Header */
+.hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.hdr h1{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);}
+.hdr p{font-size:.7rem;color:var(--muted);margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;background:var(--muted);}
+.dot.live{background:var(--green);animation:pulse 2s infinite;}
+.dot.err{background:var(--red);}
+.dot.load{background:var(--amber);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+#stxt{font-size:.7rem;color:var(--muted);}
 
 /* Tabs */
-.tabs{padding:14px 28px 0;display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border);display:none;}
+.tabs{padding:12px 28px 0;display:none;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
 .tab{padding:7px 16px;border-radius:6px 6px 0 0;border:1px solid transparent;border-bottom:none;font-size:.78rem;font-weight:500;cursor:pointer;color:var(--muted);background:transparent;font-family:'Outfit',sans-serif;transition:all .2s;}
 .tab:hover{color:var(--gold-soft);}
 .tab.active{background:var(--surface);border-color:var(--border);color:var(--gold);border-bottom:1px solid var(--surface);margin-bottom:-1px;}
 
 /* Main */
-.main{padding:24px 28px;}
+.main{padding:22px 28px;}
 
 /* KPIs */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:24px;}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:16px 18px;position:relative;overflow:hidden;}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:13px;margin-bottom:22px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:15px 17px;position:relative;overflow:hidden;}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .kpi.s::before{background:var(--gold);}
 .kpi.e::before{background:var(--red);}
-.kpi.sal::before{background:var(--blue);}
+.kpi.sl::before{background:var(--blue);}
 .kpi.po::before{background:var(--amber);}
-.kpi.p::before{background:var(--green);}
-.kpi-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px;}
-.kpi-val{font-family:'Playfair Display',serif;font-size:1.4rem;line-height:1;}
-.kpi-sub{font-size:.68rem;color:var(--muted);margin-top:5px;}
+.kpi.pr::before{background:var(--green);}
+.kpi-lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1;}
+.kpi-sub{font-size:.66rem;color:var(--muted);margin-top:5px;}
 
 /* Charts */
-.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-bottom:24px;}
-.chart-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:18px;}
-.chart-card.wide{grid-column:1/-1;}
-.chart-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
-.chart-wrap{position:relative;}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-bottom:22px;}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:17px;}
+.cc.wide{grid-column:1/-1;}
+.cc-lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:13px;}
 
 /* Table */
-.tbl-card{background:var(--card);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:20px;}
-.tbl-head{padding:14px 18px;border-bottom:1px solid var(--border);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
-.tbl-wrap{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:.8rem;}
-thead th{background:var(--surface);padding:9px 14px;text-align:left;font-weight:600;font-size:.68rem;color:var(--gold);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:20px;}
+.th{padding:13px 17px;border-bottom:1px solid var(--border);font-size:.67rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.79rem;}
+thead th{background:var(--surface);padding:8px 13px;text-align:left;font-weight:600;font-size:.66rem;color:var(--gold);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
 tbody tr{border-bottom:1px solid var(--border);}
 tbody tr:hover{background:rgba(201,168,76,.04);}
-tbody td{padding:9px 14px;white-space:nowrap;}
-tbody td:first-child{color:var(--muted);font-size:.75rem;}
+tbody td{padding:8px 13px;white-space:nowrap;}
+tbody td:first-child{color:var(--muted);font-size:.73rem;}
 .tr{text-align:right;font-variant-numeric:tabular-nums;}
 .pos{color:var(--green)!important;}
 .neg{color:var(--red)!important;}
-tfoot td{padding:9px 14px;font-weight:600;color:var(--gold);background:var(--surface);font-size:.78rem;text-align:right;white-space:nowrap;}
+tfoot td{padding:8px 13px;font-weight:600;color:var(--gold);background:var(--surface);font-size:.77rem;text-align:right;white-space:nowrap;}
 tfoot td:first-child{text-align:left;}
 
 /* State */
-.state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;gap:12px;color:var(--muted);}
-.state .ico{font-size:2.4rem;}
-.state p{font-size:.86rem;text-align:center;max-width:420px;line-height:1.6;}
-.spin{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+.state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;gap:12px;color:var(--muted);}
+.state .ico{font-size:2.2rem;}
+.state p{font-size:.84rem;text-align:center;max-width:440px;line-height:1.6;}
+.spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Proxy badge */
-.proxy-note{font-size:.68rem;color:var(--muted);padding:6px 28px;background:var(--surface);border-bottom:1px solid var(--border);}
-.proxy-note a{color:var(--gold);text-decoration:none;}
+/* Error banner */
+.err-bar{background:rgba(201,107,90,.1);border:1px solid var(--red);border-radius:7px;padding:10px 17px;color:var(--red);font-size:.8rem;margin:14px 28px;display:none;}
 
 @media(max-width:600px){
-  .header,.config,.main,.tabs{padding-left:14px;padding-right:14px;}
-  .kpi-val{font-size:1.2rem;}
+  .hdr,.main,.tabs{padding-left:14px;padding-right:14px;}
+  .kpi-val{font-size:1.15rem;}
 }
 </style>
 </head>
 <body>
 
-<div class="header">
+<div class="hdr">
   <div>
     <h1>Skandan Enterprise</h1>
     <p>CKs Bakery · Sales Dashboard</p>
   </div>
-  <div style="display:flex;align-items:center;">
-    <span class="live-dot" id="dot" style="background:var(--muted)"></span>
-    <span class="status-txt" id="status-txt">Not loaded</span>
+  <div style="display:flex;align-items:center">
+    <span class="dot load" id="dot"></span>
+    <span id="stxt">Loading…</span>
   </div>
 </div>
 
-<div class="config">
-  <label>Published CSV URL</label>
-  <input id="csv-url" type="text"
-    value="https://docs.google.com/spreadsheets/d/e/2PACX-1vR8nsoX4Rl3L986s5kDlEerc1ckJHoZHAvQqUjwsy4sYKjZ_4m0almoPbJY3Eh3reHOxwXVU3t-IfBZ/pub?output=csv"
-    placeholder="Paste Google Sheets published CSV URL…"/>
-  <button class="btn" onclick="loadData()">Load Data</button>
-</div>
-
-<div class="proxy-note">
-  📡 Fetches live from your Google Sheet via CORS proxy &mdash; data updates every time you reload.
-</div>
-
-<div id="err" class="msg err"></div>
-<div id="info" class="msg info"></div>
-
+<div id="err-bar" class="err-bar"></div>
 <div class="tabs" id="tabs"></div>
-
-<div class="main" id="main">
-  <div class="state">
-    <div class="ico">📊</div>
-    <p>Your Google Sheet published CSV URL is pre-filled above.<br>Click <strong style="color:var(--gold)">Load Data</strong> to fetch your sales data.</p>
-  </div>
-</div>
+<div class="main" id="main"><div class="state"><div class="spin"></div><p>Fetching your sheet…</p></div></div>
 
 <script>
-// ── State ──────────────────────────────────────────────────────
-let DB = {};          // { "June 2026": [{date,sales,expenses,salary,po,remark},...] }
-let activeMonth = '';
-let charts = {};
+// ─────────────────────────────────────────────────────────────
+// CONFIG — your published sheet ID (the e/XXXX part)
+// ─────────────────────────────────────────────────────────────
+const SHEET_ID = '2PACX-1vR8nsoX4Rl3L986s5kDlEerc1ckJHoZHAvQqUjwsy4sYKjZ_4m0almoPbJY3Eh3reHOxwXVU3t-IfBZ';
+const MAX_TABS = 12;   // try sheet indices 0–11
 
-// ── CORS proxies to try in order ──────────────────────────────
-const PROXIES = [
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-  url => `https://thingproxy.freeboard.io/fetch/${url}`,
-];
+let DB = {}, activeMonth = '', charts = {};
 
-// ── Load ──────────────────────────────────────────────────────
-async function loadData() {
-  const baseUrl = document.getElementById('csv-url').value.trim();
-  if (!baseUrl) { showErr('Please enter the published CSV URL.'); return; }
-
-  clearMsg();
-  showLoading();
-  setStatus('Loading…', 'var(--amber)');
-
-  // Extract the published base (strip existing params)
-  const pubBase = baseUrl.split('?')[0];
-
-  // Try to load up to 12 sheet indices (gid=0,1,2,...,11)
+// ─────────────────────────────────────────────────────────────
+// LOAD — uses Google's gviz/tq JSONP endpoint (no CORS issues)
+// ─────────────────────────────────────────────────────────────
+async function init() {
+  setDot('load','Loading…');
   DB = {};
-  let loaded = 0;
-  let failStreak = 0;
 
-  for (let gid = 0; gid <= 11; gid++) {
-    const csvUrl = `${pubBase}?output=csv&gid=${gid}`;
-    const text = await fetchWithProxy(csvUrl);
-    if (!text) { failStreak++; if (failStreak >= 4) break; continue; }
-    failStreak = 0;
-
-    const parsed = parseSheet(text, gid);
-    if (parsed && parsed.rows.length > 0) {
-      DB[parsed.label] = parsed.rows;
-      loaded++;
-    }
+  const promises = [];
+  for (let gid = 0; gid < MAX_TABS; gid++) {
+    promises.push(fetchGviz(gid));
   }
+  const results = await Promise.allSettled(promises);
 
-  if (loaded === 0) {
-    showErr('Could not load data. ' +
-      'Make sure your sheet is published: File → Share → Publish to web → CSV → Publish. ' +
-      'Then paste the URL and try again.');
+  results.forEach(r => {
+    if (r.status === 'fulfilled' && r.value) {
+      const { label, rows } = r.value;
+      if (rows.length > 0) DB[label] = rows;
+    }
+  });
+
+  if (Object.keys(DB).length === 0) {
+    setDot('err','Failed');
+    showErr('Could not load sheet data. Make sure the sheet is published to web (File → Share → Publish to web → Entire document → Web page → Publish).');
     showEmpty();
-    setStatus('Failed', 'var(--red)');
     return;
   }
 
-  // Sort months
-  const MO = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const sorted = Object.keys(DB).sort((a,b) => {
-    const [ma,ya] = a.split(' '), [mb,yb] = b.split(' ');
-    return ya !== yb ? +ya - +yb : MO.indexOf(ma) - MO.indexOf(mb);
+  // Sort months chronologically
+  const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const sorted = Object.keys(DB).sort((a,b)=>{
+    const [ma,ya]=a.split(' '),[mb,yb]=b.split(' ');
+    return ya!==yb?+ya-+yb:MO.indexOf(ma)-MO.indexOf(mb);
   });
-  const ordered = {};
-  sorted.forEach(k => ordered[k] = DB[k]);
-  DB = ordered;
-  activeMonth = sorted[sorted.length - 1];
+  const ordered={};
+  sorted.forEach(k=>ordered[k]=DB[k]);
+  DB=ordered;
+  activeMonth=sorted[sorted.length-1];
 
-  setStatus('Live · ' + new Date().toLocaleTimeString(), 'var(--green)');
+  setDot('live','Live · '+new Date().toLocaleTimeString());
   buildTabs();
   renderMonth(activeMonth);
 }
 
-// ── Fetch with CORS proxy fallback ────────────────────────────
-async function fetchWithProxy(url) {
-  for (const proxy of PROXIES) {
-    try {
-      const res = await fetch(proxy(url), { signal: AbortSignal.timeout(8000) });
-      if (!res.ok) continue;
-      const txt = await res.text();
-      if (txt && txt.length > 20 && !txt.includes('<!DOCTYPE')) return txt;
-    } catch(e) { /* try next */ }
-  }
-  // Last resort: direct fetch (works if page and sheet are same-origin or CORS headers present)
-  try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    if (res.ok) {
-      const txt = await res.text();
-      if (txt && txt.length > 20) return txt;
+// ─────────────────────────────────────────────────────────────
+// JSONP fetch via Google Visualization API
+// This endpoint is CORS-safe and works from any domain
+// ─────────────────────────────────────────────────────────────
+function fetchGviz(gid) {
+  return new Promise((resolve) => {
+    const cbName = '__gviz_cb_' + gid + '_' + Date.now();
+    const url = `https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/gviz/tq?tqx=out:json&tq=select+*&gid=${gid}&cb=${cbName}`;
+
+    const timer = setTimeout(() => {
+      cleanup();
+      resolve(null);
+    }, 10000);
+
+    window[cbName] = function(data) {
+      cleanup();
+      try { resolve(parseGviz(data, gid)); }
+      catch(e) { resolve(null); }
+    };
+
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
     }
-  } catch(e) {}
-  return null;
+
+    const script = document.createElement('script');
+    script.onerror = () => { cleanup(); resolve(null); };
+    script.src = url;
+    document.head.appendChild(script);
+  });
 }
 
-// ── Parse CSV ─────────────────────────────────────────────────
-function parseSheet(text, gid) {
-  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-  if (lines.length < 3) return null;
+// ─────────────────────────────────────────────────────────────
+// Parse Google Visualization DataTable response
+// ─────────────────────────────────────────────────────────────
+function parseGviz(data, gid) {
+  if (!data || !data.table) return null;
+  const { cols, rows } = data.table;
+  if (!cols || !rows || rows.length === 0) return null;
 
-  const grid = lines.map(l => csvLine(l));
+  // Map column indices
+  const headers = cols.map(c => (c.label || c.id || '').toLowerCase().trim());
+  let col = { date:-1, sales:-1, expense:-1, salary:-1, po:-1 };
 
-  // Detect month label from first few rows
-  const label = detectLabel(grid, gid);
+  headers.forEach((h, i) => {
+    if (col.date < 0 && (h.includes('date') || h === 'day' || h.includes('sl') || h === 'no' || h === 's.no')) col.date = i;
+    else if (col.sales < 0 && (h.includes('sale') || h.includes('revenue') || h.includes('income') || h.includes('total sale') || h.includes('cash') || h.includes('total'))) col.sales = i;
+    if (h.includes('expense') && !h.includes('sal')) col.expense = i;
+    if (h.includes('salar') || h.includes('staff') || h.includes('wage')) col.salary = i;
+    if (h.includes('purchase') || h === 'po' || h.includes('p.o') || h.includes('material') || h.includes('stock')) col.po = i;
+  });
 
-  // Find header row
-  let hdrIdx = -1, col = {};
-  for (let i = 0; i < Math.min(grid.length, 12); i++) {
-    const row = grid[i].map(c => c.toLowerCase().trim());
-    const hasDate = row.findIndex(c =>
-      c === 'date' || c === 'day' || c.includes('sl') || c === 's.no' || c === 'no');
-    if (hasDate >= 0) {
-      hdrIdx = i;
-      row.forEach((c, idx) => {
-        if (c === 'date' || c === 'day' || c.includes('sl') || c === 's.no' || c === 'no') col.date = idx;
-        else if ((c.includes('sale') || c.includes('revenue') || c.includes('income') || c.includes('cash') || c.includes('total')) && col.sales == null) col.sales = idx;
-        else if (c.includes('expense') && !c.includes('sal')) col.expense = idx;
-        else if (c.includes('salar') || c.includes('staff') || c.includes('wage')) col.salary = idx;
-        else if (c.includes('purchase') || c === 'po' || c.includes('p.o') || c.includes('material') || c.includes('stock')) col.po = idx;
-        else if (c.includes('remark') || c.includes('note')) col.remark = idx;
-      });
-      break;
-    }
-  }
-
-  // Fallback: if no header found, guess columns
-  if (hdrIdx < 0) {
-    // find first row where col 0 looks like a date/number
-    for (let i = 0; i < grid.length; i++) {
-      if (grid[i][0] && /^\d/.test(grid[i][0].trim())) {
-        hdrIdx = i - 1;
-        col = { date: 0, sales: 1, expense: 2, salary: 3, po: 4 };
+  // Fallback: if no header detected, try row scanning
+  if (col.date < 0) {
+    // Try to find header row inside the data rows
+    for (let ri = 0; ri < Math.min(rows.length, 8); ri++) {
+      const cells = (rows[ri].c || []).map(c => c ? String(c.v || c.f || '').toLowerCase() : '');
+      const di = cells.findIndex(c => c.includes('date') || c === 'day' || c.startsWith('sl'));
+      if (di >= 0) {
+        col.date = di;
+        cells.forEach((c, i) => {
+          if (i === di) return;
+          if (col.sales < 0 && (c.includes('sale') || c.includes('revenue') || c.includes('total'))) col.sales = i;
+          if (c.includes('expense') && !c.includes('sal')) col.expense = i;
+          if (c.includes('salar') || c.includes('staff')) col.salary = i;
+          if (c.includes('purchase') || c === 'po' || c.includes('material')) col.po = i;
+        });
+        // Remove this row from data rows (it's a header)
+        rows.splice(ri, 1);
         break;
       }
     }
   }
-  if (hdrIdx < 0) return null;
 
-  const rows = [];
-  for (let i = hdrIdx + 1; i < grid.length; i++) {
-    const r = grid[i];
-    if (!r || !r[col.date ?? 0]) continue;
-    const dv = r[col.date ?? 0].trim();
-    if (!dv || /total|sum|grand|average|avg/i.test(dv) || dv === '') continue;
-
-    rows.push({
-      date:     fmtDate(dv),
-      sales:    pn(r[col.sales]),
-      expenses: pn(r[col.expense]),
-      salary:   pn(r[col.salary]),
-      po:       pn(r[col.po]),
-      remark:   col.remark != null ? (r[col.remark] || '') : ''
-    });
+  // If still no column mapping, use positional fallback
+  if (col.date < 0 && cols.length >= 2) {
+    col = { date: 0, sales: 1, expense: 2, salary: 3, po: 4 };
   }
 
-  return { label, rows };
+  // Detect month label
+  const label = detectLabel(rows, cols, gid);
+
+  // Parse data rows
+  const parsed = [];
+  for (const row of rows) {
+    const c = row.c || [];
+    const getV = (idx) => {
+      if (idx < 0 || idx >= c.length || !c[idx]) return null;
+      return c[idx].v != null ? c[idx].v : (c[idx].f || null);
+    };
+
+    const dv = getV(col.date);
+    if (dv == null) continue;
+    const ds = String(dv).trim();
+    if (!ds || /total|sum|grand|avg|average/i.test(ds)) continue;
+
+    const sales    = pn(getV(col.sales));
+    const expenses = pn(getV(col.expense));
+    const salary   = pn(getV(col.salary));
+    const po       = pn(getV(col.po));
+
+    // Skip completely empty rows
+    if (sales === 0 && expenses === 0 && salary === 0 && po === 0 && !isDateLike(ds)) continue;
+
+    parsed.push({ date: fmtDate(ds), sales, expenses, salary, po });
+  }
+
+  if (parsed.length === 0) return null;
+  return { label, rows: parsed };
 }
 
-function detectLabel(grid, gid) {
+function detectLabel(rows, cols, gid) {
   const months = ['january','february','march','april','may','june','july','august','september','october','november','december'];
-  for (let i = 0; i < Math.min(4, grid.length); i++) {
-    for (const cell of grid[i]) {
-      if (!cell) continue;
-      const lo = cell.toLowerCase();
+  // Check column headers first
+  for (const col of cols) {
+    const t = (col.label || '').toLowerCase();
+    const m = months.find(x => t.includes(x));
+    if (m) {
+      const yr = (col.label.match(/\d{4}/) || [new Date().getFullYear()])[0];
+      return cap(m) + ' ' + yr;
+    }
+  }
+  // Check first few cell values
+  for (let ri = 0; ri < Math.min(rows.length, 5); ri++) {
+    const cells = (rows[ri].c || []);
+    for (const cell of cells) {
+      const v = cell ? String(cell.v || cell.f || '') : '';
+      const lo = v.toLowerCase();
       const m = months.find(x => lo.includes(x));
       if (m) {
-        const yr = (cell.match(/\d{4}/) || [new Date().getFullYear()])[0];
-        return m[0].toUpperCase() + m.slice(1) + ' ' + yr;
+        const yr = (v.match(/\d{4}/) || [new Date().getFullYear()])[0];
+        return cap(m) + ' ' + yr;
       }
     }
   }
-  const d = new Date(); d.setMonth(d.getMonth() - gid);
+  // Fallback by gid offset
+  const d = new Date();
+  d.setMonth(d.getMonth() - gid);
   return d.toLocaleString('default',{month:'long',year:'numeric'});
 }
 
-function csvLine(line) {
-  const res = []; let cur = '', inQ = false;
-  for (const ch of line) {
-    if (ch === '"') inQ = !inQ;
-    else if (ch === ',' && !inQ) { res.push(cur.trim()); cur = ''; }
-    else cur += ch;
-  }
-  res.push(cur.trim());
-  return res;
-}
+function cap(s){ return s[0].toUpperCase() + s.slice(1); }
 
 function pn(v) {
   if (v == null) return 0;
@@ -322,21 +305,30 @@ function pn(v) {
   return isNaN(n) ? 0 : n;
 }
 
+function isDateLike(s) {
+  return /\d{1,2}[-\/]\d{1,2}/.test(s) || /^\d{1,2}$/.test(s.trim());
+}
+
 function fmtDate(s) {
-  s = s.trim();
-  const m = s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{2,4})$/);
-  if (m) {
-    const y = m[3].length === 2 ? '20'+m[3] : m[3];
-    return `${m[1].padStart(2,'0')}/${m[2].padStart(2,'0')}/${y}`;
-  }
+  s = String(s).trim();
+  // Handle Google's Date(year,month,day) format
+  const gd = s.match(/^Date\((\d+),(\d+),(\d+)\)$/);
+  if (gd) return `${String(+gd[3]).padStart(2,'0')}/${String(+gd[2]+1).padStart(2,'0')}/${gd[1]}`;
+  // Handle ISO date
+  const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
+  // Handle dd/mm/yyyy or dd-mm-yyyy
+  const dmy = s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{2,4})$/);
+  if (dmy) return `${dmy[1].padStart(2,'0')}/${dmy[2].padStart(2,'0')}/${dmy[3].length===2?'20'+dmy[3]:dmy[3]}`;
   return s;
 }
 
-// ── Tabs ──────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// UI
+// ─────────────────────────────────────────────────────────────
 function buildTabs() {
   const el = document.getElementById('tabs');
-  el.innerHTML = '';
-  el.style.display = 'flex';
+  el.innerHTML = ''; el.style.display = 'flex';
   Object.keys(DB).forEach(m => {
     const b = document.createElement('button');
     b.className = 'tab' + (m === activeMonth ? ' active' : '');
@@ -346,17 +338,15 @@ function buildTabs() {
   });
 }
 
-// ── Render Month ──────────────────────────────────────────────
 function renderMonth(month) {
   const rows = DB[month];
   Object.values(charts).forEach(c => c.destroy()); charts = {};
 
-  const tS = rows.reduce((a,r)=>a+r.sales,0);
-  const tE = rows.reduce((a,r)=>a+r.expenses,0);
+  const tS   = rows.reduce((a,r)=>a+r.sales,0);
+  const tE   = rows.reduce((a,r)=>a+r.expenses,0);
   const tSal = rows.reduce((a,r)=>a+r.salary,0);
-  const tPO = rows.reduce((a,r)=>a+r.po,0);
-  const tCost = tE + tSal + tPO;
-  const profit = tS - tCost;
+  const tPO  = rows.reduce((a,r)=>a+r.po,0);
+  const profit = tS - tE - tSal - tPO;
   const margin = tS > 0 ? ((profit/tS)*100).toFixed(1) : 0;
   const activeDays = rows.filter(r=>r.sales>0).length;
 
@@ -364,23 +354,23 @@ function renderMonth(month) {
   <div class="kpi-grid">
     <div class="kpi s"><div class="kpi-lbl">Total Sales</div><div class="kpi-val">₹${F(tS)}</div><div class="kpi-sub">${activeDays} active days</div></div>
     <div class="kpi e"><div class="kpi-lbl">Expenses</div><div class="kpi-val">₹${F(tE)}</div><div class="kpi-sub">${tS?pc(tE,tS):0}% of sales</div></div>
-    <div class="kpi sal"><div class="kpi-lbl">Salary</div><div class="kpi-val">₹${F(tSal)}</div><div class="kpi-sub">${tS?pc(tSal,tS):0}% of sales</div></div>
+    <div class="kpi sl"><div class="kpi-lbl">Salary</div><div class="kpi-val">₹${F(tSal)}</div><div class="kpi-sub">${tS?pc(tSal,tS):0}% of sales</div></div>
     <div class="kpi po"><div class="kpi-lbl">Purchase Orders</div><div class="kpi-val">₹${F(tPO)}</div><div class="kpi-sub">${tS?pc(tPO,tS):0}% of sales</div></div>
-    <div class="kpi p"><div class="kpi-lbl">Net Profit</div>
+    <div class="kpi pr"><div class="kpi-lbl">Net Profit</div>
       <div class="kpi-val" style="color:${profit>=0?'var(--green)':'var(--red)'}">₹${F(profit)}</div>
-      <div class="kpi-sub" style="color:${profit>=0?'var(--green)':'var(--red);font-weight:600'}">${margin}% margin</div>
+      <div class="kpi-sub" style="color:${profit>=0?'var(--green)':'var(--red)'}; font-weight:600">${margin}% margin</div>
     </div>
   </div>
 
   <div class="charts">
-    <div class="chart-card wide"><div class="chart-lbl">Daily Sales vs Costs</div><div class="chart-wrap" style="height:255px"><canvas id="cBar"></canvas></div></div>
-    <div class="chart-card"><div class="chart-lbl">Sales Trend</div><div class="chart-wrap" style="height:215px"><canvas id="cLine"></canvas></div></div>
-    <div class="chart-card"><div class="chart-lbl">Cost Breakdown</div><div class="chart-wrap" style="height:215px"><canvas id="cPie"></canvas></div></div>
+    <div class="cc wide"><div class="cc-lbl">Daily Sales vs Costs</div><div style="position:relative;height:250px"><canvas id="cBar"></canvas></div></div>
+    <div class="cc"><div class="cc-lbl">Sales Trend</div><div style="position:relative;height:210px"><canvas id="cLine"></canvas></div></div>
+    <div class="cc"><div class="cc-lbl">Cost Breakdown</div><div style="position:relative;height:210px"><canvas id="cPie"></canvas></div></div>
   </div>
 
-  <div class="tbl-card">
-    <div class="tbl-head">Daily Entries — ${month}</div>
-    <div class="tbl-wrap">
+  <div class="tc">
+    <div class="th">Daily Entries — ${month}</div>
+    <div class="tw">
       <table>
         <thead><tr>
           <th>Date</th>
@@ -400,7 +390,6 @@ function renderMonth(month) {
     </div>
   </div>`;
 
-  // Table rows
   const tb = document.getElementById('tbody');
   rows.forEach(r => {
     const net = r.sales - r.expenses - r.salary - r.po;
@@ -420,55 +409,48 @@ function renderMonth(month) {
 
 function drawCharts(rows, tS, tE, tSal, tPO, profit) {
   const labels = rows.map(r => r.date.split('/')[0]);
-  const gc = (id) => document.getElementById(id);
-  const tickCfg = { color:'#8a7d6a', font:{family:'Outfit',size:10} };
-  const gridCfg = { color:'rgba(61,53,40,0.7)' };
-  const legCfg  = { labels:{ color:'#8a7d6a', font:{family:'Outfit',size:10}, boxWidth:10 } };
+  const tk = { color:'#8a7d6a', font:{family:'Outfit',size:10} };
+  const gr = { color:'rgba(61,53,40,.7)' };
+  const lg = { labels:{ color:'#8a7d6a', font:{family:'Outfit',size:10}, boxWidth:10 } };
 
-  // Bar
-  charts.bar = new Chart(gc('cBar'), {
+  charts.bar = new Chart(document.getElementById('cBar'), {
     type:'bar',
     data:{ labels, datasets:[
-      {label:'Sales',    data:rows.map(r=>r.sales),    backgroundColor:'rgba(201,168,76,.78)', borderRadius:3},
-      {label:'Expenses', data:rows.map(r=>r.expenses), backgroundColor:'rgba(201,107,90,.65)', borderRadius:3},
-      {label:'Salary',   data:rows.map(r=>r.salary),   backgroundColor:'rgba(90,143,201,.55)', borderRadius:3},
-      {label:'PO',       data:rows.map(r=>r.po),       backgroundColor:'rgba(212,136,74,.55)', borderRadius:3},
+      {label:'Sales',    data:rows.map(r=>r.sales),    backgroundColor:'rgba(201,168,76,.8)', borderRadius:3},
+      {label:'Expenses', data:rows.map(r=>r.expenses), backgroundColor:'rgba(201,107,90,.7)', borderRadius:3},
+      {label:'Salary',   data:rows.map(r=>r.salary),   backgroundColor:'rgba(90,143,201,.6)', borderRadius:3},
+      {label:'PO',       data:rows.map(r=>r.po),       backgroundColor:'rgba(212,136,74,.6)', borderRadius:3},
     ]},
     options:{
       responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{...legCfg, position:'top'}},
-      scales:{
-        x:{ticks:tickCfg, grid:gridCfg},
-        y:{ticks:{...tickCfg, callback:v=>'₹'+F(v)}, grid:gridCfg}
-      }
+      plugins:{legend:{...lg, position:'top'}},
+      scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}
     }
   });
 
-  // Line
-  let cum=0, cumData=rows.map(r=>{cum+=r.sales;return cum;});
-  charts.line = new Chart(gc('cLine'), {
+  let cum=0, cumD=rows.map(r=>{cum+=r.sales;return cum;});
+  charts.line = new Chart(document.getElementById('cLine'), {
     type:'line',
     data:{ labels, datasets:[
       {label:'Daily Sales', data:rows.map(r=>r.sales),
         borderColor:'#c9a84c', backgroundColor:'rgba(201,168,76,.1)',
         borderWidth:2, pointRadius:3, fill:true, tension:.35},
-      {label:'Cumulative', data:cumData,
+      {label:'Cumulative', data:cumD,
         borderColor:'#6baa6b', backgroundColor:'transparent',
         borderWidth:1.5, pointRadius:0, borderDash:[4,3], tension:.35, yAxisID:'y2'},
     ]},
     options:{
       responsive:true, maintainAspectRatio:false,
-      plugins:{legend:legCfg},
+      plugins:{legend:lg},
       scales:{
-        x:{ticks:tickCfg, grid:gridCfg},
-        y:{ticks:{...tickCfg, callback:v=>'₹'+F(v)}, grid:gridCfg},
-        y2:{position:'right', ticks:{...tickCfg, color:'#6baa6b', callback:v=>'₹'+F(v)}, grid:{drawOnChartArea:false}}
+        x:{ticks:tk,grid:gr},
+        y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr},
+        y2:{position:'right',ticks:{...tk,color:'#6baa6b',callback:v=>'₹'+F(v)},grid:{drawOnChartArea:false}}
       }
     }
   });
 
-  // Pie
-  charts.pie = new Chart(gc('cPie'), {
+  charts.pie = new Chart(document.getElementById('cPie'), {
     type:'doughnut',
     data:{
       labels:['Expenses','Salary','Purchase Orders','Net Profit'],
@@ -483,7 +465,7 @@ function drawCharts(rows, tS, tE, tSal, tPO, profit) {
       plugins:{
         legend:{position:'bottom', labels:{color:'#8a7d6a', font:{family:'Outfit',size:10}, boxWidth:10, padding:10}},
         tooltip:{callbacks:{label:ctx=>{
-          const pct = tS>0?((ctx.parsed/tS)*100).toFixed(1):0;
+          const pct=tS>0?((ctx.parsed/tS)*100).toFixed(1):0;
           return ` ₹${F(ctx.parsed)} (${pct}%)`;
         }}}
       }
@@ -491,26 +473,19 @@ function drawCharts(rows, tS, tE, tSal, tPO, profit) {
   });
 }
 
-// ── Helpers ───────────────────────────────────────────────────
+// Helpers
 function F(n){ return Math.round(n||0).toLocaleString('en-IN'); }
 function pc(a,b){ return b>0?((a/b)*100).toFixed(1):0; }
+function setDot(cls,txt){
+  const d=document.getElementById('dot');
+  d.className='dot '+cls;
+  document.getElementById('stxt').textContent=txt;
+}
+function showErr(msg){const e=document.getElementById('err-bar');e.textContent='⚠ '+msg;e.style.display='block';}
+function showEmpty(){document.getElementById('main').innerHTML='<div class="state"><div class="ico">📭</div><p>No data found.</p></div>';}
 
-function showLoading(){
-  document.getElementById('main').innerHTML=`<div class="state"><div class="spin"></div><p>Fetching sheet data…</p></div>`;
-}
-function showEmpty(){
-  document.getElementById('main').innerHTML=`<div class="state"><div class="ico">📭</div><p>No data found. Check your URL.</p></div>`;
-}
-function setStatus(txt, col){
-  document.getElementById('status-txt').textContent = txt;
-  document.getElementById('dot').style.background = col;
-}
-function showErr(msg){ const e=document.getElementById('err'); e.textContent='⚠ '+msg; e.style.display='block'; }
-function showInfo(msg){ const e=document.getElementById('info'); e.textContent='ℹ '+msg; e.style.display='block'; }
-function clearMsg(){ document.getElementById('err').style.display='none'; document.getElementById('info').style.display='none'; }
-
-// Auto-load
-window.addEventListener('DOMContentLoaded', loadData);
+// Start
+init();
 </script>
 </body>
 </html>
