@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Skandan Enterprise — Sales Dashboard</title>
+<title>Skandan Enterprise — June 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -14,479 +14,259 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min-height:100vh;}
+
 .hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.hdr h1{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);}
-.hdr p{font-size:.7rem;color:var(--muted);margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
-.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;background:var(--muted);}
-.dot.live{background:var(--green);animation:pulse 2s infinite;}
-.dot.err{background:var(--red);}
-.dot.load{background:var(--amber);}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-#stxt{font-size:.7rem;color:var(--muted);}
-
-/* URL Bar */
-.url-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.url-bar label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;}
-.url-input{flex:1;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:.8rem;outline:none;transition:border .2s;}
-.url-input:focus{border-color:var(--gold);}
-.url-input::placeholder{color:var(--muted);}
-.load-btn{background:var(--gold);color:#1a1612;border:none;border-radius:6px;padding:7px 18px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;}
-.load-btn:hover{background:var(--gold-soft);}
-.url-hint{font-size:.67rem;color:var(--muted);width:100%;}
-
-/* Tabs */
-.tabs{padding:12px 28px 0;display:none;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
-.tab{padding:7px 16px;border-radius:6px 6px 0 0;border:1px solid transparent;border-bottom:none;font-size:.78rem;font-weight:500;cursor:pointer;color:var(--muted);background:transparent;font-family:'Outfit',sans-serif;}
-.tab:hover{color:var(--gold-soft);}
-.tab.active{background:var(--surface);border-color:var(--border);color:var(--gold);border-bottom:1px solid var(--surface);margin-bottom:-1px;}
+.hdr-left h1{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--gold);}
+.hdr-left p{font-size:.68rem;color:var(--muted);margin-top:3px;letter-spacing:.07em;text-transform:uppercase;}
+.badge{background:rgba(107,170,107,.15);border:1px solid var(--green);color:var(--green);font-size:.65rem;padding:4px 10px;border-radius:20px;letter-spacing:.05em;}
 
 .main{padding:22px 28px;}
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:13px;margin-bottom:22px;}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:15px 17px;position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.kpi.s::before{background:var(--gold);}
-.kpi.e::before{background:var(--red);}
-.kpi.sl::before{background:var(--blue);}
-.kpi.po::before{background:var(--amber);}
-.kpi.pr::before{background:var(--green);}
-.kpi-lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px;}
-.kpi-val{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1;}
-.kpi-sub{font-size:.66rem;color:var(--muted);margin-top:5px;}
-.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-bottom:22px;}
-.cc{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:17px;}
+
+/* KPIs */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px;margin-bottom:24px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0;}
+.kpi.cr::before{background:var(--green);}
+.kpi.db::before{background:var(--red);}
+.kpi.bal::before{background:var(--gold);}
+.kpi.ob::before{background:var(--blue);}
+.kpi.ws::before{background:var(--amber);}
+.kpi.net::before{background:var(--green);}
+.kpi-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:8px;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:1.38rem;line-height:1;}
+.kpi-sub{font-size:.64rem;color:var(--muted);margin-top:6px;}
+
+/* Info strip */
+.info-strip{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;}
+.info-pill{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 14px;font-size:.74rem;}
+.info-pill span{color:var(--muted);margin-right:6px;}
+
+/* Charts */
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:24px;}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
 .cc.wide{grid-column:1/-1;}
-.cc-lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:13px;}
-.tc{background:var(--card);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:20px;}
-.th{padding:13px 17px;border-bottom:1px solid var(--border);font-size:.67rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.cc-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
+
+/* Table */
+.tc{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.th{padding:13px 18px;border-bottom:1px solid var(--border);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:flex;justify-content:space-between;align-items:center;}
 .tw{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:.79rem;}
-thead th{background:var(--surface);padding:8px 13px;text-align:left;font-weight:600;font-size:.66rem;color:var(--gold);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+thead th{background:var(--surface);padding:9px 13px;text-align:left;font-weight:600;font-size:.64rem;color:var(--gold);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
 tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:last-child{border-bottom:none;}
 tbody tr:hover{background:rgba(201,168,76,.04);}
 tbody td{padding:8px 13px;white-space:nowrap;}
-tbody td:first-child{color:var(--muted);font-size:.73rem;}
 .tr{text-align:right;font-variant-numeric:tabular-nums;}
 .pos{color:var(--green)!important;}
 .neg{color:var(--red)!important;}
-tfoot td{padding:8px 13px;font-weight:600;color:var(--gold);background:var(--surface);font-size:.77rem;text-align:right;white-space:nowrap;}
+.muted{color:var(--muted);}
+.remark{max-width:260px;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-size:.72rem;}
+tfoot td{padding:9px 13px;font-weight:600;color:var(--gold);background:var(--surface);font-size:.77rem;text-align:right;white-space:nowrap;border-top:1px solid var(--border);}
 tfoot td:first-child{text-align:left;}
-.state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;gap:12px;color:var(--muted);}
-.state .ico{font-size:2.2rem;}
-.state p{font-size:.84rem;text-align:center;max-width:480px;line-height:1.6;}
-.spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.err-bar{background:rgba(201,107,90,.1);border:1px solid var(--red);border-radius:7px;padding:10px 17px;color:var(--red);font-size:.8rem;margin:14px 28px;display:none;}
-.info-bar{background:rgba(201,168,76,.07);border:1px solid var(--gold);border-radius:7px;padding:10px 17px;color:var(--gold-soft);font-size:.8rem;margin:14px 28px;display:none;line-height:1.6;}
-code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:.85em;}
-@media(max-width:600px){.hdr,.main,.tabs,.url-bar{padding-left:14px;padding-right:14px;}.kpi-val{font-size:1.15rem;}}
+
+/* Salary box */
+.salary-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:24px;}
+.salary-box h3{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
+.sal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;}
+.sal-item{background:var(--surface);border-radius:7px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;}
+.sal-name{font-size:.8rem;}
+.sal-amt{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);}
+
+@media(max-width:600px){.main{padding:14px;}.hdr{padding:14px;}}
 </style>
 </head>
 <body>
 
 <div class="hdr">
-  <div>
+  <div class="hdr-left">
     <h1>Skandan Enterprise</h1>
-    <p>CKs Bakery · Sales Dashboard</p>
+    <p>CKs Bakery · Sales &amp; Cash Ledger — June 2026</p>
   </div>
-  <div style="display:flex;align-items:center">
-    <span class="dot load" id="dot"></span>
-    <span id="stxt">Ready</span>
-  </div>
+  <span class="badge">● Live Data</span>
 </div>
 
-<div class="url-bar">
-  <label>Sheet URL</label>
-  <input class="url-input" id="sheetUrl" type="text"
-    placeholder="Paste Google Sheets published URL or edit URL…"
-    value="https://docs.google.com/spreadsheets/d/e/2PACX-1vR8nsoX4Rl3L986s5kDlEerc1ckJHoZHAvQqUjwsy4sYKjZ_4m0almoPbJY3Eh3reHOxwXVU3t-IfBZ/pubhtml"/>
-  <button class="load-btn" onclick="loadFromInput()">Load Data</button>
-  <span class="url-hint">Paste the "Publish to web" URL (File → Share → Publish to web → Web page) — or your normal sheet edit URL</span>
-</div>
+<div class="main">
 
-<div id="err-bar" class="err-bar"></div>
-<div id="info-bar" class="info-bar"></div>
-<div class="tabs" id="tabs"></div>
-<div class="main" id="main">
-  <div class="state"><div class="ico">📊</div><p>Paste your Google Sheet URL above and click <strong style="color:var(--gold)">Load Data</strong>.</p></div>
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi ob"><div class="kpi-lbl">Opening Balance</div><div class="kpi-val">₹22,639</div><div class="kpi-sub">Carried forward</div></div>
+    <div class="kpi cr"><div class="kpi-lbl">Total Credit</div><div class="kpi-val" id="kTotalCredit">—</div><div class="kpi-sub" id="kCreditSub">—</div></div>
+    <div class="kpi db"><div class="kpi-lbl">Total Debit</div><div class="kpi-val" id="kTotalDebit">—</div><div class="kpi-sub" id="kDebitSub">—</div></div>
+    <div class="kpi ws"><div class="kpi-lbl">Total Wastage</div><div class="kpi-val" id="kWastage">—</div><div class="kpi-sub">Across 14 days</div></div>
+    <div class="kpi bal"><div class="kpi-lbl">Closing Balance</div><div class="kpi-val" id="kBalance">—</div><div class="kpi-sub">As of Jun 14</div></div>
+    <div class="kpi net"><div class="kpi-lbl">Net Flow</div><div class="kpi-val" id="kNet">—</div><div class="kpi-sub">Credit − Debit</div></div>
+  </div>
+
+  <!-- Info strip -->
+  <div class="info-strip">
+    <div class="info-pill"><span>Salary — Arokiya</span>₹23,600</div>
+    <div class="info-pill"><span>Salary — Neelavathi</span>₹7,800</div>
+    <div class="info-pill"><span>Salary — Praveen</span>₹6,000</div>
+    <div class="info-pill"><span>Rent</span>₹26,000</div>
+    <div class="info-pill"><span>Total Fixed Costs</span>₹63,400</div>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts">
+    <div class="cc wide"><div class="cc-lbl">Daily Credit vs Debit (₹)</div><div style="position:relative;height:240px"><canvas id="cBar"></canvas></div></div>
+    <div class="cc"><div class="cc-lbl">Cumulative Balance Trend</div><div style="position:relative;height:220px"><canvas id="cLine"></canvas></div></div>
+    <div class="cc"><div class="cc-lbl">Daily Balance (Profit/Loss per day)</div><div style="position:relative;height:220px"><canvas id="cDaily"></canvas></div></div>
+  </div>
+
+  <!-- Salary breakdown -->
+  <div class="salary-box">
+    <h3>Fixed Expenses Breakdown</h3>
+    <div class="sal-grid">
+      <div class="sal-item"><span class="sal-name">Arokiya (Salary)</span><span class="sal-amt">₹23,600</span></div>
+      <div class="sal-item"><span class="sal-name">Neelavathi (Salary)</span><span class="sal-amt">₹7,800</span></div>
+      <div class="sal-item"><span class="sal-name">Praveen (Salary)</span><span class="sal-amt">₹6,000</span></div>
+      <div class="sal-item"><span class="sal-name">Shop Rent</span><span class="sal-amt">₹26,000</span></div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="tc">
+    <div class="th"><span>Daily Ledger — June 2026</span><span style="color:var(--muted);font-size:.7rem">14 active days shown</span></div>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Remark</th>
+            <th style="text-align:right">Credit Online</th>
+            <th style="text-align:right">Credit Cash</th>
+            <th style="text-align:right">Total Credit</th>
+            <th style="text-align:right">Debit Online</th>
+            <th style="text-align:right">Debit Cash</th>
+            <th style="text-align:right">Total Debit</th>
+            <th style="text-align:right">Daily Balance</th>
+            <th style="text-align:right">Cumulative</th>
+            <th style="text-align:right">Wastage</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+        <tfoot id="tfoot"></tfoot>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <script>
-// ── Determine the best API strategy from any Google Sheets URL ──
-function parseSheetUrl(raw) {
-  raw = raw.trim();
-  // Published /e/ format  → use pubhtml iframe parse + CSV
-  const pubMatch = raw.match(/spreadsheets\/d\/e\/([^\/]+)/);
-  if (pubMatch) return { type:'pub', id: pubMatch[1] };
-  // Normal /d/ edit URL → use gviz directly
-  const editMatch = raw.match(/spreadsheets\/d\/([^\/]+)/);
-  if (editMatch) return { type:'edit', id: editMatch[1] };
-  return null;
-}
+const DATA = [
+  {date:'01-Jun',remark:'Stock topup 15k, 10k to raj kumar anna, photoprint, special cake essentials',crOnline:10674,crCash:950,totCr:11624,dbOnline:25600,dbCash:0,totDb:25600,daily:8663,cumul:8663,waste:535},
+  {date:'02-Jun',remark:'Two photoprint, chocolate for cake, topper',crOnline:8054,crCash:120,totCr:8174,dbOnline:810,dbCash:0,totDb:810,daily:7364,cumul:16027,waste:380},
+  {date:'03-Jun',remark:'Photoprint, salary for arokiya, 2k to raj kumar anna, received 10k',crOnline:13149,crCash:890,totCr:14039,dbOnline:26400,dbCash:0,totDb:26400,daily:-12361,cumul:3666,waste:438},
+  {date:'04-Jun',remark:'—',crOnline:1835,crCash:500,totCr:2335,dbOnline:480,dbCash:0,totDb:480,daily:1855,cumul:5521,waste:1322},
+  {date:'05-Jun',remark:'—',crOnline:5289,crCash:3060,totCr:8349,dbOnline:671,dbCash:120,totDb:791,daily:7558,cumul:13079,waste:242},
+  {date:'06-Jun',remark:'Salary to neelavathi 7800, cake topper, porter',crOnline:7982,crCash:110,totCr:8092,dbOnline:5925,dbCash:2160,totDb:8085,daily:7,cumul:13086,waste:890},
+  {date:'07-Jun',remark:'Vegetable',crOnline:11884,crCash:0,totCr:11884,dbOnline:6,dbCash:70,totDb:76,daily:11808,cumul:24894,waste:510},
+  {date:'08-Jun',remark:'Porter, customer refund for half kg, rental amount paid 26k',crOnline:7361,crCash:440,totCr:7801,dbOnline:27166,dbCash:0,totDb:27166,daily:-19365,cumul:5529,waste:260},
+  {date:'09-Jun',remark:'Stock purchase, EDC machine rent, Banner print',crOnline:10783,crCash:0,totCr:10783,dbOnline:15847,dbCash:0,totDb:15847,daily:-5064,cumul:465,waste:1100},
+  {date:'10-Jun',remark:'Zepto, vegetable, petrol, porter, topper, shop water tank cleaning 660',crOnline:5124,crCash:100,totCr:5224,dbOnline:1790,dbCash:0,totDb:1790,daily:3434,cumul:3899,waste:160},
+  {date:'11-Jun',remark:'Customer return, special cake equipments, porter, Karthick sir order 701 pending',crOnline:5540,crCash:4465,totCr:10005,dbOnline:992,dbCash:0,totDb:992,daily:9013,cumul:12912,waste:415},
+  {date:'12-Jun',remark:'Received 12k from maikandan sir, 2 cake photoprint, offer board, stock topup, water, tape',crOnline:24355,crCash:470,totCr:24825,dbOnline:21937,dbCash:0,totDb:21937,daily:2888,cumul:15800,waste:465},
+  {date:'13-Jun',remark:'6k transferred, special cake essentials, two photosheet print, PO unlock 11k',crOnline:8294,crCash:1570,totCr:9864,dbOnline:18457,dbCash:0,totDb:18457,daily:-8593,cumul:7207,waste:0},
+  {date:'14-Jun',remark:'2 photo sheet print, butterfly cake essential',crOnline:7284,crCash:2700,totCr:9984,dbOnline:648,dbCash:0,totDb:648,daily:9336,cumul:16543,waste:369},
+];
 
-let DB = {}, activeMonth = '', charts = {};
-
-function loadFromInput() {
-  const raw = document.getElementById('sheetUrl').value;
-  const parsed = parseSheetUrl(raw);
-  if (!parsed) { showErr('Could not read a Sheet ID from that URL.'); return; }
-  hideErr(); hideInfo();
-  if (parsed.type === 'pub') {
-    loadViaCsv(parsed.id);
-  } else {
-    loadViaGviz(parsed.id);
-  }
-}
-
-// ════════════════════════════════════════════
-// STRATEGY A: Published /e/ URL → fetch CSV per gid
-// ════════════════════════════════════════════
-async function loadViaCsv(pubId) {
-  setDot('load','Loading…');
-  DB = {};
-  setMain('<div class="state"><div class="spin"></div><p>Fetching sheet data via CSV…</p></div>');
-  document.getElementById('tabs').style.display = 'none';
-
-  // Try gid 0 to 15
-  const gids = Array.from({length:16},(_,i)=>i);
-  const results = await Promise.allSettled(gids.map(g => fetchCsv(pubId, g)));
-
-  results.forEach((r,i) => {
-    if (r.status==='fulfilled' && r.value) {
-      const {label, rows} = r.value;
-      if (rows.length > 0) DB[label] = rows;
-    }
-  });
-
-  finalize('csv', pubId);
-}
-
-function fetchCsv(pubId, gid) {
-  return new Promise(async (resolve) => {
-    try {
-      const url = `https://docs.google.com/spreadsheets/d/e/${pubId}/pub?output=csv&gid=${gid}`;
-      const resp = await fetch(url, {signal: AbortSignal.timeout(8000)});
-      if (!resp.ok) { resolve(null); return; }
-      const text = await resp.text();
-      if (!text || text.trim().length < 5) { resolve(null); return; }
-      resolve(parseCsv(text, gid));
-    } catch(e) { resolve(null); }
-  });
-}
-
-function parseCsv(text, gid) {
-  // Simple CSV parser
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-  if (lines.length < 2) return null;
-
-  // Parse rows
-  const allRows = lines.map(line => {
-    const cols = [];
-    let cur = '', inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"') { inQ = !inQ; }
-      else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
-      else { cur += ch; }
-    }
-    cols.push(cur.trim());
-    return cols;
-  });
-
-  if (allRows.length === 0) return null;
-
-  // Find header row (first row with text content)
-  let headerIdx = 0;
-  let headerRow = allRows[0].map(h => h.toLowerCase().replace(/['"]/g,'').trim());
-
-  // If first row looks like a title (single non-empty cell), skip it
-  const nonEmpty = allRows[0].filter(c => c.trim() !== '');
-  if (nonEmpty.length === 1 && allRows.length > 1) {
-    headerIdx = 1;
-    headerRow = allRows[1].map(h => h.toLowerCase().replace(/['"]/g,'').trim());
-  }
-
-  // Detect columns
-  let col = {date:-1, sales:-1, expense:-1, salary:-1, po:-1};
-  headerRow.forEach((h,i) => {
-    if (col.date<0 && (h.includes('date')||h==='day'||h.startsWith('sl')||h==='no'||h.includes('s.no'))) col.date=i;
-    if (col.sales<0 && (h.includes('sale')||h.includes('revenue')||h.includes('income')||h==='total'||h.includes('cash'))) col.sales=i;
-    if (col.expense<0 && (h.includes('expense')||h.includes('exp')) && !h.includes('salar')) col.expense=i;
-    if (col.salary<0 && (h.includes('salar')||h.includes('staff')||h.includes('wage'))) col.salary=i;
-    if (col.po<0 && (h.includes('purchase')||h==='po'||h.includes('p.o')||h.includes('order')||h.includes('material')||h.includes('stock'))) col.po=i;
-  });
-
-  // Positional fallback
-  if (col.date<0 && headerRow.length>=2) {
-    col = {date:0, sales:1, expense:headerRow.length>2?2:-1, salary:headerRow.length>3?3:-1, po:headerRow.length>4?4:-1};
-  }
-  if (col.date<0) return null;
-
-  // Detect label from title row or header
-  const label = detectLabelFromRows(allRows, headerIdx, gid);
-
-  // Parse data rows
-  const dataRows = allRows.slice(headerIdx + 1);
-  const parsed = [];
-  for (const row of dataRows) {
-    if (row.length === 0) continue;
-    const getC = (i) => i>=0 && i<row.length ? row[i].replace(/['"]/g,'').trim() : '';
-    const dv = getC(col.date);
-    if (!dv || /total|sum|grand|avg/i.test(dv)) continue;
-    const sales    = pn(getC(col.sales));
-    const expenses = pn(getC(col.expense));
-    const salary   = pn(getC(col.salary));
-    const po       = pn(getC(col.po));
-    if (!dv && sales===0 && expenses===0 && salary===0 && po===0) continue;
-    parsed.push({date: fmtDate(dv), sales, expenses, salary, po});
-  }
-
-  if (parsed.length === 0) return null;
-  return {label, rows: parsed};
-}
-
-function detectLabelFromRows(allRows, headerIdx, gid) {
-  const months=['january','february','march','april','may','june','july','august','september','october','november','december'];
-  // Check title row (row before header)
-  if (headerIdx > 0) {
-    for (const cell of allRows[0]) {
-      const lo = cell.toLowerCase();
-      const m = months.find(x=>lo.includes(x));
-      if (m) {
-        const yr=(cell.match(/\d{4}/)||[new Date().getFullYear()])[0];
-        return cap(m)+' '+yr;
-      }
-    }
-  }
-  // Check header row
-  for (const cell of (allRows[headerIdx]||[])) {
-    const lo = cell.toLowerCase();
-    const m = months.find(x=>lo.includes(x));
-    if (m) {
-      const yr=(cell.match(/\d{4}/)||[new Date().getFullYear()])[0];
-      return cap(m)+' '+yr;
-    }
-  }
-  // Fallback
-  const d = new Date();
-  d.setMonth(d.getMonth() - gid);
-  return d.toLocaleString('default',{month:'long',year:'numeric'});
-}
-
-// ════════════════════════════════════════════
-// STRATEGY B: Normal /d/ URL → gviz JSONP
-// ════════════════════════════════════════════
-async function loadViaGviz(docId) {
-  setDot('load','Loading…');
-  DB = {};
-  setMain('<div class="state"><div class="spin"></div><p>Fetching sheet data…</p></div>');
-  document.getElementById('tabs').style.display = 'none';
-
-  const gids = Array.from({length:16},(_,i)=>i);
-  const results = await Promise.allSettled(gids.map(g => fetchGviz(docId, g)));
-  results.forEach(r => {
-    if (r.status==='fulfilled' && r.value) {
-      const {label,rows}=r.value;
-      if (rows.length>0) DB[label]=rows;
-    }
-  });
-
-  finalize('gviz', docId);
-}
-
-function fetchGviz(docId, gid) {
-  return new Promise((resolve) => {
-    const cb = '__gviz_'+gid+'_'+Date.now();
-    const url = `https://docs.google.com/spreadsheets/d/${docId}/gviz/tq?tqx=out:json&tq=select+*&gid=${gid}&cb=${cb}`;
-    const timer = setTimeout(()=>{cleanup();resolve(null);},10000);
-    window[cb] = (data)=>{cleanup();try{resolve(parseGviz(data,gid));}catch(e){resolve(null);}};
-    function cleanup(){clearTimeout(timer);delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);}
-    const s=document.createElement('script');
-    s.onerror=()=>{cleanup();resolve(null);};
-    s.src=url; document.head.appendChild(s);
-  });
-}
-
-function parseGviz(data,gid){
-  if(!data||!data.table)return null;
-  const{cols,rows}=data.table;
-  if(!cols||!rows||rows.length===0)return null;
-  const headers=cols.map(c=>(c.label||c.id||'').toLowerCase().trim());
-  let col={date:-1,sales:-1,expense:-1,salary:-1,po:-1};
-  headers.forEach((h,i)=>{
-    if(col.date<0&&(h.includes('date')||h==='day'||h.startsWith('sl')||h==='no'))col.date=i;
-    if(col.sales<0&&(h.includes('sale')||h.includes('revenue')||h.includes('total')))col.sales=i;
-    if(col.expense<0&&h.includes('expense')&&!h.includes('sal'))col.expense=i;
-    if(col.salary<0&&(h.includes('salar')||h.includes('staff')))col.salary=i;
-    if(col.po<0&&(h.includes('purchase')||h==='po'||h.includes('order')))col.po=i;
-  });
-  if(col.date<0&&cols.length>=2)col={date:0,sales:1,expense:2,salary:3,po:4};
-  const label=detectLabelGviz(rows,cols,gid);
-  const parsed=[];
-  for(const row of rows){
-    const c=row.c||[];
-    const gv=(i)=>{if(i<0||i>=c.length||!c[i])return null;return c[i].v!=null?c[i].v:(c[i].f||null);};
-    const dv=gv(col.date);if(dv==null)continue;
-    const ds=String(dv).trim();
-    if(!ds||/total|sum|grand/i.test(ds))continue;
-    parsed.push({date:fmtDate(ds),sales:pn(gv(col.sales)),expenses:pn(gv(col.expense)),salary:pn(gv(col.salary)),po:pn(gv(col.po))});
-  }
-  if(parsed.length===0)return null;
-  return{label,rows:parsed};
-}
-
-function detectLabelGviz(rows,cols,gid){
-  const months=['january','february','march','april','may','june','july','august','september','october','november','december'];
-  for(const col of cols){const t=(col.label||'').toLowerCase();const m=months.find(x=>t.includes(x));if(m){const yr=(col.label.match(/\d{4}/)||[new Date().getFullYear()])[0];return cap(m)+' '+yr;}}
-  for(let ri=0;ri<Math.min(rows.length,5);ri++){for(const cell of(rows[ri].c||[])){const v=cell?String(cell.v||cell.f||''):'';const lo=v.toLowerCase();const m=months.find(x=>lo.includes(x));if(m){const yr=(v.match(/\d{4}/)||[new Date().getFullYear()])[0];return cap(m)+' '+yr;}}}
-  const d=new Date();d.setMonth(d.getMonth()-gid);return d.toLocaleString('default',{month:'long',year:'numeric'});
-}
-
-// ════════════════════════════════════════════
-// FINALIZE — after data loaded
-// ════════════════════════════════════════════
-function finalize(method, id) {
-  if(Object.keys(DB).length===0){
-    setDot('err','Failed');
-    if(method==='csv'){
-      showInfo(`<strong>Could not load data via CSV.</strong><br>
-      Please also try pasting your <strong>normal sheet edit URL</strong> (the URL you see when you open the sheet in Google Sheets — looks like <code>https://docs.google.com/spreadsheets/d/XXXXXXXX/edit</code>) into the URL field and click Load Data again.<br><br>
-      Also confirm: <strong>File → Share → Publish to web → Entire Document → Web page → Publish</strong> is done.`);
-    } else {
-      showErr('No data found. Make sure the sheet is published (File → Share → Publish to web).');
-    }
-    setMain('<div class="state"><div class="ico">📭</div><p>No data loaded. See instructions above.</p></div>');
-    return;
-  }
-
-  const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const sorted=Object.keys(DB).sort((a,b)=>{
-    const[ma,ya]=a.split(' '),[mb,yb]=b.split(' ');
-    if(!ya||!yb)return 0;
-    return ya!==yb?+ya-+yb:MO.indexOf(ma)-MO.indexOf(mb);
-  });
-  const ordered={};sorted.forEach(k=>ordered[k]=DB[k]);DB=ordered;
-  activeMonth=sorted[sorted.length-1];
-  setDot('live','Live · '+new Date().toLocaleTimeString());
-  buildTabs();renderMonth(activeMonth);
-}
-
-// ════════════════════════════════════════════
-// UI
-// ════════════════════════════════════════════
-function buildTabs(){
-  const el=document.getElementById('tabs');
-  el.innerHTML='';el.style.display='flex';
-  Object.keys(DB).forEach(m=>{
-    const b=document.createElement('button');
-    b.className='tab'+(m===activeMonth?' active':'');
-    b.textContent=m;
-    b.onclick=()=>{activeMonth=m;buildTabs();renderMonth(m);};
-    el.appendChild(b);
-  });
-}
-
-function renderMonth(month){
-  const rows=DB[month];
-  Object.values(charts).forEach(c=>c.destroy());charts={};
-  const tS=rows.reduce((a,r)=>a+r.sales,0);
-  const tE=rows.reduce((a,r)=>a+r.expenses,0);
-  const tSal=rows.reduce((a,r)=>a+r.salary,0);
-  const tPO=rows.reduce((a,r)=>a+r.po,0);
-  const profit=tS-tE-tSal-tPO;
-  const margin=tS>0?((profit/tS)*100).toFixed(1):0;
-  const activeDays=rows.filter(r=>r.sales>0).length;
-
-  setMain(`
-  <div class="kpi-grid">
-    <div class="kpi s"><div class="kpi-lbl">Total Sales</div><div class="kpi-val">₹${F(tS)}</div><div class="kpi-sub">${activeDays} active days</div></div>
-    <div class="kpi e"><div class="kpi-lbl">Expenses</div><div class="kpi-val">₹${F(tE)}</div><div class="kpi-sub">${tS?pc(tE,tS):0}% of sales</div></div>
-    <div class="kpi sl"><div class="kpi-lbl">Salary</div><div class="kpi-val">₹${F(tSal)}</div><div class="kpi-sub">${tS?pc(tSal,tS):0}% of sales</div></div>
-    <div class="kpi po"><div class="kpi-lbl">Purchase Orders</div><div class="kpi-val">₹${F(tPO)}</div><div class="kpi-sub">${tS?pc(tPO,tS):0}% of sales</div></div>
-    <div class="kpi pr"><div class="kpi-lbl">Net Profit</div>
-      <div class="kpi-val" style="color:${profit>=0?'var(--green)':'var(--red)'}">₹${F(profit)}</div>
-      <div class="kpi-sub" style="color:${profit>=0?'var(--green)':'var(--red)'};font-weight:600">${margin}% margin</div>
-    </div>
-  </div>
-  <div class="charts">
-    <div class="cc wide"><div class="cc-lbl">Daily Sales vs Costs</div><div style="position:relative;height:250px"><canvas id="cBar"></canvas></div></div>
-    <div class="cc"><div class="cc-lbl">Sales Trend</div><div style="position:relative;height:210px"><canvas id="cLine"></canvas></div></div>
-    <div class="cc"><div class="cc-lbl">Cost Breakdown</div><div style="position:relative;height:210px"><canvas id="cPie"></canvas></div></div>
-  </div>
-  <div class="tc">
-    <div class="th">Daily Entries — ${month}</div>
-    <div class="tw">
-      <table>
-        <thead><tr>
-          <th>Date</th><th style="text-align:right">Sales ₹</th><th style="text-align:right">Expenses ₹</th>
-          <th style="text-align:right">Salary ₹</th><th style="text-align:right">PO ₹</th><th style="text-align:right">Net ₹</th>
-        </tr></thead>
-        <tbody id="tbody"></tbody>
-        <tfoot><tr>
-          <td>TOTAL</td><td>₹${F(tS)}</td><td>₹${F(tE)}</td><td>₹${F(tSal)}</td><td>₹${F(tPO)}</td>
-          <td style="color:${profit>=0?'var(--green)':'var(--red)'}">₹${F(profit)}</td>
-        </tr></tfoot>
-      </table>
-    </div>
-  </div>`);
-
-  const tb=document.getElementById('tbody');
-  rows.forEach(r=>{
-    const net=r.sales-r.expenses-r.salary-r.po;
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${r.date}</td>
-      <td class="tr">${r.sales?F(r.sales):'—'}</td>
-      <td class="tr">${r.expenses?F(r.expenses):'—'}</td>
-      <td class="tr">${r.salary?F(r.salary):'—'}</td>
-      <td class="tr">${r.po?F(r.po):'—'}</td>
-      <td class="tr ${r.sales?(net>=0?'pos':'neg'):''}">${r.sales?F(net):'—'}</td>`;
-    tb.appendChild(tr);
-  });
-  requestAnimationFrame(()=>drawCharts(rows,tS,tE,tSal,tPO,profit));
-}
-
-function drawCharts(rows,tS,tE,tSal,tPO,profit){
-  const labels=rows.map(r=>r.date.split('/')[0]);
-  const tk={color:'#8a7d6a',font:{family:'Outfit',size:10}};
-  const gr={color:'rgba(61,53,40,.7)'};
-  const lg={labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}};
-  charts.bar=new Chart(document.getElementById('cBar'),{type:'bar',data:{labels,datasets:[
-    {label:'Sales',data:rows.map(r=>r.sales),backgroundColor:'rgba(201,168,76,.8)',borderRadius:3},
-    {label:'Expenses',data:rows.map(r=>r.expenses),backgroundColor:'rgba(201,107,90,.7)',borderRadius:3},
-    {label:'Salary',data:rows.map(r=>r.salary),backgroundColor:'rgba(90,143,201,.6)',borderRadius:3},
-    {label:'PO',data:rows.map(r=>r.po),backgroundColor:'rgba(212,136,74,.6)',borderRadius:3},
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{...lg,position:'top'}},scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}});
-  let cum=0,cumD=rows.map(r=>{cum+=r.sales;return cum;});
-  charts.line=new Chart(document.getElementById('cLine'),{type:'line',data:{labels,datasets:[
-    {label:'Daily Sales',data:rows.map(r=>r.sales),borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.1)',borderWidth:2,pointRadius:3,fill:true,tension:.35},
-    {label:'Cumulative',data:cumD,borderColor:'#6baa6b',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:.35,yAxisID:'y2'},
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:lg},scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr},y2:{position:'right',ticks:{...tk,color:'#6baa6b',callback:v=>'₹'+F(v)},grid:{drawOnChartArea:false}}}}});
-  charts.pie=new Chart(document.getElementById('cPie'),{type:'doughnut',data:{labels:['Expenses','Salary','PO','Net Profit'],datasets:[{data:[tE,tSal,tPO,Math.max(0,profit)],backgroundColor:['rgba(201,107,90,.8)','rgba(90,143,201,.8)','rgba(212,136,74,.8)','rgba(107,170,107,.8)'],borderColor:'#2d2820',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10,padding:10}},tooltip:{callbacks:{label:ctx=>{const pct=tS>0?((ctx.parsed/tS)*100).toFixed(1):0;return ` ₹${F(ctx.parsed)} (${pct}%)`;}}}}}});
-}
-
-// ─── Helpers ───
 function F(n){return Math.round(n||0).toLocaleString('en-IN');}
-function pc(a,b){return b>0?((a/b)*100).toFixed(1):0;}
-function cap(s){return s[0].toUpperCase()+s.slice(1);}
-function pn(v){if(v==null||v==='')return 0;const n=parseFloat(String(v).replace(/[₹,\s]/g,''));return isNaN(n)?0:n;}
-function fmtDate(s){
-  s=String(s).trim();
-  const gd=s.match(/^Date\((\d+),(\d+),(\d+)\)$/);
-  if(gd)return`${String(+gd[3]).padStart(2,'0')}/${String(+gd[2]+1).padStart(2,'0')}/${gd[1]}`;
-  const iso=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(iso)return`${iso[3]}/${iso[2]}/${iso[1]}`;
-  const dmy=s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{2,4})$/);
-  if(dmy)return`${dmy[1].padStart(2,'0')}/${dmy[2].padStart(2,'0')}/${dmy[3].length===2?'20'+dmy[3]:dmy[3]}`;
-  return s;
-}
-function setDot(cls,txt){document.getElementById('dot').className='dot '+cls;document.getElementById('stxt').textContent=txt;}
-function setMain(html){document.getElementById('main').innerHTML=html;}
-function showErr(msg){const e=document.getElementById('err-bar');e.innerHTML='⚠ '+msg;e.style.display='block';}
-function hideErr(){document.getElementById('err-bar').style.display='none';}
-function showInfo(msg){const e=document.getElementById('info-bar');e.innerHTML=msg;e.style.display='block';}
-function hideInfo(){document.getElementById('info-bar').style.display='none';}
 
-// Auto-load
-window.onload=()=>{const u=document.getElementById('sheetUrl').value.trim();if(u)loadFromInput();};
+// Compute totals
+const tCr   = DATA.reduce((a,r)=>a+r.totCr,0);
+const tDb   = DATA.reduce((a,r)=>a+r.totDb,0);
+const tWs   = DATA.reduce((a,r)=>a+r.waste,0);
+const net   = tCr - tDb;
+const lastB = DATA[DATA.length-1].cumul;
+const crOnlineT = DATA.reduce((a,r)=>a+r.crOnline,0);
+const crCashT   = DATA.reduce((a,r)=>a+r.crCash,0);
+
+// Fill KPIs
+document.getElementById('kTotalCredit').textContent = '₹'+F(tCr);
+document.getElementById('kCreditSub').textContent   = `Online ₹${F(crOnlineT)} · Cash ₹${F(crCashT)}`;
+document.getElementById('kTotalDebit').textContent  = '₹'+F(tDb);
+document.getElementById('kDebitSub').textContent    = `Net flow: ₹${F(net)}`;
+document.getElementById('kWastage').textContent     = '₹'+F(tWs);
+document.getElementById('kBalance').textContent     = '₹'+F(lastB);
+const netEl = document.getElementById('kNet');
+netEl.textContent = (net>=0?'+':'')+'₹'+F(net);
+netEl.style.color = net>=0?'var(--green)':'var(--red)';
+
+// Table
+const tb = document.getElementById('tbody');
+DATA.forEach(r=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML=`
+    <td style="color:var(--gold-soft);font-weight:500">${r.date}</td>
+    <td class="remark" title="${r.remark}">${r.remark}</td>
+    <td class="tr">${F(r.crOnline)}</td>
+    <td class="tr">${r.crCash?F(r.crCash):'—'}</td>
+    <td class="tr" style="font-weight:600">${F(r.totCr)}</td>
+    <td class="tr">${F(r.dbOnline)}</td>
+    <td class="tr">${r.dbCash?F(r.dbCash):'—'}</td>
+    <td class="tr" style="color:var(--red)">${F(r.totDb)}</td>
+    <td class="tr ${r.daily>=0?'pos':'neg'}" style="font-weight:600">${r.daily>=0?'+':''}${F(r.daily)}</td>
+    <td class="tr" style="color:var(--blue)">${F(r.cumul)}</td>
+    <td class="tr" style="color:var(--amber)">${r.waste?F(r.waste):'—'}</td>`;
+  tb.appendChild(tr);
+});
+
+const tf = document.getElementById('tfoot');
+tf.innerHTML=`<tr>
+  <td colspan="2">TOTAL (Jun 1–14)</td>
+  <td>${F(crOnlineT)}</td>
+  <td>${F(crCashT)}</td>
+  <td>${F(tCr)}</td>
+  <td>${F(DATA.reduce((a,r)=>a+r.dbOnline,0))}</td>
+  <td>${F(DATA.reduce((a,r)=>a+r.dbCash,0))}</td>
+  <td>${F(tDb)}</td>
+  <td style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}${F(net)}</td>
+  <td>${F(lastB)}</td>
+  <td style="color:var(--amber)">${F(tWs)}</td>
+</tr>`;
+
+// Charts
+const labels = DATA.map(r=>r.date);
+const tk={color:'#8a7d6a',font:{family:'Outfit',size:10}};
+const gr={color:'rgba(61,53,40,.7)'};
+
+new Chart(document.getElementById('cBar'),{
+  type:'bar',
+  data:{labels,datasets:[
+    {label:'Total Credit',data:DATA.map(r=>r.totCr),backgroundColor:'rgba(107,170,107,.8)',borderRadius:4},
+    {label:'Total Debit', data:DATA.map(r=>r.totDb),backgroundColor:'rgba(201,107,90,.75)',borderRadius:4},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
+    scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}
+});
+
+new Chart(document.getElementById('cLine'),{
+  type:'line',
+  data:{labels,datasets:[{
+    label:'Cumulative Balance',
+    data:DATA.map(r=>r.cumul),
+    borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.1)',
+    borderWidth:2.5,pointRadius:4,fill:true,tension:.35
+  }]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
+    scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}
+});
+
+new Chart(document.getElementById('cDaily'),{
+  type:'bar',
+  data:{labels,datasets:[{
+    label:'Daily Balance',
+    data:DATA.map(r=>r.daily),
+    backgroundColor:DATA.map(r=>r.daily>=0?'rgba(107,170,107,.8)':'rgba(201,107,90,.8)'),
+    borderRadius:4
+  }]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
+    scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:v=>'₹'+F(v)},grid:gr}}}
+});
 </script>
 </body>
 </html>
