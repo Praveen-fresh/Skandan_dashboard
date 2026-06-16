@@ -34,24 +34,11 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min
 .btn:hover{opacity:.85;}
 .btn:disabled{opacity:.45;cursor:not-allowed;}
 .hint{font-size:.72rem;color:var(--muted);margin-top:10px;line-height:1.55;}
-.hint a{color:var(--gold-soft);text-decoration:none;}
-.hint a:hover{text-decoration:underline;}
 .err-msg{margin-top:12px;padding:10px 14px;background:rgba(201,107,90,.15);border:1px solid var(--red);border-radius:8px;font-size:.8rem;color:var(--red);display:none;}
-
-/* ── COLUMN MAP ── */
-.col-map{margin-top:22px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:none;}
-.col-map h3{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
-.map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
-.map-row{display:flex;flex-direction:column;gap:5px;}
-.map-row label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
-.map-row select{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:.78rem;outline:none;}
-.map-row select:focus{border-color:var(--gold);}
-.col-map .btn{margin-top:16px;}
 
 /* ── MAIN DASHBOARD ── */
 .main{padding:22px 28px;display:none;}
 
-/* KPIs */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px;margin-bottom:24px;}
 .kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden;}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
@@ -65,13 +52,11 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min
 .kpi-val{font-family:'Playfair Display',serif;font-size:1.38rem;line-height:1;}
 .kpi-sub{font-size:.64rem;color:var(--muted);margin-top:6px;}
 
-/* Charts */
 .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:24px;}
 .cc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
 .cc.wide{grid-column:1/-1;}
 .cc-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
 
-/* Table */
 .tc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;}
 .th{padding:13px 18px;border-bottom:1px solid var(--border);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:flex;justify-content:space-between;align-items:center;}
 .tw{overflow-x:auto;}
@@ -84,17 +69,14 @@ tbody td{padding:8px 13px;white-space:nowrap;}
 .tr{text-align:right;font-variant-numeric:tabular-nums;}
 .pos{color:var(--green)!important;}
 .neg{color:var(--red)!important;}
-.remark-td{max-width:220px;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-size:.72rem;}
 tfoot td{padding:9px 13px;font-weight:600;color:var(--gold);background:var(--surface);font-size:.77rem;text-align:right;white-space:nowrap;border-top:1px solid var(--border);}
 tfoot td:first-child{text-align:left;}
 
-/* Summary strip */
 .summary-strip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:18px;}
 .sum-item{display:flex;flex-direction:column;gap:3px;}
 .sum-item .s-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;}
 .sum-item .s-val{font-family:'Playfair Display',serif;font-size:1.05rem;}
 
-/* Pie wrapper */
 .pie-wrap{display:flex;align-items:center;justify-content:center;height:240px;}
 
 @media(max-width:600px){.main,.loader-panel{padding:14px;}.hdr{padding:14px;}}
@@ -113,8 +95,7 @@ tfoot td:first-child{text-align:left;}
 <!-- LOADER -->
 <div class="loader-panel" id="loaderPanel">
   <h2>Load Your Sheet Data</h2>
-  <p>Paste your Google Sheets "Publish to web" CSV link below, then click <strong>Load Data</strong>.<br>
-  The sheet must have a header row. You'll map the columns yourself — no hardcoded assumptions.</p>
+  <p>Paste your Google Sheets "Publish to web" CSV link below, then click <strong>Load Data</strong>. Columns are detected automatically from your sheet's header row.</p>
   <div class="input-row">
     <input id="sheetUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv"/>
     <button class="btn" id="loadBtn">Load Data</button>
@@ -124,13 +105,6 @@ tfoot td:first-child{text-align:left;}
     Your data never leaves your browser — it's fetched directly from Google.
   </div>
   <div class="err-msg" id="errMsg"></div>
-
-  <!-- Column mapping (shown after headers are detected) -->
-  <div class="col-map" id="colMap">
-    <h3>Map Your Columns</h3>
-    <div class="map-grid" id="mapGrid"></div>
-    <button class="btn" id="buildBtn">Build Dashboard →</button>
-  </div>
 </div>
 
 <!-- DASHBOARD -->
@@ -154,11 +128,11 @@ tfoot td:first-child{text-align:left;}
       <div style="position:relative;height:220px"><canvas id="cDaily"></canvas></div>
     </div>
     <div class="cc">
-      <div class="cc-lbl">Credit vs Debit Split (Pie)</div>
+      <div class="cc-lbl">Credit vs Debit Split</div>
       <div class="pie-wrap"><canvas id="cPie" style="max-height:220px;max-width:220px"></canvas></div>
     </div>
     <div class="cc">
-      <div class="cc-lbl">Online vs Cash Receipts (Pie)</div>
+      <div class="cc-lbl">Other Expense Breakdown</div>
       <div class="pie-wrap"><canvas id="cPie2" style="max-height:220px;max-width:220px"></canvas></div>
     </div>
   </div>
@@ -180,73 +154,102 @@ tfoot td:first-child{text-align:left;}
 </div>
 
 <script>
-// ── FIELD DEFINITIONS ──────────────────────────────────────────────
-const FIELDS = [
-  {key:'date',      label:'Date / Period',         required:true,  type:'label'},
-  {key:'remark',    label:'Remark / Note',          required:false, type:'label'},
-  {key:'crOnline',  label:'Credit — Online',        required:false, type:'num'},
-  {key:'crCash',    label:'Credit — Cash',          required:false, type:'num'},
-  {key:'totCr',     label:'Total Credit',           required:true,  type:'num'},
-  {key:'dbOnline',  label:'Debit — Online',         required:false, type:'num'},
-  {key:'dbCash',    label:'Debit — Cash',           required:false, type:'num'},
-  {key:'totDb',     label:'Total Debit',            required:true,  type:'num'},
-  {key:'daily',     label:'Daily Balance / Net',    required:false, type:'num'},
-  {key:'cumul',     label:'Cumulative Balance',     required:false, type:'num'},
-  {key:'waste',     label:'Wastage',                required:false, type:'num'},
-];
-
-let rawHeaders = [];
-let rawRows    = [];
-let mapping    = {};   // {fieldKey: colIndex}
 let chartInstances = [];
 
 // ── CSV PARSER ─────────────────────────────────────────────────────
 function parseCSV(text){
-  const lines = text.trim().split(/\r?\n/);
-  const parse = line => {
+  const lines = text.replace(/\r/g,'').split('\n');
+  const parseLine = line => {
     const cols=[]; let cur='', inQ=false;
     for(let i=0;i<line.length;i++){
       const c=line[i];
-      if(c==='"'){inQ=!inQ;}
+      if(c==='"'){
+        if(inQ && line[i+1]==='"'){cur+='"';i++;}
+        else inQ=!inQ;
+      }
       else if(c===','&&!inQ){cols.push(cur.trim());cur='';}
       else{cur+=c;}
     }
     cols.push(cur.trim());
     return cols;
   };
-  const headers = parse(lines[0]);
-  const rows = lines.slice(1).filter(l=>l.trim()).map(l=>parse(l));
+  const nonEmpty = lines.filter(l=>l.trim().length>0);
+  if(!nonEmpty.length) return {headers:[],rows:[]};
+  const headers = parseLine(nonEmpty[0]).map(h=>h.trim());
+  const rows = nonEmpty.slice(1).map(parseLine);
   return {headers,rows};
+}
+
+// ── AUTO COLUMN DETECTION ─────────────────────────────────────────
+function findCol(headers, keywords){
+  for(let i=0;i<headers.length;i++){
+    const h = headers[i].toLowerCase().replace(/[^a-z0-9 ]/g,' ').trim();
+    for(const kw of keywords){
+      if(h.includes(kw)) return i;
+    }
+  }
+  return -1;
+}
+
+function detectColumns(headers){
+  return {
+    date:     findCol(headers, ['date','day','period']),
+    remark:   findCol(headers, ['remark','note','desc','particular','narration']),
+    crOnline: findCol(headers, ['online cr','cr online','credit online','online credit','online sale']),
+    crCash:   findCol(headers, ['cash cr','cr cash','credit cash','cash sale','cash credit']),
+    totCr:    findCol(headers, ['total credit','total cr','credit total','total sale','total income','income','sale','credit']),
+    dbOnline: findCol(headers, ['online db','db online','debit online','online debit','online expense']),
+    dbCash:   findCol(headers, ['cash db','db cash','debit cash','cash debit','cash expense']),
+    totDb:    findCol(headers, ['total debit','total db','debit total','total expense','expense','debit']),
+    daily:    findCol(headers, ['daily balance','daily net','net profit','net flow','profit','p&l','p l']),
+    cumul:    findCol(headers, ['cumulative','running balance','closing balance','closing','balance']),
+    waste:    findCol(headers, ['wastage','waste']),
+    other:    findCol(headers, ['other expense','misc expense','other','miscellaneous']),
+  };
+}
+
+// ── NUMBER HELPER ──────────────────────────────────────────────────
+function N(v){
+  if(v===undefined||v===null||v==='') return 0;
+  const cleaned = String(v).replace(/[^0-9.\-]/g,'');
+  return cleaned ? (parseFloat(cleaned)||0) : 0;
 }
 
 // ── LOAD SHEET ─────────────────────────────────────────────────────
 async function loadSheet(){
-  const url = document.getElementById('sheetUrl').value.trim();
+  const urlInput = document.getElementById('sheetUrl');
+  const url = urlInput.value.trim();
   const err  = document.getElementById('errMsg');
   const btn  = document.getElementById('loadBtn');
   err.style.display='none';
-  if(!url){showErr('Please paste a Google Sheets CSV link.');return;}
 
-  // Convert /edit or /pub without ?output=csv
+  if(!url){ showErr('Please paste a Google Sheets CSV link.'); return; }
+
   let fetchUrl = url;
-  if(fetchUrl.includes('/edit')||fetchUrl.includes('/pub?')){
-    fetchUrl = fetchUrl.replace('/edit','').replace(/\/pub(\?.+)?$/,'/pub');
-    if(!fetchUrl.includes('output=csv')) fetchUrl+='?output=csv';
+  if(fetchUrl.includes('/edit')) fetchUrl = fetchUrl.split('/edit')[0];
+  if(fetchUrl.includes('/pub') && !fetchUrl.includes('output=csv')){
+    fetchUrl = fetchUrl.split('/pub')[0] + '/pub?output=csv';
+  }
+  if(!fetchUrl.includes('output=csv') && !fetchUrl.includes('/pub')){
+    if(fetchUrl.includes('?')) fetchUrl += '&output=csv';
+    else fetchUrl += '?output=csv';
   }
 
   btn.disabled=true; btn.textContent='Loading…';
   try{
     const res = await fetch(fetchUrl);
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    if(!res.ok) throw new Error('HTTP '+res.status);
     const text = await res.text();
-    if(!text||!text.includes(',')) throw new Error('Response doesn\'t look like CSV. Make sure the sheet is published as CSV.');
+    if(!text || text.trim().length===0) throw new Error('Empty response from sheet.');
+    if(text.trim().startsWith('<')) throw new Error('Sheet is not publicly published as CSV. Use File → Share → Publish to web → CSV.');
+
     const {headers,rows} = parseCSV(text);
-    rawHeaders = headers;
-    rawRows    = rows;
-    buildColumnMapper();
+    if(!headers.length || !rows.length) throw new Error('No data found in sheet.');
+
+    renderDashboard(headers, rows);
     btn.disabled=false; btn.textContent='Load Data';
   }catch(e){
-    showErr('Could not load sheet: '+e.message+'. Make sure "Publish to web → CSV" is enabled and the URL is correct.');
+    showErr('Could not load sheet: '+e.message);
     btn.disabled=false; btn.textContent='Load Data';
   }
 }
@@ -256,197 +259,143 @@ function showErr(msg){
   el.textContent=msg; el.style.display='block';
 }
 
-// ── COLUMN MAPPER ──────────────────────────────────────────────────
-function buildColumnMapper(){
-  const grid = document.getElementById('mapGrid');
-  grid.innerHTML='';
-  const opts = ['-- skip --', ...rawHeaders.map((h,i)=>`[${i}] ${h}`)];
+// ── RENDER DASHBOARD ───────────────────────────────────────────────
+function renderDashboard(headers, rows){
+  const map = detectColumns(headers);
 
-  FIELDS.forEach(f=>{
-    const div=document.createElement('div');
-    div.className='map-row';
-    // Auto-guess: pick column whose header contains a keyword
-    const guess = autoGuess(f.key, rawHeaders);
-    const sel = '<select id="map_'+f.key+'">'
-      + opts.map((o,i)=>{
-          const val = i===0 ? '' : (i-1);
-          const picked = (guess!==-1 && (i-1===guess)) ? ' selected' : '';
-          return '<option value="'+val+'"'+picked+'>'+o+'</option>';
-        }).join('')
-      + '</select>';
-    div.innerHTML=`<label>${f.label}${f.required?' *':''}</label>${sel}`;
-    grid.appendChild(div);
-  });
-
-  document.getElementById('colMap').style.display='block';
-}
-
-function autoGuess(key, headers){
-  const kw = {
-    date:['date','day','period','sl','no','#'],
-    remark:['remark','note','desc','narration','particulars'],
-    crOnline:['online cr','cr online','credit online','online credit','upi','card','neft'],
-    crCash:['cash cr','cr cash','credit cash','cash credit'],
-    totCr:['total cr','total credit','credit total','tot cr','income','receipt'],
-    dbOnline:['online db','db online','debit online','online debit'],
-    dbCash:['cash db','db cash','debit cash','cash debit'],
-    totDb:['total db','total debit','debit total','tot db','expense','payment'],
-    daily:['daily','net','profit','loss','p&l','balance'],
-    cumul:['cumul','running','closing','clos'],
-    waste:['waste','wastage','loss qty'],
-  };
-  const words = (kw[key]||[key]);
-  return headers.findIndex(h=>{
-    const hl=h.toLowerCase();
-    return words.some(w=>hl.includes(w));
-  });
-}
-
-// ── BUILD DASHBOARD ────────────────────────────────────────────────
-function renderDashboard(){
-  // Read mapping
-  mapping={};
-  FIELDS.forEach(f=>{
-    const v=document.getElementById('map_'+f.key)?.value;
-    if(v!==''&&v!==undefined) mapping[f.key]=parseInt(v);
-  });
-
-  // Validate required
-  const missing=FIELDS.filter(f=>f.required&&!(f.key in mapping));
-  if(missing.length){
-    alert('Please map required fields: '+missing.map(f=>f.label).join(', '));
+  if(map.totCr===-1 && map.daily===-1){
+    showErr('Could not detect a credit/sale column in your sheet. Make sure your header row has something like "Total Credit" or "Sale".');
     return;
   }
 
-  // Parse DATA
-  const N=(str)=>{
-    if(str===undefined||str===null||str==='') return 0;
-    return parseFloat(String(str).replace(/[^0-9.\-]/g,''))||0;
-  };
-  const DATA = rawRows.map(r=>({
-    date:    mapping.date!==undefined   ? r[mapping.date]    : '',
-    remark:  mapping.remark!==undefined ? r[mapping.remark]  : '',
-    crOnline:mapping.crOnline!==undefined ? N(r[mapping.crOnline]) : null,
-    crCash:  mapping.crCash!==undefined  ? N(r[mapping.crCash])   : null,
-    totCr:   N(r[mapping.totCr]),
-    dbOnline:mapping.dbOnline!==undefined ? N(r[mapping.dbOnline]) : null,
-    dbCash:  mapping.dbCash!==undefined  ? N(r[mapping.dbCash])   : null,
-    totDb:   N(r[mapping.totDb]),
-    daily:   mapping.daily!==undefined   ? N(r[mapping.daily])    : null,
-    cumul:   mapping.cumul!==undefined   ? N(r[mapping.cumul])    : null,
-    waste:   mapping.waste!==undefined   ? N(r[mapping.waste])    : 0,
-  })).filter(r=>r.totCr||r.totDb||r.date);
+  const DATA = rows.map(r=>({
+    date:     map.date!==-1     ? r[map.date]            : '',
+    remark:   map.remark!==-1   ? r[map.remark]           : '',
+    crOnline: map.crOnline!==-1 ? N(r[map.crOnline])      : null,
+    crCash:   map.crCash!==-1   ? N(r[map.crCash])        : null,
+    totCr:    map.totCr!==-1    ? N(r[map.totCr])         : 0,
+    dbOnline: map.dbOnline!==-1 ? N(r[map.dbOnline])      : null,
+    dbCash:   map.dbCash!==-1   ? N(r[map.dbCash])        : null,
+    totDb:    map.totDb!==-1    ? N(r[map.totDb])         : 0,
+    daily:    map.daily!==-1    ? N(r[map.daily])         : null,
+    cumul:    map.cumul!==-1    ? N(r[map.cumul])         : null,
+    waste:    map.waste!==-1    ? N(r[map.waste])         : 0,
+    other:    map.other!==-1    ? N(r[map.other])         : 0,
+  })).filter(r=>r.date || r.totCr || r.totDb || r.daily);
 
-  if(!DATA.length){alert('No data rows found. Check your column mapping.');return;}
+  if(!DATA.length){ showErr('No usable rows found in the sheet.'); return; }
 
-  // Compute daily/cumul if not mapped
+  // fill in derived fields
   let running=0;
   DATA.forEach(r=>{
     if(r.daily===null) r.daily = r.totCr - r.totDb;
-    if(r.cumul===null){running+=r.daily; r.cumul=running;}
+    if(r.cumul===null){ running += r.daily; r.cumul = running; }
   });
+  DATA.forEach(r=>{ if(!r.date) r.date=''; });
+  // auto-number rows with no date label
+  DATA.forEach((r,i)=>{ if(!r.date.trim()) r.date='Row '+(i+1); });
 
-  const tCr      = DATA.reduce((a,r)=>a+r.totCr,0);
-  const tDb      = DATA.reduce((a,r)=>a+r.totDb,0);
-  const tWs      = DATA.reduce((a,r)=>a+(r.waste||0),0);
-  const net      = tCr-tDb;
-  const lastCumul= DATA[DATA.length-1].cumul;
-  const crOnlineT= DATA.reduce((a,r)=>a+(r.crOnline||0),0);
-  const crCashT  = DATA.reduce((a,r)=>a+(r.crCash||0),0);
-  const avg      = DATA.length ? tCr/DATA.length : 0;
+  const tCr       = DATA.reduce((a,r)=>a+r.totCr,0);
+  const tDb        = DATA.reduce((a,r)=>a+r.totDb,0);
+  const tWs        = DATA.reduce((a,r)=>a+(r.waste||0),0);
+  const tOther     = DATA.reduce((a,r)=>a+(r.other||0),0);
+  const net        = tCr-tDb;
+  const lastCumul  = DATA[DATA.length-1].cumul;
+  const crOnlineT  = DATA.reduce((a,r)=>a+(r.crOnline||0),0);
+  const crCashT    = DATA.reduce((a,r)=>a+(r.crCash||0),0);
+  const dbOnlineT  = DATA.reduce((a,r)=>a+(r.dbOnline||0),0);
+  const dbCashT    = DATA.reduce((a,r)=>a+(r.dbCash||0),0);
+  const avg        = DATA.length ? tCr/DATA.length : 0;
 
   const labels = DATA.map(r=>r.date);
-  const F = n=>Math.round(n||0).toLocaleString('en-IN');
+  const F = n => Math.round(n||0).toLocaleString('en-IN');
 
   // Summary strip
-  const strip = document.getElementById('summaryStrip');
-  strip.innerHTML=`
-    <div class="sum-item"><div class="s-lbl">Period</div><div class="s-val" style="color:var(--gold-soft)">${DATA[0].date} – ${DATA[DATA.length-1].date}</div></div>
-    <div class="sum-item"><div class="s-lbl">Days</div><div class="s-val">${DATA.length}</div></div>
-    <div class="sum-item"><div class="s-lbl">Total Credit</div><div class="s-val" style="color:var(--green)">₹${F(tCr)}</div></div>
-    <div class="sum-item"><div class="s-lbl">Total Debit</div><div class="s-val" style="color:var(--red)">₹${F(tDb)}</div></div>
-    <div class="sum-item"><div class="s-lbl">Net Flow</div><div class="s-val" style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}₹${F(net)}</div></div>
-    <div class="sum-item"><div class="s-lbl">Closing Balance</div><div class="s-val" style="color:var(--gold)">₹${F(lastCumul)}</div></div>
-  `;
+  document.getElementById('summaryStrip').innerHTML =
+    '<div class="sum-item"><div class="s-lbl">Period</div><div class="s-val" style="color:var(--gold-soft)">'+DATA[0].date+' – '+DATA[DATA.length-1].date+'</div></div>'+
+    '<div class="sum-item"><div class="s-lbl">Days</div><div class="s-val">'+DATA.length+'</div></div>'+
+    '<div class="sum-item"><div class="s-lbl">Total Credit</div><div class="s-val" style="color:var(--green)">₹'+F(tCr)+'</div></div>'+
+    '<div class="sum-item"><div class="s-lbl">Total Debit</div><div class="s-val" style="color:var(--red)">₹'+F(tDb)+'</div></div>'+
+    '<div class="sum-item"><div class="s-lbl">Net Flow</div><div class="s-val" style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+'₹'+F(net)+'</div></div>'+
+    '<div class="sum-item"><div class="s-lbl">Closing Balance</div><div class="s-val" style="color:var(--gold)">₹'+F(lastCumul)+'</div></div>';
 
   // KPIs
-  const kpiGrid = document.getElementById('kpiGrid');
-  kpiGrid.innerHTML=`
-    <div class="kpi cr"><div class="kpi-lbl">Total Credit</div><div class="kpi-val">₹${F(tCr)}</div>
-      <div class="kpi-sub">${crOnlineT?'Online ₹'+F(crOnlineT):''} ${crCashT?' · Cash ₹'+F(crCashT):''}</div></div>
-    <div class="kpi db"><div class="kpi-lbl">Total Debit</div><div class="kpi-val">₹${F(tDb)}</div>
-      <div class="kpi-sub">Net: ₹${F(net)}</div></div>
-    <div class="kpi ws"><div class="kpi-lbl">Total Wastage</div><div class="kpi-val">₹${F(tWs)}</div>
-      <div class="kpi-sub">${tCr?((tWs/tCr)*100).toFixed(2)+'% of credit':''}</div></div>
-    <div class="kpi bal"><div class="kpi-lbl">Closing Balance</div><div class="kpi-val">₹${F(lastCumul)}</div>
-      <div class="kpi-sub">As of ${DATA[DATA.length-1].date}</div></div>
-    <div class="kpi net"><div class="kpi-lbl">Net Flow</div>
-      <div class="kpi-val" style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}₹${F(net)}</div>
-      <div class="kpi-sub">Credit − Debit</div></div>
-    <div class="kpi avg"><div class="kpi-lbl">Daily Avg Sale</div><div class="kpi-val">₹${F(avg)}</div>
-      <div class="kpi-sub">Over ${DATA.length} days</div></div>
-  `;
+  document.getElementById('kpiGrid').innerHTML =
+    '<div class="kpi cr"><div class="kpi-lbl">Total Credit</div><div class="kpi-val">₹'+F(tCr)+'</div>'+
+      '<div class="kpi-sub">'+(crOnlineT?('Online ₹'+F(crOnlineT)):'')+(crCashT?(' · Cash ₹'+F(crCashT)):'')+'</div></div>'+
+    '<div class="kpi db"><div class="kpi-lbl">Total Debit</div><div class="kpi-val">₹'+F(tDb)+'</div>'+
+      '<div class="kpi-sub">Net: ₹'+F(net)+'</div></div>'+
+    '<div class="kpi ws"><div class="kpi-lbl">Total Wastage</div><div class="kpi-val">₹'+F(tWs)+'</div>'+
+      '<div class="kpi-sub">'+(tCr?((tWs/tCr)*100).toFixed(2)+'% of credit':'—')+'</div></div>'+
+    '<div class="kpi bal"><div class="kpi-lbl">Closing Balance</div><div class="kpi-val">₹'+F(lastCumul)+'</div>'+
+      '<div class="kpi-sub">As of '+DATA[DATA.length-1].date+'</div></div>'+
+    '<div class="kpi net"><div class="kpi-lbl">Net Flow</div>'+
+      '<div class="kpi-val" style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+'₹'+F(net)+'</div>'+
+      '<div class="kpi-sub">Credit − Debit</div></div>'+
+    '<div class="kpi avg"><div class="kpi-lbl">Daily Avg Sale</div><div class="kpi-val">₹'+F(avg)+'</div>'+
+      '<div class="kpi-sub">Over '+DATA.length+' days</div></div>';
 
-  // ── TABLE ──────────────────────────────────────────────────────
-  // Determine which optional columns to show
-  const showCrOnline = DATA.some(r=>r.crOnline!==null&&r.crOnline!==0);
-  const showCrCash   = DATA.some(r=>r.crCash!==null&&r.crCash!==0);
-  const showDbOnline = DATA.some(r=>r.dbOnline!==null&&r.dbOnline!==0);
-  const showDbCash   = DATA.some(r=>r.dbCash!==null&&r.dbCash!==0);
+  // ── TABLE ──
+  const showCrOnline = DATA.some(r=>r.crOnline);
+  const showCrCash   = DATA.some(r=>r.crCash);
+  const showDbOnline = DATA.some(r=>r.dbOnline);
+  const showDbCash   = DATA.some(r=>r.dbCash);
   const showWaste    = DATA.some(r=>r.waste);
-  const showRemark   = DATA.some(r=>r.remark&&r.remark.trim());
+  const showOther    = DATA.some(r=>r.other);
+  const showRemark   = DATA.some(r=>r.remark && r.remark.trim());
 
-  let hdrCols=`<th>Date</th>`;
-  if(showRemark) hdrCols+=`<th>Remark</th>`;
-  if(showCrOnline) hdrCols+=`<th style="text-align:right">Cr Online</th>`;
-  if(showCrCash)   hdrCols+=`<th style="text-align:right">Cr Cash</th>`;
-  hdrCols+=`<th style="text-align:right">Total Credit</th>`;
-  if(showDbOnline) hdrCols+=`<th style="text-align:right">Db Online</th>`;
-  if(showDbCash)   hdrCols+=`<th style="text-align:right">Db Cash</th>`;
-  hdrCols+=`<th style="text-align:right">Total Debit</th>`;
-  hdrCols+=`<th style="text-align:right">Daily Net</th>`;
-  hdrCols+=`<th style="text-align:right">Cumulative</th>`;
-  if(showWaste) hdrCols+=`<th style="text-align:right">Wastage</th>`;
+  let hdrCols = '<th>Date</th>';
+  if(showRemark) hdrCols += '<th>Remark</th>';
+  if(showCrOnline) hdrCols += '<th style="text-align:right">Cr Online</th>';
+  if(showCrCash)   hdrCols += '<th style="text-align:right">Cr Cash</th>';
+  hdrCols += '<th style="text-align:right">Total Credit</th>';
+  if(showDbOnline) hdrCols += '<th style="text-align:right">Db Online</th>';
+  if(showDbCash)   hdrCols += '<th style="text-align:right">Db Cash</th>';
+  hdrCols += '<th style="text-align:right">Total Debit</th>';
+  if(showOther) hdrCols += '<th style="text-align:right">Other Expense</th>';
+  hdrCols += '<th style="text-align:right">Daily Net</th>';
+  hdrCols += '<th style="text-align:right">Cumulative</th>';
+  if(showWaste) hdrCols += '<th style="text-align:right">Wastage</th>';
+  document.getElementById('thead').innerHTML = '<tr>'+hdrCols+'</tr>';
 
-  document.getElementById('thead').innerHTML=`<tr>${hdrCols}</tr>`;
-
-  const tbody=document.getElementById('tbody');
+  const tbody = document.getElementById('tbody');
   tbody.innerHTML='';
   DATA.forEach(r=>{
-    let cells=`<td style="color:var(--gold-soft);font-weight:500">${r.date}</td>`;
-    if(showRemark) cells+=`<td class="remark-td" title="${r.remark||''}">${r.remark||'—'}</td>`;
-    if(showCrOnline) cells+=`<td class="tr">${r.crOnline?F(r.crOnline):'—'}</td>`;
-    if(showCrCash)   cells+=`<td class="tr">${r.crCash?F(r.crCash):'—'}</td>`;
-    cells+=`<td class="tr" style="font-weight:600">${F(r.totCr)}</td>`;
-    if(showDbOnline) cells+=`<td class="tr">${r.dbOnline?F(r.dbOnline):'—'}</td>`;
-    if(showDbCash)   cells+=`<td class="tr">${r.dbCash?F(r.dbCash):'—'}</td>`;
-    cells+=`<td class="tr" style="color:var(--red)">${F(r.totDb)}</td>`;
-    cells+=`<td class="tr ${r.daily>=0?'pos':'neg'}" style="font-weight:600">${r.daily>=0?'+':''}${F(r.daily)}</td>`;
-    cells+=`<td class="tr" style="color:var(--blue)">${F(r.cumul)}</td>`;
-    if(showWaste) cells+=`<td class="tr" style="color:var(--amber)">${r.waste?F(r.waste):'—'}</td>`;
+    let cells = '<td style="color:var(--gold-soft);font-weight:500">'+r.date+'</td>';
+    if(showRemark) cells += '<td style="color:var(--muted);font-size:.72rem;max-width:220px;overflow:hidden;text-overflow:ellipsis">'+(r.remark||'—')+'</td>';
+    if(showCrOnline) cells += '<td class="tr">'+(r.crOnline?F(r.crOnline):'—')+'</td>';
+    if(showCrCash)   cells += '<td class="tr">'+(r.crCash?F(r.crCash):'—')+'</td>';
+    cells += '<td class="tr" style="font-weight:600">'+F(r.totCr)+'</td>';
+    if(showDbOnline) cells += '<td class="tr">'+(r.dbOnline?F(r.dbOnline):'—')+'</td>';
+    if(showDbCash)   cells += '<td class="tr">'+(r.dbCash?F(r.dbCash):'—')+'</td>';
+    cells += '<td class="tr" style="color:var(--red)">'+F(r.totDb)+'</td>';
+    if(showOther) cells += '<td class="tr" style="color:var(--amber)">'+(r.other?F(r.other):'—')+'</td>';
+    cells += '<td class="tr '+(r.daily>=0?'pos':'neg')+'" style="font-weight:600">'+(r.daily>=0?'+':'')+F(r.daily)+'</td>';
+    cells += '<td class="tr" style="color:var(--blue)">'+F(r.cumul)+'</td>';
+    if(showWaste) cells += '<td class="tr" style="color:var(--amber)">'+(r.waste?F(r.waste):'—')+'</td>';
     const tr=document.createElement('tr');
     tr.innerHTML=cells;
     tbody.appendChild(tr);
   });
 
-  // Footer totals
-  let ftCols=`<td>TOTAL</td>`;
-  if(showRemark) ftCols+=`<td></td>`;
-  if(showCrOnline) ftCols+=`<td>${F(crOnlineT)}</td>`;
-  if(showCrCash)   ftCols+=`<td>${F(crCashT)}</td>`;
-  ftCols+=`<td>${F(tCr)}</td>`;
-  if(showDbOnline) ftCols+=`<td>${F(DATA.reduce((a,r)=>a+(r.dbOnline||0),0))}</td>`;
-  if(showDbCash)   ftCols+=`<td>${F(DATA.reduce((a,r)=>a+(r.dbCash||0),0))}</td>`;
-  ftCols+=`<td>${F(tDb)}</td>`;
-  ftCols+=`<td style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}${F(net)}</td>`;
-  ftCols+=`<td>${F(lastCumul)}</td>`;
-  if(showWaste) ftCols+=`<td style="color:var(--amber)">${F(tWs)}</td>`;
-  document.getElementById('tfoot').innerHTML=`<tr>${ftCols}</tr>`;
+  let ftCols = '<td>TOTAL</td>';
+  if(showRemark) ftCols += '<td></td>';
+  if(showCrOnline) ftCols += '<td>'+F(crOnlineT)+'</td>';
+  if(showCrCash)   ftCols += '<td>'+F(crCashT)+'</td>';
+  ftCols += '<td>'+F(tCr)+'</td>';
+  if(showDbOnline) ftCols += '<td>'+F(dbOnlineT)+'</td>';
+  if(showDbCash)   ftCols += '<td>'+F(dbCashT)+'</td>';
+  ftCols += '<td>'+F(tDb)+'</td>';
+  if(showOther) ftCols += '<td style="color:var(--amber)">'+F(tOther)+'</td>';
+  ftCols += '<td style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+F(net)+'</td>';
+  ftCols += '<td>'+F(lastCumul)+'</td>';
+  if(showWaste) ftCols += '<td style="color:var(--amber)">'+F(tWs)+'</td>';
+  document.getElementById('tfoot').innerHTML = '<tr>'+ftCols+'</tr>';
 
   document.getElementById('tableTitle').textContent='Daily Ledger';
   document.getElementById('tableCount').textContent=DATA.length+' rows';
 
-  // ── CHARTS ────────────────────────────────────────────────────
+  // ── CHARTS ──
   chartInstances.forEach(c=>c.destroy());
   chartInstances=[];
 
@@ -454,7 +403,6 @@ function renderDashboard(){
   const gr={color:'rgba(61,53,40,.7)'};
   const fmtY = v=>'₹'+F(v);
 
-  // Bar: Credit vs Debit
   chartInstances.push(new Chart(document.getElementById('cBar'),{
     type:'bar',
     data:{labels,datasets:[
@@ -463,10 +411,9 @@ function renderDashboard(){
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-      scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:fmtY},grid:gr}}}
+      scales:{x:{ticks:tk,grid:gr},y:{ticks:Object.assign({},tk,{callback:fmtY}),grid:gr}}}
   }));
 
-  // Line: Cumulative
   chartInstances.push(new Chart(document.getElementById('cLine'),{
     type:'line',
     data:{labels,datasets:[{
@@ -477,10 +424,9 @@ function renderDashboard(){
     }]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-      scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:fmtY},grid:gr}}}
+      scales:{x:{ticks:tk,grid:gr},y:{ticks:Object.assign({},tk,{callback:fmtY}),grid:gr}}}
   }));
 
-  // Bar: Daily Net
   chartInstances.push(new Chart(document.getElementById('cDaily'),{
     type:'bar',
     data:{labels,datasets:[{
@@ -491,10 +437,9 @@ function renderDashboard(){
     }]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-      scales:{x:{ticks:tk,grid:gr},y:{ticks:{...tk,callback:fmtY},grid:gr}}}
+      scales:{x:{ticks:tk,grid:gr},y:{ticks:Object.assign({},tk,{callback:fmtY}),grid:gr}}}
   }));
 
-  // Pie 1: Credit vs Debit
   chartInstances.push(new Chart(document.getElementById('cPie'),{
     type:'doughnut',
     data:{
@@ -506,31 +451,24 @@ function renderDashboard(){
                tooltip:{callbacks:{label:ctx=>' ₹'+F(ctx.parsed)}}}}
   }));
 
-  // Pie 2: Online vs Cash receipts (only if data exists)
-  const hasSplit = crOnlineT||crCashT;
-  const pie2Labels = ['Online','Cash'];
-  const pie2Data   = [crOnlineT||0, crCashT||0];
-  // If no split data, fall back to wastage vs net
+  // Pie 2: Other expense breakdown — Wastage vs Other vs remaining debit
+  const remainingDb = Math.max(0, tDb - tWs - tOther);
+  const pie2Labels=[]; const pie2Data=[]; const pie2Colors=[];
+  if(tWs){ pie2Labels.push('Wastage'); pie2Data.push(tWs); pie2Colors.push('rgba(212,136,74,.85)'); }
+  if(tOther){ pie2Labels.push('Other Expense'); pie2Data.push(tOther); pie2Colors.push('rgba(90,143,201,.85)'); }
+  if(remainingDb || (!tWs && !tOther)){ pie2Labels.push('Other Debit'); pie2Data.push(remainingDb||tDb); pie2Colors.push('rgba(201,107,90,.6)'); }
+
   chartInstances.push(new Chart(document.getElementById('cPie2'),{
     type:'doughnut',
-    data:{
-      labels: hasSplit ? pie2Labels : ['Net Profit','Wastage'],
-      datasets:[{
-        data: hasSplit ? pie2Data : [Math.max(0,net), tWs],
-        backgroundColor:['rgba(90,143,201,.85)','rgba(212,136,74,.85)'],
-        borderWidth:0
-      }]
-    },
+    data:{ labels: pie2Labels, datasets:[{ data: pie2Data, backgroundColor: pie2Colors, borderWidth:0 }] },
     options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
       plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}},
                tooltip:{callbacks:{label:ctx=>' ₹'+F(ctx.parsed)}}}}
   }));
 
-  // Update header badge
   document.getElementById('badge').textContent='● Live Data';
   document.getElementById('badge').style.cssText='background:rgba(107,170,107,.15);border:1px solid var(--green);color:var(--green);font-size:.65rem;padding:4px 10px;border-radius:20px;';
 
-  // Show dashboard, hide loader
   document.getElementById('loaderPanel').style.display='none';
   document.getElementById('mainPanel').style.display='block';
 }
@@ -538,27 +476,20 @@ function renderDashboard(){
 function resetDashboard(){
   chartInstances.forEach(c=>c.destroy());
   chartInstances=[];
-  rawHeaders=[];rawRows=[];mapping={};
   document.getElementById('loaderPanel').style.display='block';
   document.getElementById('mainPanel').style.display='none';
-  document.getElementById('colMap').style.display='none';
   document.getElementById('sheetUrl').value='';
   document.getElementById('badge').textContent='● Awaiting Data';
   document.getElementById('badge').style.cssText='';
   document.getElementById('errMsg').style.display='none';
 }
 
-// Wire up buttons after DOM is ready
 document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('loadBtn').addEventListener('click', loadSheet);
   document.getElementById('sheetUrl').addEventListener('keydown', function(e){
     if(e.key==='Enter') loadSheet();
   });
-  // buildBtn and resetBtn are dynamic — delegated below
-  document.body.addEventListener('click', function(e){
-    if(e.target.id==='buildBtn') renderDashboard();
-    if(e.target.id==='resetBtn') resetDashboard();
-  });
+  document.getElementById('resetBtn').addEventListener('click', resetDashboard);
 });
 </script>
 </body>
