@@ -5,24 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Skandan Enterprise — Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
   --bg:#1a1612;--surface:#242019;--card:#2d2820;--border:#3d3528;
-  --gold:#c9a84c;--gold-soft:#e8c97a;--amber:#d4884a;
-  --cream:#f0e6d0;--muted:#8a7d6a;--green:#6baa6b;--red:#c96b5a;--blue:#5a8fc9;
+  --gold:#c9a84c;--gold-soft:#e8c97a;
+  --cream:#f0e6d0;--muted:#8a7d6a;--green:#6baa6b;--red:#c96b5a;
   --radius:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min-height:100vh;}
 
-/* ── HEADER ── */
 .hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .hdr-left h1{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--gold);}
 .hdr-left p{font-size:.68rem;color:var(--muted);margin-top:3px;letter-spacing:.07em;text-transform:uppercase;}
-.badge{background:rgba(107,170,107,.15);border:1px solid var(--green);color:var(--green);font-size:.65rem;padding:4px 10px;border-radius:20px;letter-spacing:.05em;}
+.badge{background:rgba(201,168,76,.1);border:1px solid var(--gold);color:var(--gold);font-size:.65rem;padding:4px 10px;border-radius:20px;letter-spacing:.05em;}
+.badge.live{background:rgba(107,170,107,.15);border-color:var(--green);color:var(--green);}
 
-/* ── LOADER PANEL ── */
 .loader-panel{padding:28px;max-width:780px;margin:0 auto;}
 .loader-panel h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);margin-bottom:6px;}
 .loader-panel p{font-size:.8rem;color:var(--muted);margin-bottom:18px;line-height:1.6;}
@@ -36,28 +34,8 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;min
 .hint{font-size:.72rem;color:var(--muted);margin-top:10px;line-height:1.55;}
 .err-msg{margin-top:12px;padding:10px 14px;background:rgba(201,107,90,.15);border:1px solid var(--red);border-radius:8px;font-size:.8rem;color:var(--red);display:none;}
 
-/* ── MAIN DASHBOARD ── */
 .main{padding:22px 28px;display:none;}
-
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px;margin-bottom:24px;}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
-.kpi.cr::before{background:var(--green);}
-.kpi.db::before{background:var(--red);}
-.kpi.bal::before{background:var(--gold);}
-.kpi.ws::before{background:var(--amber);}
-.kpi.net::before{background:var(--green);}
-.kpi.avg::before{background:var(--blue);}
-.kpi-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:8px;}
-.kpi-val{font-family:'Playfair Display',serif;font-size:1.38rem;line-height:1;}
-.kpi-sub{font-size:.64rem;color:var(--muted);margin-top:6px;}
-
-.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:24px;}
-.cc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
-.cc.wide{grid-column:1/-1;}
-.cc-lbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;}
-
-.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
 .th{padding:13px 18px;border-bottom:1px solid var(--border);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:flex;justify-content:space-between;align-items:center;}
 .tw{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:.79rem;}
@@ -65,19 +43,10 @@ thead th{background:var(--surface);padding:9px 13px;text-align:left;font-weight:
 tbody tr{border-bottom:1px solid var(--border);}
 tbody tr:last-child{border-bottom:none;}
 tbody tr:hover{background:rgba(201,168,76,.04);}
-tbody td{padding:8px 13px;white-space:nowrap;}
-.tr{text-align:right;font-variant-numeric:tabular-nums;}
-.pos{color:var(--green)!important;}
-.neg{color:var(--red)!important;}
-tfoot td{padding:9px 13px;font-weight:600;color:var(--gold);background:var(--surface);font-size:.77rem;text-align:right;white-space:nowrap;border-top:1px solid var(--border);}
-tfoot td:first-child{text-align:left;}
-
-.summary-strip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:18px;}
-.sum-item{display:flex;flex-direction:column;gap:3px;}
-.sum-item .s-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;}
-.sum-item .s-val{font-family:'Playfair Display',serif;font-size:1.05rem;}
-
-.pie-wrap{display:flex;align-items:center;justify-content:center;height:240px;}
+tbody td{padding:8px 13px;white-space:nowrap;color:var(--cream);}
+.reset-wrap{text-align:center;margin-top:16px;}
+.btn-reset{background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:.75rem;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:'Outfit',sans-serif;}
+.btn-reset:hover{border-color:var(--gold);color:var(--gold);}
 
 @media(max-width:600px){.main,.loader-panel{padding:14px;}.hdr{padding:14px;}}
 </style>
@@ -86,79 +55,46 @@ tfoot td:first-child{text-align:left;}
 
 <div class="hdr">
   <div class="hdr-left">
-    <h1 id="bizName">Skandan Enterprise</h1>
-    <p id="bizSub">Sales &amp; Cash Ledger Dashboard</p>
+    <h1>Skandan Enterprise</h1>
+    <p>Sales &amp; Cash Ledger Dashboard</p>
   </div>
   <span class="badge" id="badge">● Awaiting Data</span>
 </div>
 
-<!-- LOADER -->
 <div class="loader-panel" id="loaderPanel">
   <h2>Load Your Sheet Data</h2>
-  <p>Paste your Google Sheets "Publish to web" CSV link below, then click <strong>Load Data</strong>. Columns are detected automatically from your sheet's header row.</p>
+  <p>Paste your Google Sheets "Publish to web" CSV link below, then click <strong>Load Data</strong>.</p>
   <div class="input-row">
     <input id="sheetUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv"/>
     <button class="btn" id="loadBtn">Load Data</button>
   </div>
   <div class="hint">
-    To get the CSV URL: <strong>File → Share → Publish to web → CSV → Publish</strong>, then copy the link.<br>
-    Your data never leaves your browser — it's fetched directly from Google.
+    To get the CSV URL: <strong>File → Share → Publish to web → CSV → Publish</strong>, then copy the link.
   </div>
   <div class="err-msg" id="errMsg"></div>
 </div>
 
-<!-- DASHBOARD -->
 <div class="main" id="mainPanel">
-
-  <div class="summary-strip" id="summaryStrip"></div>
-
-  <div class="kpi-grid" id="kpiGrid"></div>
-
-  <div class="charts" id="chartsArea">
-    <div class="cc wide">
-      <div class="cc-lbl">Daily Credit vs Debit (₹)</div>
-      <div style="position:relative;height:240px"><canvas id="cBar"></canvas></div>
-    </div>
-    <div class="cc">
-      <div class="cc-lbl">Cumulative Balance Trend</div>
-      <div style="position:relative;height:220px"><canvas id="cLine"></canvas></div>
-    </div>
-    <div class="cc">
-      <div class="cc-lbl">Daily Net Flow (Profit / Loss)</div>
-      <div style="position:relative;height:220px"><canvas id="cDaily"></canvas></div>
-    </div>
-    <div class="cc">
-      <div class="cc-lbl">Credit vs Debit Split</div>
-      <div class="pie-wrap"><canvas id="cPie" style="max-height:220px;max-width:220px"></canvas></div>
-    </div>
-    <div class="cc">
-      <div class="cc-lbl">Other Expense Breakdown</div>
-      <div class="pie-wrap"><canvas id="cPie2" style="max-height:220px;max-width:220px"></canvas></div>
-    </div>
-  </div>
-
   <div class="tc">
-    <div class="th"><span id="tableTitle">Daily Ledger</span><span id="tableCount" style="color:var(--muted);font-size:.7rem"></span></div>
+    <div class="th">
+      <span>Sheet Data</span>
+      <span id="rowCount" style="color:var(--muted);font-size:.7rem"></span>
+    </div>
     <div class="tw">
       <table>
         <thead id="thead"></thead>
         <tbody id="tbody"></tbody>
-        <tfoot id="tfoot"></tfoot>
       </table>
     </div>
   </div>
-
-  <div style="text-align:center;margin-top:8px;">
-    <button class="btn" id="resetBtn" style="background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:.75rem;padding:7px 16px;">← Load Different Sheet</button>
+  <div class="reset-wrap">
+    <button class="btn-reset" id="resetBtn">← Load Different Sheet</button>
   </div>
 </div>
 
 <script>
-let chartInstances = [];
-
-// ── CSV PARSER ─────────────────────────────────────────────────────
 function parseCSV(text){
-  const lines = text.replace(/\r/g,'').split('\n');
+  const lines = text.replace(/\r/g,'').split('\n').filter(l=>l.trim().length>0);
   const parseLine = line => {
     const cols=[]; let cur='', inQ=false;
     for(let i=0;i<line.length;i++){
@@ -166,92 +102,68 @@ function parseCSV(text){
       if(c==='"'){
         if(inQ && line[i+1]==='"'){cur+='"';i++;}
         else inQ=!inQ;
-      }
-      else if(c===','&&!inQ){cols.push(cur.trim());cur='';}
-      else{cur+=c;}
+      } else if(c===','&&!inQ){cols.push(cur.trim());cur='';}
+      else cur+=c;
     }
     cols.push(cur.trim());
     return cols;
   };
-  const nonEmpty = lines.filter(l=>l.trim().length>0);
-  if(!nonEmpty.length) return {headers:[],rows:[]};
-  const headers = parseLine(nonEmpty[0]).map(h=>h.trim());
-  const rows = nonEmpty.slice(1).map(parseLine);
-  return {headers,rows};
+  const headers = parseLine(lines[0]);
+  const rows = lines.slice(1).map(parseLine);
+  return {headers, rows};
 }
 
-// ── AUTO COLUMN DETECTION ─────────────────────────────────────────
-function findCol(headers, keywords){
-  for(let i=0;i<headers.length;i++){
-    const h = headers[i].toLowerCase().replace(/[^a-z0-9 ]/g,' ').trim();
-    for(const kw of keywords){
-      if(h.includes(kw)) return i;
-    }
-  }
-  return -1;
-}
-
-function detectColumns(headers){
-  return {
-    date:     findCol(headers, ['date','day','period']),
-    remark:   findCol(headers, ['remark','note','desc','particular','narration']),
-    crOnline: findCol(headers, ['online cr','cr online','credit online','online credit','online sale']),
-    crCash:   findCol(headers, ['cash cr','cr cash','credit cash','cash sale','cash credit']),
-    totCr:    findCol(headers, ['total credit','total cr','credit total','total sale','total income','income','sale','credit']),
-    dbOnline: findCol(headers, ['online db','db online','debit online','online debit','online expense']),
-    dbCash:   findCol(headers, ['cash db','db cash','debit cash','cash debit','cash expense']),
-    totDb:    findCol(headers, ['total debit','total db','debit total','total expense','expense','debit']),
-    daily:    findCol(headers, ['daily balance','daily net','net profit','net flow','profit','p&l','p l']),
-    cumul:    findCol(headers, ['cumulative','running balance','closing balance','closing','balance']),
-    waste:    findCol(headers, ['wastage','waste']),
-    other:    findCol(headers, ['other expense','misc expense','other','miscellaneous']),
-  };
-}
-
-// ── NUMBER HELPER ──────────────────────────────────────────────────
-function N(v){
-  if(v===undefined||v===null||v==='') return 0;
-  const cleaned = String(v).replace(/[^0-9.\-]/g,'');
-  return cleaned ? (parseFloat(cleaned)||0) : 0;
-}
-
-// ── LOAD SHEET ─────────────────────────────────────────────────────
 async function loadSheet(){
-  const urlInput = document.getElementById('sheetUrl');
-  const url = urlInput.value.trim();
-  const err  = document.getElementById('errMsg');
-  const btn  = document.getElementById('loadBtn');
+  const btn = document.getElementById('loadBtn');
+  const err = document.getElementById('errMsg');
+  let url = document.getElementById('sheetUrl').value.trim();
   err.style.display='none';
 
   if(!url){ showErr('Please paste a Google Sheets CSV link.'); return; }
 
-  let fetchUrl = url;
-  if(fetchUrl.includes('/edit')) fetchUrl = fetchUrl.split('/edit')[0];
-  if(fetchUrl.includes('/pub') && !fetchUrl.includes('output=csv')){
-    fetchUrl = fetchUrl.split('/pub')[0] + '/pub?output=csv';
-  }
-  if(!fetchUrl.includes('output=csv') && !fetchUrl.includes('/pub')){
-    if(fetchUrl.includes('?')) fetchUrl += '&output=csv';
-    else fetchUrl += '?output=csv';
-  }
+  // Normalise URL to always have output=csv
+  if(url.includes('/edit')) url = url.split('/edit')[0];
+  if(url.includes('/pub') && !url.includes('output=csv'))
+    url = url.split('?')[0] + '?output=csv';
+  if(!url.includes('output=csv'))
+    url += (url.includes('?') ? '&' : '?') + 'output=csv';
 
   btn.disabled=true; btn.textContent='Loading…';
+
   try{
-    const res = await fetch(fetchUrl);
+    const res = await fetch(url);
     if(!res.ok) throw new Error('HTTP '+res.status);
     const text = await res.text();
-    if(!text || text.trim().length===0) throw new Error('Empty response from sheet.');
+    if(!text.trim()) throw new Error('Empty response from sheet.');
     if(text.trim().startsWith('<')) throw new Error('Sheet is not publicly published as CSV. Use File → Share → Publish to web → CSV.');
 
-    const {headers,rows} = parseCSV(text);
-    if(!headers.length || !rows.length) throw new Error('No data found in sheet.');
+    const {headers, rows} = parseCSV(text);
+    if(!headers.length) throw new Error('No headers found.');
+    if(!rows.length) throw new Error('No data rows found.');
 
-    renderDashboard(headers, rows);
-    btn.disabled=false; btn.textContent='Load Data';
-  }catch(e){
-    showErr('Could not load sheet: '+e.message);
-    btn.disabled=false; btn.textContent='Load Data';
+    // Render table — just show whatever columns exist
+    document.getElementById('thead').innerHTML =
+      '<tr>' + headers.map(h=>'<th>'+(h||'')+'</th>').join('') + '</tr>';
+
+    const tbody = document.getElementById('tbody');
+    tbody.innerHTML='';
+    rows.forEach(row=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML = headers.map((_,i)=>'<td>'+(row[i]||'')+'</td>').join('');
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('rowCount').textContent = rows.length+' rows · '+headers.length+' columns';
+    document.getElementById('badge').textContent='● Live Data';
+    document.getElementById('badge').className='badge live';
+    document.getElementById('loaderPanel').style.display='none';
+    document.getElementById('mainPanel').style.display='block';
+
+  } catch(e){
+    showErr(e.message);
   }
+
+  btn.disabled=false; btn.textContent='Load Data';
 }
 
 function showErr(msg){
@@ -259,236 +171,20 @@ function showErr(msg){
   el.textContent=msg; el.style.display='block';
 }
 
-// ── RENDER DASHBOARD ───────────────────────────────────────────────
-function renderDashboard(headers, rows){
-  const map = detectColumns(headers);
-
-  if(map.totCr===-1 && map.daily===-1){
-    showErr('Could not detect a credit/sale column in your sheet. Make sure your header row has something like "Total Credit" or "Sale".');
-    return;
-  }
-
-  const DATA = rows.map(r=>({
-    date:     map.date!==-1     ? r[map.date]            : '',
-    remark:   map.remark!==-1   ? r[map.remark]           : '',
-    crOnline: map.crOnline!==-1 ? N(r[map.crOnline])      : null,
-    crCash:   map.crCash!==-1   ? N(r[map.crCash])        : null,
-    totCr:    map.totCr!==-1    ? N(r[map.totCr])         : 0,
-    dbOnline: map.dbOnline!==-1 ? N(r[map.dbOnline])      : null,
-    dbCash:   map.dbCash!==-1   ? N(r[map.dbCash])        : null,
-    totDb:    map.totDb!==-1    ? N(r[map.totDb])         : 0,
-    daily:    map.daily!==-1    ? N(r[map.daily])         : null,
-    cumul:    map.cumul!==-1    ? N(r[map.cumul])         : null,
-    waste:    map.waste!==-1    ? N(r[map.waste])         : 0,
-    other:    map.other!==-1    ? N(r[map.other])         : 0,
-  })).filter(r=>r.date || r.totCr || r.totDb || r.daily);
-
-  if(!DATA.length){ showErr('No usable rows found in the sheet.'); return; }
-
-  // fill in derived fields
-  let running=0;
-  DATA.forEach(r=>{
-    if(r.daily===null) r.daily = r.totCr - r.totDb;
-    if(r.cumul===null){ running += r.daily; r.cumul = running; }
-  });
-  DATA.forEach(r=>{ if(!r.date) r.date=''; });
-  // auto-number rows with no date label
-  DATA.forEach((r,i)=>{ if(!r.date.trim()) r.date='Row '+(i+1); });
-
-  const tCr       = DATA.reduce((a,r)=>a+r.totCr,0);
-  const tDb        = DATA.reduce((a,r)=>a+r.totDb,0);
-  const tWs        = DATA.reduce((a,r)=>a+(r.waste||0),0);
-  const tOther     = DATA.reduce((a,r)=>a+(r.other||0),0);
-  const net        = tCr-tDb;
-  const lastCumul  = DATA[DATA.length-1].cumul;
-  const crOnlineT  = DATA.reduce((a,r)=>a+(r.crOnline||0),0);
-  const crCashT    = DATA.reduce((a,r)=>a+(r.crCash||0),0);
-  const dbOnlineT  = DATA.reduce((a,r)=>a+(r.dbOnline||0),0);
-  const dbCashT    = DATA.reduce((a,r)=>a+(r.dbCash||0),0);
-  const avg        = DATA.length ? tCr/DATA.length : 0;
-
-  const labels = DATA.map(r=>r.date);
-  const F = n => Math.round(n||0).toLocaleString('en-IN');
-
-  // Summary strip
-  document.getElementById('summaryStrip').innerHTML =
-    '<div class="sum-item"><div class="s-lbl">Period</div><div class="s-val" style="color:var(--gold-soft)">'+DATA[0].date+' – '+DATA[DATA.length-1].date+'</div></div>'+
-    '<div class="sum-item"><div class="s-lbl">Days</div><div class="s-val">'+DATA.length+'</div></div>'+
-    '<div class="sum-item"><div class="s-lbl">Total Credit</div><div class="s-val" style="color:var(--green)">₹'+F(tCr)+'</div></div>'+
-    '<div class="sum-item"><div class="s-lbl">Total Debit</div><div class="s-val" style="color:var(--red)">₹'+F(tDb)+'</div></div>'+
-    '<div class="sum-item"><div class="s-lbl">Net Flow</div><div class="s-val" style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+'₹'+F(net)+'</div></div>'+
-    '<div class="sum-item"><div class="s-lbl">Closing Balance</div><div class="s-val" style="color:var(--gold)">₹'+F(lastCumul)+'</div></div>';
-
-  // KPIs
-  document.getElementById('kpiGrid').innerHTML =
-    '<div class="kpi cr"><div class="kpi-lbl">Total Credit</div><div class="kpi-val">₹'+F(tCr)+'</div>'+
-      '<div class="kpi-sub">'+(crOnlineT?('Online ₹'+F(crOnlineT)):'')+(crCashT?(' · Cash ₹'+F(crCashT)):'')+'</div></div>'+
-    '<div class="kpi db"><div class="kpi-lbl">Total Debit</div><div class="kpi-val">₹'+F(tDb)+'</div>'+
-      '<div class="kpi-sub">Net: ₹'+F(net)+'</div></div>'+
-    '<div class="kpi ws"><div class="kpi-lbl">Total Wastage</div><div class="kpi-val">₹'+F(tWs)+'</div>'+
-      '<div class="kpi-sub">'+(tCr?((tWs/tCr)*100).toFixed(2)+'% of credit':'—')+'</div></div>'+
-    '<div class="kpi bal"><div class="kpi-lbl">Closing Balance</div><div class="kpi-val">₹'+F(lastCumul)+'</div>'+
-      '<div class="kpi-sub">As of '+DATA[DATA.length-1].date+'</div></div>'+
-    '<div class="kpi net"><div class="kpi-lbl">Net Flow</div>'+
-      '<div class="kpi-val" style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+'₹'+F(net)+'</div>'+
-      '<div class="kpi-sub">Credit − Debit</div></div>'+
-    '<div class="kpi avg"><div class="kpi-lbl">Daily Avg Sale</div><div class="kpi-val">₹'+F(avg)+'</div>'+
-      '<div class="kpi-sub">Over '+DATA.length+' days</div></div>';
-
-  // ── TABLE ──
-  const showCrOnline = DATA.some(r=>r.crOnline);
-  const showCrCash   = DATA.some(r=>r.crCash);
-  const showDbOnline = DATA.some(r=>r.dbOnline);
-  const showDbCash   = DATA.some(r=>r.dbCash);
-  const showWaste    = DATA.some(r=>r.waste);
-  const showOther    = DATA.some(r=>r.other);
-  const showRemark   = DATA.some(r=>r.remark && r.remark.trim());
-
-  let hdrCols = '<th>Date</th>';
-  if(showRemark) hdrCols += '<th>Remark</th>';
-  if(showCrOnline) hdrCols += '<th style="text-align:right">Cr Online</th>';
-  if(showCrCash)   hdrCols += '<th style="text-align:right">Cr Cash</th>';
-  hdrCols += '<th style="text-align:right">Total Credit</th>';
-  if(showDbOnline) hdrCols += '<th style="text-align:right">Db Online</th>';
-  if(showDbCash)   hdrCols += '<th style="text-align:right">Db Cash</th>';
-  hdrCols += '<th style="text-align:right">Total Debit</th>';
-  if(showOther) hdrCols += '<th style="text-align:right">Other Expense</th>';
-  hdrCols += '<th style="text-align:right">Daily Net</th>';
-  hdrCols += '<th style="text-align:right">Cumulative</th>';
-  if(showWaste) hdrCols += '<th style="text-align:right">Wastage</th>';
-  document.getElementById('thead').innerHTML = '<tr>'+hdrCols+'</tr>';
-
-  const tbody = document.getElementById('tbody');
-  tbody.innerHTML='';
-  DATA.forEach(r=>{
-    let cells = '<td style="color:var(--gold-soft);font-weight:500">'+r.date+'</td>';
-    if(showRemark) cells += '<td style="color:var(--muted);font-size:.72rem;max-width:220px;overflow:hidden;text-overflow:ellipsis">'+(r.remark||'—')+'</td>';
-    if(showCrOnline) cells += '<td class="tr">'+(r.crOnline?F(r.crOnline):'—')+'</td>';
-    if(showCrCash)   cells += '<td class="tr">'+(r.crCash?F(r.crCash):'—')+'</td>';
-    cells += '<td class="tr" style="font-weight:600">'+F(r.totCr)+'</td>';
-    if(showDbOnline) cells += '<td class="tr">'+(r.dbOnline?F(r.dbOnline):'—')+'</td>';
-    if(showDbCash)   cells += '<td class="tr">'+(r.dbCash?F(r.dbCash):'—')+'</td>';
-    cells += '<td class="tr" style="color:var(--red)">'+F(r.totDb)+'</td>';
-    if(showOther) cells += '<td class="tr" style="color:var(--amber)">'+(r.other?F(r.other):'—')+'</td>';
-    cells += '<td class="tr '+(r.daily>=0?'pos':'neg')+'" style="font-weight:600">'+(r.daily>=0?'+':'')+F(r.daily)+'</td>';
-    cells += '<td class="tr" style="color:var(--blue)">'+F(r.cumul)+'</td>';
-    if(showWaste) cells += '<td class="tr" style="color:var(--amber)">'+(r.waste?F(r.waste):'—')+'</td>';
-    const tr=document.createElement('tr');
-    tr.innerHTML=cells;
-    tbody.appendChild(tr);
-  });
-
-  let ftCols = '<td>TOTAL</td>';
-  if(showRemark) ftCols += '<td></td>';
-  if(showCrOnline) ftCols += '<td>'+F(crOnlineT)+'</td>';
-  if(showCrCash)   ftCols += '<td>'+F(crCashT)+'</td>';
-  ftCols += '<td>'+F(tCr)+'</td>';
-  if(showDbOnline) ftCols += '<td>'+F(dbOnlineT)+'</td>';
-  if(showDbCash)   ftCols += '<td>'+F(dbCashT)+'</td>';
-  ftCols += '<td>'+F(tDb)+'</td>';
-  if(showOther) ftCols += '<td style="color:var(--amber)">'+F(tOther)+'</td>';
-  ftCols += '<td style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+F(net)+'</td>';
-  ftCols += '<td>'+F(lastCumul)+'</td>';
-  if(showWaste) ftCols += '<td style="color:var(--amber)">'+F(tWs)+'</td>';
-  document.getElementById('tfoot').innerHTML = '<tr>'+ftCols+'</tr>';
-
-  document.getElementById('tableTitle').textContent='Daily Ledger';
-  document.getElementById('tableCount').textContent=DATA.length+' rows';
-
-  // ── CHARTS ──
-  chartInstances.forEach(c=>c.destroy());
-  chartInstances=[];
-
-  const tk={color:'#8a7d6a',font:{family:'Outfit',size:10}};
-  const gr={color:'rgba(61,53,40,.7)'};
-  const fmtY = v=>'₹'+F(v);
-
-  chartInstances.push(new Chart(document.getElementById('cBar'),{
-    type:'bar',
-    data:{labels,datasets:[
-      {label:'Total Credit',data:DATA.map(r=>r.totCr),backgroundColor:'rgba(107,170,107,.8)',borderRadius:4},
-      {label:'Total Debit', data:DATA.map(r=>r.totDb),backgroundColor:'rgba(201,107,90,.75)',borderRadius:4},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-      scales:{x:{ticks:tk,grid:gr},y:{ticks:Object.assign({},tk,{callback:fmtY}),grid:gr}}}
-  }));
-
-  chartInstances.push(new Chart(document.getElementById('cLine'),{
-    type:'line',
-    data:{labels,datasets:[{
-      label:'Cumulative Balance',
-      data:DATA.map(r=>r.cumul),
-      borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.1)',
-      borderWidth:2.5,pointRadius:4,fill:true,tension:.35
-    }]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-      scales:{x:{ticks:tk,grid:gr},y:{ticks:Object.assign({},tk,{callback:fmtY}),grid:gr}}}
-  }));
-
-  chartInstances.push(new Chart(document.getElementById('cDaily'),{
-    type:'bar',
-    data:{labels,datasets:[{
-      label:'Daily Net',
-      data:DATA.map(r=>r.daily),
-      backgroundColor:DATA.map(r=>r.daily>=0?'rgba(107,170,107,.8)':'rgba(201,107,90,.8)'),
-      borderRadius:4
-    }]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}}},
-      scales:{x:{ticks:tk,grid:gr},y:{ticks:Object.assign({},tk,{callback:fmtY}),grid:gr}}}
-  }));
-
-  chartInstances.push(new Chart(document.getElementById('cPie'),{
-    type:'doughnut',
-    data:{
-      labels:['Total Credit','Total Debit'],
-      datasets:[{data:[tCr,tDb],backgroundColor:['rgba(107,170,107,.85)','rgba(201,107,90,.85)'],borderWidth:0}]
-    },
-    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
-      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}},
-               tooltip:{callbacks:{label:ctx=>' ₹'+F(ctx.parsed)}}}}
-  }));
-
-  // Pie 2: Other expense breakdown — Wastage vs Other vs remaining debit
-  const remainingDb = Math.max(0, tDb - tWs - tOther);
-  const pie2Labels=[]; const pie2Data=[]; const pie2Colors=[];
-  if(tWs){ pie2Labels.push('Wastage'); pie2Data.push(tWs); pie2Colors.push('rgba(212,136,74,.85)'); }
-  if(tOther){ pie2Labels.push('Other Expense'); pie2Data.push(tOther); pie2Colors.push('rgba(90,143,201,.85)'); }
-  if(remainingDb || (!tWs && !tOther)){ pie2Labels.push('Other Debit'); pie2Data.push(remainingDb||tDb); pie2Colors.push('rgba(201,107,90,.6)'); }
-
-  chartInstances.push(new Chart(document.getElementById('cPie2'),{
-    type:'doughnut',
-    data:{ labels: pie2Labels, datasets:[{ data: pie2Data, backgroundColor: pie2Colors, borderWidth:0 }] },
-    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
-      plugins:{legend:{labels:{color:'#8a7d6a',font:{family:'Outfit',size:10},boxWidth:10}},
-               tooltip:{callbacks:{label:ctx=>' ₹'+F(ctx.parsed)}}}}
-  }));
-
-  document.getElementById('badge').textContent='● Live Data';
-  document.getElementById('badge').style.cssText='background:rgba(107,170,107,.15);border:1px solid var(--green);color:var(--green);font-size:.65rem;padding:4px 10px;border-radius:20px;';
-
-  document.getElementById('loaderPanel').style.display='none';
-  document.getElementById('mainPanel').style.display='block';
-}
-
 function resetDashboard(){
-  chartInstances.forEach(c=>c.destroy());
-  chartInstances=[];
   document.getElementById('loaderPanel').style.display='block';
   document.getElementById('mainPanel').style.display='none';
   document.getElementById('sheetUrl').value='';
   document.getElementById('badge').textContent='● Awaiting Data';
-  document.getElementById('badge').style.cssText='';
+  document.getElementById('badge').className='badge';
   document.getElementById('errMsg').style.display='none';
+  document.getElementById('thead').innerHTML='';
+  document.getElementById('tbody').innerHTML='';
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', ()=>{
   document.getElementById('loadBtn').addEventListener('click', loadSheet);
-  document.getElementById('sheetUrl').addEventListener('keydown', function(e){
-    if(e.key==='Enter') loadSheet();
-  });
+  document.getElementById('sheetUrl').addEventListener('keydown', e=>{ if(e.key==='Enter') loadSheet(); });
   document.getElementById('resetBtn').addEventListener('click', resetDashboard);
 });
 </script>
